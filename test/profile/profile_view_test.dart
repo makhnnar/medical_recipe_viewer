@@ -15,7 +15,7 @@ Widget createProfileViewScreen() =>
     );
 
 void main() {
-  group('terapeutas list test', () {
+  group('profile view test', () {
 
     // BEGINNING OF NEW CONTENT
     testWidgets(

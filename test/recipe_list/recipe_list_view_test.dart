@@ -20,7 +20,7 @@ void pupolateList(){
 }
 
 void main() {
-  group('terapeutas list test', () {
+  group('recipes list view test', () {
 
     // BEGINNING OF NEW CONTENT
     testWidgets(
