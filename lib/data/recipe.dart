@@ -4,8 +4,8 @@ class Recipe {
   String name;
 
   Recipe({
-    this.id,
-    this.name,
+    required this.id,
+    required this.name,
   });
 
   @override

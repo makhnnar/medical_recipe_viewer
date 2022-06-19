@@ -5,9 +5,9 @@ class Profile {
   String lastName;
 
   Profile({
-    this.id,
-    this.name,
-    this.lastName
+    required this.id,
+    required this.name,
+    required this.lastName
   });
 
   @override

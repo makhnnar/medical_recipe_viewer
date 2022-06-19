@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:medical_recipe_viewer/data/recipe.dart';
+import 'package:medical_recipe_viewer/recipe_list/recipe_item_view.dart';
 
 class RecipeListView extends StatelessWidget {
 
@@ -28,8 +29,8 @@ class RecipeListView extends StatelessWidget {
     List<Widget> list = [];
     for (Recipe recipe in recipes) {
       list.add(
-          Text(
-              recipe.name
+          RecipeItemView(
+              recipe
           )
       );
     }

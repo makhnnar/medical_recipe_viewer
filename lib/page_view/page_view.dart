@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 
 class PageViewHelper<P extends ProviderHelper> extends StatelessWidget {
 
-  Widget _view;
+  late Widget _view;
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class PageViewHelper<P extends ProviderHelper> extends StatelessWidget {
 
 abstract class ProviderHelper extends ChangeNotifier {
 
-  Widget value;
+  late Widget value;
 
   void getData();
 
