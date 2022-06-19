@@ -3,11 +3,13 @@ class Profile {
   String id;
   String name;
   String lastName;
+  String photo;
 
   Profile({
     required this.id,
     required this.name,
-    required this.lastName
+    required this.lastName,
+    required this.photo,
   });
 
   @override
