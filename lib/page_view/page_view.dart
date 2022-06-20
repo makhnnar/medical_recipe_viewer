@@ -1,12 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 
-class PageViewHelper<P extends ProviderHelper> extends StatelessWidget {
+mixin PageViewHelper<P extends ProviderHelper> on StatelessWidget {
 
   late Widget _view;
 
-  @override
-  Widget build(BuildContext context) {
+  Widget getView(BuildContext context) {
     var provider = Provider.of<P>(context);
     provider.getData();
     _view = provider.value;
