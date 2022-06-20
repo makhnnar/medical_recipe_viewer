@@ -11,7 +11,8 @@ class MockProfileProvider extends ProviderHelper {
         id: "id",
         name: "name",
         lastName: "lastName",
-        photo: "assets/img/girl.jpg"
+        photo: "assets/img/girl.jpg",
+        dir: "adbf342345bcdab453"
       )
     );
   }

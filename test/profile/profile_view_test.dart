@@ -7,7 +7,8 @@ Profile profile = Profile(
     id:"id",
     name: "name",
     lastName: "lastName",
-    photo: ""
+    photo: "",
+    dir: "",
 );
 
 Widget createProfileViewScreen() =>

@@ -45,20 +45,28 @@ class ProfileView extends StatelessWidget {
         ),
         Expanded(
             flex: 1,
-            child:Text(
-                "${profile.name} ${profile.lastName}",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: tableColors['tColorContent']
+            child:Container(
+                height: 50.0,
+                margin: EdgeInsets.only(
+                top: 15.0,
+                left: 2.0,
+                right: 2.0
                 ),
+                child:Text(
+                    "${profile.name} ${profile.lastName}",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: tableColors['tColorContent']
+                    ),
+                )
             )
         ),
         Expanded(
           flex: 3,
           child: PrettyQr(
             size: 150,
-            data: 'https://www.facebook.com',
+            data: profile.dir,
             errorCorrectLevel: QrErrorCorrectLevel.M,
             typeNumber: null,
             roundEdges: true,
@@ -68,18 +76,21 @@ class ProfileView extends StatelessWidget {
             flex: 5,
             child:Column(
                   children: [
-                    Text(""),
-                    Row(
-                      children: [
-
-                      ],
-                    ),
-                    Text(""),
-                    Row(
-                      children: [
-                        Icon(Icons.note_add_rounded),
-                        Text("")
-                      ],
+                    Container(
+                        height: 50.0,
+                        margin: EdgeInsets.only(
+                            top: 15.0,
+                            left: 2.0,
+                            right: 2.0
+                        ),
+                        child:Text(
+                          "${profile.dir}",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: tableColors['tColorContent']
+                          ),
+                        )
                     )
                 ],
             )

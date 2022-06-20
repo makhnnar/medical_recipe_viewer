@@ -1,47 +1,109 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:medical_recipe_viewer/data/profile.dart';
 import 'package:medical_recipe_viewer/data/recipe.dart';
+import 'package:medical_recipe_viewer/values/app_colors.dart';
+import 'package:pretty_qr_code/pretty_qr_code.dart';
 
 class RecipeDetailView extends StatelessWidget {
 
-  RecipeDetailView();
+  Recipe recipeItem;
+
+  RecipeDetailView(this.recipeItem);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: Column(
-            children: [
-              Text(""),
-              Text(""),
-              Text(""),
-              Text(""),
-              Text(""),
-              Text(""),
-              Text(""),
-              Row(
-                children: [
-                  ElevatedButton(
-                      onPressed: ()=>{
-
-                      },
-                      child: Text("")
-                  ),
-                  ElevatedButton(
-                      onPressed: ()=>{
-
-                      },
-                      child: Text("")
-                  ),
-                  ElevatedButton(
-                      onPressed: ()=>{
-
-                      },
-                      child: Text("")
-                  ),
-                ],
-              )
-            ]
+          crossAxisAlignment:CrossAxisAlignment.center,
+          children: [
+            Container(
+              height: 50,
+            ),
+            Expanded(
+                flex: 1,
+                child:Container(
+                    height: 50.0,
+                    margin: EdgeInsets.only(
+                        top: 15.0,
+                        left: 2.0,
+                        right: 2.0
+                    ),
+                    child:Text(
+                      "${recipeItem.name}",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: tableColors['tColorContent']
+                      ),
+                    )
+                )
+            ),
+            Expanded(
+                flex: 5,
+                child:Column(
+                  children: [
+                    Container(
+                        height: 50.0,
+                        margin: EdgeInsets.only(
+                            top: 15.0,
+                            left: 2.0,
+                            right: 2.0
+                        ),
+                        child:Text(
+                          "dosis: ${recipeItem.dosis}",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: tableColors['tColorContent']
+                          ),
+                        )
+                    ),
+                    Container(
+                        height: 50.0,
+                        margin: EdgeInsets.only(
+                            top: 15.0,
+                            left: 2.0,
+                            right: 2.0
+                        ),
+                        child:Text(
+                          "frecuencia: ${recipeItem.frecuencia}",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: tableColors['tColorContent']
+                          ),
+                        )
+                    ),
+                    Container(
+                        height: 50.0,
+                        margin: EdgeInsets.only(
+                            top: 15.0,
+                            left: 2.0,
+                            right: 2.0
+                        ),
+                        child:Text(
+                          "durante: ${recipeItem.lapso}",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: tableColors['tColorContent']
+                          ),
+                        )
+                    ),
+                  ],
+                )
+            ),
+            Expanded(
+              flex: 3,
+              child: PrettyQr(
+                size: 150,
+                data: recipeItem.toString(),
+                errorCorrectLevel: QrErrorCorrectLevel.M,
+                typeNumber: null,
+                roundEdges: true,
+              ),
+            ),
+          ],
         )
     );
   }

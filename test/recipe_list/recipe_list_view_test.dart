@@ -15,6 +15,10 @@ void pupolateList(){
       Recipe(
           id: "id",
           name:"name",
+          dosis:"name",
+          frecuencia:"name",
+          lapso:"name",
+          descripcion:"name",
       )
   );
 }
