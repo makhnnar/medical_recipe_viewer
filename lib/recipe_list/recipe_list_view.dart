@@ -18,8 +18,8 @@ class RecipeListView extends StatelessWidget {
       ),
       floatingActionButton:Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
               FloatingActionButton(
                 onPressed: () {
