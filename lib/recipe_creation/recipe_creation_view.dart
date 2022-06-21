@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:medical_recipe_viewer/data/profile.dart';
-import 'package:medical_recipe_viewer/data/recipe.dart';
+import 'package:medical_recipe_viewer/widgets/custom_text_field.dart';
 
 class RecipeCreationView extends StatelessWidget {
 
@@ -10,30 +9,49 @@ class RecipeCreationView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Column(
+        body: ListView(
         children: [
-          TextField(),
-          TextField(),
-          TextField(),
-          TextField(),
-          TextField(),
-          TextField(),
-          TextField(),
-          Row(
-            children: [
-              ElevatedButton(
+          CustomTextField(
+            "medicamento",
+            (text){
+              print('$text');
+            }
+          ),
+          CustomTextField(
+            "dosis",
+            (text){
+              print('$text');
+            }
+          ),
+          CustomTextField(
+            "frecuencia",
+            (text){
+              print('$text');
+            }
+          ),
+          CustomTextField(
+            "lapso",
+            (text){
+              print('$text');
+            }
+          ),
+          CustomTextField(
+            "descripcion",
+            (text){
+              print('$text');
+            }
+          ),
+          Padding(
+              padding: EdgeInsets.symmetric(
+                  horizontal: 8,
+                  vertical: 16
+              ),
+              child:ElevatedButton(
                   onPressed: ()=>{
 
                   },
-                  child: Text("")
-              ),
-              ElevatedButton(
-                  onPressed: ()=>{
-
-                  },
-                  child: Text("")
-              ),
-            ],
+                  child: Text("Crear")
+              )
           )
         ]
       )

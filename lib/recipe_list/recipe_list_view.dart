@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:medical_recipe_viewer/data/recipe.dart';
+import 'package:medical_recipe_viewer/recipe_creation/recipe_creation_view.dart';
 import 'package:medical_recipe_viewer/recipe_list/recipe_item_view.dart';
 
 class RecipeListView extends StatelessWidget {
@@ -15,13 +16,30 @@ class RecipeListView extends StatelessWidget {
       body: ListView(
           children: getList(recipeList)
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Add your onPressed code here!
-        },
-        backgroundColor: Colors.green,
-        child: const Icon(Icons.note_add_rounded),
-      ),
+      floatingActionButton:Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              FloatingActionButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => RecipeCreationView(),
+                    ),
+                  );
+                },
+                backgroundColor: Colors.green,
+                child: const Icon(Icons.add),
+              ),
+              FloatingActionButton(
+                onPressed: () {},
+                child: Icon(Icons.search),
+              )
+            ],
+          )
+      )
     );
   }
 

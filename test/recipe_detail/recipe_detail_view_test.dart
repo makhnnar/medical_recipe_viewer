@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:medical_recipe_viewer/data/recipe.dart';
 import 'package:medical_recipe_viewer/recipe_detail/recipe_detail_view.dart';
 
 Widget createRecipeDetailViewScreen() =>
     MaterialApp(
-        home: RecipeDetailView()
+        home: RecipeDetailView(
+          Recipe(id: "id", name: "name", dosis: "dosis", frecuencia: "frecuencia", lapso: "lapso", descripcion: "descripcion")
+        )
     );
 
 void main() {
