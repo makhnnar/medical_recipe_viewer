@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:medical_recipe_viewer/data/recipe.dart';
+import 'package:medical_recipe_viewer/recipe_detail/send_dialog.dart';
 import 'package:medical_recipe_viewer/values/app_colors.dart';
 import 'package:pretty_qr_code/pretty_qr_code.dart';
 
@@ -104,6 +105,21 @@ class RecipeDetailView extends StatelessWidget {
               ),
             ),
           ],
+        ),
+        floatingActionButton:Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: FloatingActionButton(
+              onPressed: () {
+                  showDialog<void>(
+                    context: context,
+                    barrierDismissible: false, // user must tap button!
+                    builder: (BuildContext context) {
+                        return SendDialog();
+                    }
+                );
+              },
+              child: Icon(Icons.search),
+            )
         )
     );
   }
