@@ -9,7 +9,9 @@ class SendDialog extends StatelessWidget {
 
   late CodeState _provider;
 
-  SendDialog();
+  SendActionListener _sendActionListener;
+
+  SendDialog(this._sendActionListener);
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +29,10 @@ class SendDialog extends StatelessWidget {
               Text(
                 "Read a code or write the wallet address",
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 14),
+                style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold
+                ),
               ),
               CustomTextField(
                   "Address",
@@ -66,9 +71,12 @@ class SendDialog extends StatelessWidget {
                         ),
                         child:ElevatedButton(
                             onPressed: () {
-                              Navigator.of(context).pop();
+                              if(_provider.getCode().isNotEmpty){
+                                _sendActionListener.sendRecipe();
+                                Navigator.of(context).pop();
+                              }
                             },
-                            child: Text("Send")
+                            child: Text("Send"),
                         )
                     )
                   ),
@@ -83,8 +91,8 @@ class SendDialog extends StatelessWidget {
 
 }
 
-abstract class ReadCodeListener{
+abstract class SendActionListener{
 
-  void onCodeReaded(String result);
+  void sendRecipe();
 
 }

@@ -7,7 +7,7 @@ import 'package:medical_recipe_viewer/values/app_colors.dart';
 import 'package:pretty_qr_code/pretty_qr_code.dart';
 import 'package:provider/provider.dart';
 
-class RecipeDetailView extends StatelessWidget {
+class RecipeDetailView extends StatelessWidget implements SendActionListener{
 
   Recipe recipeItem;
 
@@ -128,7 +128,9 @@ class RecipeDetailView extends StatelessWidget {
                     barrierDismissible: true, // user must tap button!
                     builder: (_) => ChangeNotifierProvider<CodeState>.value(
                       value: _provider,
-                      child: SendDialog(),
+                      child: SendDialog(
+                        this
+                      ),
                     ),
                 );
               },
@@ -136,6 +138,11 @@ class RecipeDetailView extends StatelessWidget {
             )
         )
     );
+  }
+
+  @override
+  void sendRecipe() {
+    _provider.getCode();
   }
 
 }
