@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:medical_recipe_viewer/data/recipe.dart';
 import 'package:medical_recipe_viewer/recipe_detail/recipe_detail_view.dart';
+import 'package:medical_recipe_viewer/recipe_detail/state/code_state.dart';
 import 'package:medical_recipe_viewer/values/app_colors.dart';
+import 'package:provider/provider.dart';
 
 class RecipeItemView extends StatelessWidget {
 
@@ -17,7 +19,15 @@ class RecipeItemView extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => RecipeDetailView(recipeItem),
+              builder: (context) =>
+                  MultiProvider(
+                    providers: [
+                      ChangeNotifierProvider(
+                          create: (_) => CodeState()
+                      ),
+                    ],
+                    child: RecipeDetailView(recipeItem),
+                  ),
             ),
           );
         },

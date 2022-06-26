@@ -4,9 +4,8 @@ import 'package:medical_recipe_viewer/data/recipe.dart';
 import 'package:medical_recipe_viewer/qr_reader/qr_reader.dart';
 import 'package:medical_recipe_viewer/recipe_creation/recipe_creation_view.dart';
 import 'package:medical_recipe_viewer/recipe_list/recipe_item_view.dart';
+import 'package:medical_recipe_viewer/utils/qr_reader.dart';
 import 'package:permission_handler/permission_handler.dart';
-
-import 'package:qrscan/qrscan.dart' as scanner;
 
 class RecipeListView extends StatelessWidget {
 
@@ -39,7 +38,7 @@ class RecipeListView extends StatelessWidget {
               ),
               FloatingActionButton(
                 onPressed: () {
-                  scan();
+                  scanQR();
                 },
                 child: Icon(Icons.search),
               )
@@ -47,16 +46,6 @@ class RecipeListView extends StatelessWidget {
           )
       )
     );
-  }
-
-  Future scan() async {
-    await Permission.camera.request();
-    String? barcode = await scanner.scan();
-    if (barcode == null) {
-      print('nothing return.');
-    } else {
-      print(barcode);
-    }
   }
 
   List<Widget> getList(List<Recipe> recipes) {
