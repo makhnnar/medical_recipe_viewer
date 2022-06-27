@@ -1,11 +1,11 @@
 class Recipe {
 
-  String id;
-  String name;
-  String dosis;
-  String frecuencia;
-  String lapso;
-  String descripcion;
+  String? id;
+  String? name;
+  String? dosis;
+  String? frecuencia;
+  String? lapso;
+  String? descripcion;
 
   Recipe({
     required this.id,
@@ -18,6 +18,27 @@ class Recipe {
 
   @override
   String toString() {
-    return 'Recipe{id: $id, name: $name, dosis: $dosis, frecuencia: $frecuencia, lapso: $lapso, descripcion: $descripcion}';
+    return toJson().toString();
   }
+
+  Recipe.fromJson(dynamic json) {
+    id = json['id'];
+    name = json['name'];
+    dosis = json['dosis'];
+    frecuencia = json['frecuencia'];
+    lapso = json['lapso'];
+    descripcion = json['descripcion'];
+  }
+
+  Map<String, dynamic> toJson() {
+    var map = <String, dynamic>{};
+    map['id'] = id;
+    map['name'] = name;
+    map['dosis'] = dosis;
+    map['frecuencia'] = frecuencia;
+    map['lapso'] = lapso;
+    map['descripcion'] = descripcion;
+    return map;
+  }
+
 }

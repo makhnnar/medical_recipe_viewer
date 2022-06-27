@@ -1,11 +1,17 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:medical_recipe_viewer/data/recipe.dart';
 import 'package:medical_recipe_viewer/qr_reader/qr_reader.dart';
 import 'package:medical_recipe_viewer/recipe_creation/recipe_creation_view.dart';
+import 'package:medical_recipe_viewer/recipe_detail/recipe_detail_view.dart';
+import 'package:medical_recipe_viewer/recipe_detail/state/code_state.dart';
 import 'package:medical_recipe_viewer/recipe_list/recipe_item_view.dart';
+import 'package:medical_recipe_viewer/utils/navigation_actions.dart';
 import 'package:medical_recipe_viewer/utils/qr_reader.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:provider/provider.dart';
 
 class RecipeListView extends StatelessWidget {
 
@@ -38,7 +44,13 @@ class RecipeListView extends StatelessWidget {
               ),
               FloatingActionButton(
                 onPressed: () {
-                  scanQR();
+                  scanQR().then(
+                        (value) {
+                            Map<String, dynamic> jsonData = jsonDecode(value);
+                            var formattedResponse = Recipe.fromJson(jsonData);
+                            goToRecipeDetail(context, formattedResponse);
+                        }
+                  );
                 },
                 child: Icon(Icons.search),
               )

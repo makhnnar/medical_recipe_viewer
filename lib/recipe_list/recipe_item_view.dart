@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:medical_recipe_viewer/data/recipe.dart';
 import 'package:medical_recipe_viewer/recipe_detail/recipe_detail_view.dart';
 import 'package:medical_recipe_viewer/recipe_detail/state/code_state.dart';
+import 'package:medical_recipe_viewer/utils/navigation_actions.dart';
 import 'package:medical_recipe_viewer/values/app_colors.dart';
 import 'package:provider/provider.dart';
 
@@ -16,20 +17,7 @@ class RecipeItemView extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
         onTap: (){
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) =>
-                  MultiProvider(
-                    providers: [
-                      ChangeNotifierProvider(
-                          create: (_) => CodeState()
-                      ),
-                    ],
-                    child: RecipeDetailView(recipeItem),
-                  ),
-            ),
-          );
+          goToRecipeDetail(context, recipeItem);
         },
         child:Container(
         height: 50.0,
@@ -45,7 +33,7 @@ class RecipeItemView extends StatelessWidget {
                 Expanded(
                     flex: 1,
                     child: Text(
-                        recipeItem.id,
+                        recipeItem.id!,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
@@ -56,7 +44,7 @@ class RecipeItemView extends StatelessWidget {
                 Expanded(
                     flex: 4,
                     child: Text(
-                        recipeItem.name,
+                        recipeItem.name!,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             fontWeight: FontWeight.bold,

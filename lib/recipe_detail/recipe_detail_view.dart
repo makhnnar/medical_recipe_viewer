@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:medical_recipe_viewer/data/recipe.dart';
@@ -111,7 +113,7 @@ class RecipeDetailView extends StatelessWidget implements SendActionListener{
               flex: 3,
               child: PrettyQr(
                 size: 150,
-                data: recipeItem.toString(),
+                data: jsonEncode(recipeItem.toJson()),
                 errorCorrectLevel: QrErrorCorrectLevel.M,
                 typeNumber: null,
                 roundEdges: true,
