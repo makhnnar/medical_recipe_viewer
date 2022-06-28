@@ -37,7 +37,7 @@ class RecipeDetailView extends StatelessWidget implements SendActionListener{
                         right: 2.0
                     ),
                     child:Text(
-                      "${recipeItem.name}",
+                      "${recipeItem.nombre}",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontWeight: FontWeight.bold,

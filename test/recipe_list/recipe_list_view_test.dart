@@ -14,7 +14,7 @@ void pupolateList(){
   recipes.add(
       Recipe(
           id: "id",
-          name:"name",
+          nombre:"name",
           dosis:"name",
           frecuencia:"name",
           lapso:"name",

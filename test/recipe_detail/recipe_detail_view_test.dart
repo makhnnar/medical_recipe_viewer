@@ -6,7 +6,7 @@ import 'package:medical_recipe_viewer/recipe_detail/recipe_detail_view.dart';
 Widget createRecipeDetailViewScreen() =>
     MaterialApp(
         home: RecipeDetailView(
-          Recipe(id: "id", name: "name", dosis: "dosis", frecuencia: "frecuencia", lapso: "lapso", descripcion: "descripcion")
+          Recipe(id: "id", nombre: "name", dosis: "dosis", frecuencia: "frecuencia", lapso: "lapso", descripcion: "descripcion")
         )
     );
 

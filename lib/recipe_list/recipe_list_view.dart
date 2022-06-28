@@ -31,6 +31,7 @@ class RecipeListView extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
               FloatingActionButton(
+                heroTag: "btn1",
                 onPressed: () {
                   Navigator.push(
                     context,
@@ -43,6 +44,7 @@ class RecipeListView extends StatelessWidget {
                 child: const Icon(Icons.add),
               ),
               FloatingActionButton(
+                heroTag: "btn2",
                 onPressed: () {
                   scanQR().then(
                         (value) {

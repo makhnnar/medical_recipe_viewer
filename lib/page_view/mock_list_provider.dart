@@ -7,9 +7,9 @@ class MockListProvider extends ProviderHelper {
   @override
   void getData() {
     this.value = RecipeListView([
-      Recipe(id: "1", name: "Recipe 1",dosis: "500 mg",frecuencia:"cada 8h",lapso: "7 dias",descripcion: "antibiotico"),
-      Recipe(id: "2", name: "Recipe 2",dosis: "50 mg",frecuencia:"cada 4h",lapso: "3 dias",descripcion: "relajante"),
-      Recipe(id: "3", name: "Recipe 3",dosis: "5 mg",frecuencia:"cada 12h",lapso: "15 dias",descripcion: "antidrepesivo")
+      Recipe(id: "1", nombre: "Recipe 1",dosis: "500",unidad:"mg",frecuencia:"8",lapso: "7",descripcion: "antibiotico",tipo: "tipo 1"),
+      Recipe(id: "2", nombre: "Recipe 2",dosis: "50",unidad:"mg",frecuencia:"4",lapso: "3",descripcion: "relajante",tipo: "tipo 2"),
+      Recipe(id: "3", nombre: "Recipe 3",dosis: "5",unidad:"mg",frecuencia:"12",lapso: "15",descripcion: "antidrepesivo",tipo: "tipo 3")
     ]);
   }
 
