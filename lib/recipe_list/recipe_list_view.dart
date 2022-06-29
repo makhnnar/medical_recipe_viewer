@@ -15,15 +15,18 @@ import 'package:provider/provider.dart';
 
 class RecipeListView extends StatelessWidget {
 
-  List<Recipe> recipeList;
+  RecipeList recipeList;
+
+  late CodeState _provider;
 
   RecipeListView(this.recipeList);
 
   @override
   Widget build(BuildContext context) {
+    _provider = Provider.of<CodeState>(context);
     return Scaffold(
       body: ListView(
-          children: getList(recipeList)
+          children: getList(recipeList.listOfRecipes!)
       ),
       floatingActionButton:Padding(
           padding: const EdgeInsets.all(8.0),
@@ -40,7 +43,6 @@ class RecipeListView extends StatelessWidget {
                     ),
                   );
                 },
-                backgroundColor: Colors.green,
                 child: const Icon(Icons.add),
               ),
               FloatingActionButton(
@@ -50,11 +52,18 @@ class RecipeListView extends StatelessWidget {
                         (value) {
                             Map<String, dynamic> jsonData = jsonDecode(value);
                             var formattedResponse = Recipe.fromJson(jsonData);
-                            goToRecipeDetail(context, formattedResponse);
+                            goToRecipeDetail(context, formattedResponse,_provider);
                         }
                   );
                 },
                 child: Icon(Icons.search),
+              ),
+              FloatingActionButton(
+                heroTag: "btn3",
+                onPressed: () {
+                    showQRDialog(context, recipeList.toJson());
+                },
+                child: Icon(Icons.share),
               )
             ],
           )

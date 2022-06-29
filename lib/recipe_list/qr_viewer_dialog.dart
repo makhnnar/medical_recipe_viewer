@@ -18,12 +18,13 @@ class QRViewerDialog extends StatelessWidget {
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30.0)),
       child: Container(
-        height: 300,
+        height: 325,
+        width: 325,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             PrettyQr(
-              size: 200,
+              size: 250,
               data: jsonData,
               errorCorrectLevel: QrErrorCorrectLevel.M,
               typeNumber: null,

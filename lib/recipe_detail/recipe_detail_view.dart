@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:medical_recipe_viewer/data/recipe.dart';
 import 'package:medical_recipe_viewer/recipe_detail/send_dialog.dart';
 import 'package:medical_recipe_viewer/recipe_detail/state/code_state.dart';
+import 'package:medical_recipe_viewer/utils/navigation_actions.dart';
 import 'package:medical_recipe_viewer/values/app_colors.dart';
 import 'package:pretty_qr_code/pretty_qr_code.dart';
 import 'package:provider/provider.dart';
@@ -125,16 +126,11 @@ class RecipeDetailView extends StatelessWidget implements SendActionListener{
             padding: const EdgeInsets.all(8.0),
             child: FloatingActionButton(
               onPressed: () {
-                  showDialog<void>(
-                    context: context,
-                    barrierDismissible: true, // user must tap button!
-                    builder: (_) => ChangeNotifierProvider<CodeState>.value(
-                      value: _provider,
-                      child: SendDialog(
-                        this
-                      ),
-                    ),
-                );
+                  showSendDialog(
+                      context,
+                      _provider,
+                      this
+                  );
               },
               child: Icon(Icons.search),
             )

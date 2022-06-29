@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:medical_recipe_viewer/page_view/mock_list_provider.dart';
 import 'package:medical_recipe_viewer/page_view/mock_profile_provider.dart';
 import 'package:medical_recipe_viewer/profile/profile_page.dart';
+import 'package:medical_recipe_viewer/recipe_detail/state/code_state.dart';
 import 'package:medical_recipe_viewer/recipe_list/recipe_list_page.dart';
 import 'package:medical_recipe_viewer/values/app_colors.dart';
 import 'package:provider/provider.dart';
@@ -32,6 +33,9 @@ class _RootView extends State<RootView> {
                 providers: [
                   ChangeNotifierProvider(
                       create: (_) => MockListProvider()
+                  ),
+                  ChangeNotifierProvider(
+                      create: (_) => CodeState()
                   ),
                 ],
                 child:RecipeListPage(),
