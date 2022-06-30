@@ -2,7 +2,7 @@ import 'package:medical_recipe_viewer/recipes/model/recipe.dart';
 import 'package:medical_recipe_viewer/page_view/page_view.dart';
 import 'package:medical_recipe_viewer/recipes/ui/recipe_list/recipe_list_view.dart';
 
-class MockListProvider extends ProviderHelper {
+class RecipesState extends ProviderHelper {
 
   @override
   void getData() {

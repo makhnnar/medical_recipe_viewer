@@ -1,6 +1,6 @@
-import 'package:medical_recipe_viewer/data/profile.dart';
+import 'package:medical_recipe_viewer/profile/model/profile.dart';
 import 'package:medical_recipe_viewer/page_view/page_view.dart';
-import 'package:medical_recipe_viewer/profile/profile_view.dart';
+import 'package:medical_recipe_viewer/profile/ui/profile_view.dart';
 
 class MockProfileProvider extends ProviderHelper {
 

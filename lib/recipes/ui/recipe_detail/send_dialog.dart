@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:medical_recipe_viewer/recipe_detail/state/code_state.dart';
+import 'package:medical_recipe_viewer/recipes/state/code_state.dart';
 import 'package:medical_recipe_viewer/utils/qr_reader.dart';
 import 'package:medical_recipe_viewer/widgets/custom_text_field.dart';
 import 'package:provider/provider.dart';

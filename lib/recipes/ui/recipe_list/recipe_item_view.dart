@@ -2,9 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:medical_recipe_viewer/data/recipe.dart';
-import 'package:medical_recipe_viewer/recipe_detail/send_dialog.dart';
-import 'package:medical_recipe_viewer/recipe_detail/state/code_state.dart';
+import 'package:medical_recipe_viewer/recipes/model/recipe.dart';
+import 'package:medical_recipe_viewer/recipes/ui/recipe_detail/send_dialog.dart';
+import 'package:medical_recipe_viewer/recipes/state/code_state.dart';
 import 'package:medical_recipe_viewer/utils/calculations.dart';
 import 'package:medical_recipe_viewer/utils/navigation_actions.dart';
 import 'package:medical_recipe_viewer/values/app_colors.dart';

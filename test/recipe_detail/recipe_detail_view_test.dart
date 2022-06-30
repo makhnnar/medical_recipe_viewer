@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:medical_recipe_viewer/data/recipe.dart';
+import 'package:medical_recipe_viewer/recipes/model/recipe.dart';
 import 'package:medical_recipe_viewer/recipe_detail/recipe_detail_view.dart';
 
 Widget createRecipeDetailViewScreen() =>

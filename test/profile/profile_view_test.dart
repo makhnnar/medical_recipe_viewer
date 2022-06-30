@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:medical_recipe_viewer/data/profile.dart';
-import 'package:medical_recipe_viewer/profile/profile_view.dart';
+import 'package:medical_recipe_viewer/profile/model/profile.dart';
+import 'package:medical_recipe_viewer/profile/ui/profile_view.dart';
 
 Profile profile = Profile(
     id:"id",

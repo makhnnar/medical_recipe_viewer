@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:medical_recipe_viewer/data/profile.dart';
-import 'package:medical_recipe_viewer/data/recipe.dart';
+import 'package:medical_recipe_viewer/profile/model/profile.dart';
+import 'package:medical_recipe_viewer/recipes/model/recipe.dart';
 import 'package:medical_recipe_viewer/values/app_colors.dart';
 import 'package:pretty_qr_code/pretty_qr_code.dart';
 
