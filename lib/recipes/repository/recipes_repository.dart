@@ -27,6 +27,7 @@ class RecipesRepository{
   ContractFunction _balanceOf;
   ContractFunction _createTask;
   ContractFunction _transferFrom;
+  ContractFunction _tokensOfOwner;
   ContractEvent _taskCreatedEvent;
 
   RecipesRepository() {
@@ -88,6 +89,7 @@ class RecipesRepository{
     _todos = _contract.function("colors");
     _balanceOf = _contract.function("balanceOf");
     _tokenOfOwnerByIndex = _contract.function("tokenOfOwnerByIndex");
+    _tokensOfOwner = _contract.function("_tokensOfOwner");
     _transferFrom = _contract.function("transferFrom");
     //_taskCreatedEvent = _contract.event("TaskCreated");
     //getTodos();
