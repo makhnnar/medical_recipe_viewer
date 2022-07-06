@@ -17,12 +17,12 @@ class RecipesRepository{
 
   List<Recipe> recipes = [];
 
-  late ContractFunction _recipesCount;
-  late ContractFunction _tokenOfOwnerByIndex;
+  late ContractFunction _totalSupply;
   late ContractFunction _balanceOf;
+  late ContractFunction _tokenOfOwnerByIndex;
   late ContractFunction _mint;
   late ContractFunction _transferFrom;
-  late ContractFunction _tokensOfOwner;
+  late ContractFunction _getRecipe;
   late ContractEvent _taskCreatedEvent;
 
   IWeb3ClientProvider clientProvider;
@@ -44,57 +44,111 @@ class RecipesRepository{
 
   Future<void> initiateSetup() async {
     await getDeployedContract();
-    await getTokenInventory();
+    await getOwnedTokens();
   }
 
   Future<void> getDeployedContract() async {
     var contract = await contracResolver.getDeployedContract();
-    _recipesCount = contract.function("totalSupply");
-    _mint = contract.function("mint");
+    _totalSupply = contract.function("totalSupply");
     _balanceOf = contract.function("balanceOf");
+    _mint = contract.function("mint");
     _tokenOfOwnerByIndex = contract.function("tokenOfOwnerByIndex");
-    _tokensOfOwner = contract.function("_tokensOfOwner");
+    _getRecipe = contract.function("getRecipe");
     _transferFrom = contract.function("transferFrom");
 
   }
 
-  Future<void> getTokenInventory() async{
+  Future<List<Recipe>> getOwnedTokens() async{
     var contract = await contracResolver.getDeployedContract();
     var ownAddress = await walletConector.getOwnEthAddress();
     var client = await clientProvider.getClient();
-    List totalTokensList = await client!.call(
-        contract: contract,
-        function: _balanceOf,
-        params: [ownAddress]
-    );
-    BigInt totalTokens = totalTokensList[0];
-    //replce this
-    taskCount = totalTokens.toInt();
-    print("total tokens: $totalTokens");
+    //int totalTokens = await getTotalSuply(client, contract);
+    int totalTokens = await getTotalBalance(client, contract);
     recipes.clear();
-    for (var i = 0; i < totalTokens.toInt(); i++) {
-      var tempIndex = await client.call(
-          contract: contract,
-          function: _tokenOfOwnerByIndex,
-          params: [ownAddress,BigInt.from(i)]
+    for (var i = 0; i < totalTokens; i++) {
+      BigInt myTokenIndex = await getIndexOfOwnedToken(
+          client,
+          contract,
+          ownAddress,
+          i
       );
-      print("tempIndex: ${tempIndex[0]}");
-      //print("tempIndex: ${tempIndex[0]}");
-      var auxIndex = tempIndex[0]-BigInt.from(1);
-      print("auxIndex: ${auxIndex}");
-      var temp = await client!.call(
-          contract: contract,
-          function: todos,
-          params: [auxIndex]
+      print("auxIndex: $myTokenIndex");
+      Recipe temp = await getRecipeAtIndex(
+          client,
+          contract,
+          myTokenIndex
       );
-      print("temp: ${temp[0]}");
       recipes.add(
-          Task(
-              taskName: temp[0],
-              id: auxIndex
-          )
+          temp
       );
     }
+    return recipes;
+  }
+
+  Future<Recipe> getRecipeAtIndex(
+      Web3Client? client,
+      DeployedContract contract,
+      BigInt myTokenIndex
+  ) async {
+    var temp = await client!.call(
+        contract: contract,
+        function: _getRecipe,
+        params: [myTokenIndex]
+    );
+    print("temp: ${temp[0]}");
+    return Recipe(
+      id: "${myTokenIndex.toInt()}",
+      nombre: temp[0],
+      dosis: temp[0],
+      unidad: temp[0],
+      frecuencia: temp[0],
+      lapso: temp[0],
+      descripcion: temp[0],
+      tipo: temp[0],
+    );
+  }
+
+  Future<BigInt> getIndexOfOwnedToken(
+      Web3Client? client,
+      DeployedContract contract,
+      EthereumAddress? ownAddress,
+      int i
+  ) async {
+    var tempIndex = await client!.call(
+        contract: contract,
+        function: _tokenOfOwnerByIndex,
+        params: [ownAddress,BigInt.from(i)]
+    );
+    print("tempIndex: ${tempIndex[0]}");
+    return tempIndex[0]-BigInt.from(1);
+  }
+
+  Future<int> getTotalSuply(
+      Web3Client? client,
+      DeployedContract contract
+  ) async {
+    var totalTokensInList = await client!.call(
+        contract: contract,
+        function: _totalSupply,
+        params: []
+    );
+    BigInt totalTokens = totalTokensInList[0];
+    print("total tokens: $totalTokens");
+    return totalTokens.toInt();
+  }
+
+  Future<int> getTotalBalance(
+      Web3Client? client,
+      DeployedContract contract
+  ) async {
+    var totalTokensInList = await client!.call(
+        contract: contract,
+        function: _balanceOf,
+        params: []
+    );
+    BigInt totalTokens = totalTokensInList[0];
+    print("total tokens in balance: $totalTokens");
+    return totalTokens.toInt();
   }
 
   Future<void> addTask(String taskNameData) async {
@@ -113,7 +167,6 @@ class RecipesRepository{
         ),
         fetchChainIdFromNetworkId: true
     );
-    getTokenInventory();
   }
 
   Future<void> transfer(
@@ -140,8 +193,6 @@ class RecipesRepository{
         ),
         fetchChainIdFromNetworkId: true
     );
-    //getTodos();
-    getTokenInventory();
   }
 
 }
