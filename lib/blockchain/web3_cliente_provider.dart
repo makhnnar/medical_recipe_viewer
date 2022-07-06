@@ -1,4 +1,5 @@
 import 'package:http/http.dart';
+import 'package:stream_channel/stream_channel.dart';
 import 'package:web3dart/web3dart.dart';
 import 'package:web_socket_channel/io.dart';
 
@@ -8,21 +9,30 @@ class Web3ClientProviderImpl implements IWeb3ClientProvider{
   final String _wsUrl = "ws://192.168.0.103:7545/";
 
   Web3Client? _client;
+  IOWebSocketChannel? socketChannel;
 
   @override
   Web3Client? getClient() {
     if(_client==null){
+      IOWebSocketChannel? socket = getSocketChannel();
       _client = Web3Client(
           _rpcUrl,
           Client(),
           socketConnector: () {
-            return IOWebSocketChannel.connect(
-                _wsUrl
-            ).cast<String>();
+            return socket!.cast<String>();
           }
       );
-      return _client;
     }
+    return _client;
+  }
+
+  IOWebSocketChannel? getSocketChannel() {
+     if(socketChannel==null) {
+       socketChannel = IOWebSocketChannel.connect(
+           _wsUrl
+       );
+     }
+     return socketChannel;
   }
 
 }
@@ -30,5 +40,6 @@ class Web3ClientProviderImpl implements IWeb3ClientProvider{
 abstract class IWeb3ClientProvider{
 
   Web3Client? getClient();
+  IOWebSocketChannel? getSocketChannel();
 
 }
