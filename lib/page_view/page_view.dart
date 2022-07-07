@@ -7,9 +7,7 @@ mixin PageViewHelper<P extends ProviderHelper> on StatelessWidget {
 
   Widget getView(BuildContext context) {
     var provider = Provider.of<P>(context);
-    provider.getData();
-    _view = provider.value;
-    return _view;
+    return provider.value;
   }
 
 }

@@ -3,13 +3,11 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:medical_recipe_viewer/recipes/model/recipe.dart';
-import 'package:medical_recipe_viewer/qr_reader/qr_reader.dart';
 import 'package:medical_recipe_viewer/recipes/ui/recipe_creation/recipe_creation_view.dart';
 import 'package:medical_recipe_viewer/recipes/state/code_state.dart';
 import 'package:medical_recipe_viewer/recipes/ui/recipe_list/recipe_item_view.dart';
 import 'package:medical_recipe_viewer/utils/navigation_actions.dart';
 import 'package:medical_recipe_viewer/utils/qr_reader.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
 class RecipeListView extends StatelessWidget {

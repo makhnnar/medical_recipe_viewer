@@ -4,6 +4,10 @@ import 'package:medical_recipe_viewer/recipes/ui/recipe_list/recipe_list_view.da
 
 class MockListProvider extends ProviderHelper {
 
+  MockListProvider(){
+    getData();
+  }
+
   @override
   void getData() {
     this.value = RecipeListView(

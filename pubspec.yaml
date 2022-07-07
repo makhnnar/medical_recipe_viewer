@@ -57,4 +57,5 @@ flutter:
     - assets/img/sunset.jpeg
     - assets/img/river.jpeg
     - assets/icons/wallet.png
+    - src/abis/Profiles.json
 

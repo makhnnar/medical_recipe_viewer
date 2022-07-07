@@ -7,7 +7,7 @@ class WalletConectorImpl implements IWalletConector{
 
   String privateKey = "0x"+"5f5761ec0e6ae960332bccd71312e2b15a710f2b1b4530c3276435fde245f417";
 
-  late Credentials? _credentials;
+  Credentials? _credentials;
 
   EthereumAddress? _ownAddress;
 
@@ -17,17 +17,25 @@ class WalletConectorImpl implements IWalletConector{
   ) ;
 
   Future<Credentials?> getCredentials() async {
+    print("asking the Credentials with the pAddress: $privateKey");
     if(_credentials==null){
       _credentials = await clientProvider.getClient()!.credentialsFromPrivateKey(
           privateKey
       );
+      print("My Credentials: $_credentials");
     }
     return _credentials;
   }
 
   Future<EthereumAddress?> getOwnEthAddress() async {
+    print("asking the Eth Address");
+    if(_credentials==null){
+      print("asking the credentials");
+      await getCredentials();
+    }
     if(_ownAddress==null){
       _ownAddress = await _credentials!.extractAddress();
+      print("Eth Address: $_ownAddress");
     }
     return _ownAddress;
   }

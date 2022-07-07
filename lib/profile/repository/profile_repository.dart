@@ -68,11 +68,18 @@ class ProfileRepository{
   }
 
   Future<Profile> getOwnedProfile() async{
-    var contract = await contracResolver.getDeployedContract();
-    var ownAddress = await walletConector.getOwnEthAddress();
     var client = clientProvider.getClient();
+    print("cliente on profile repo is null? ${client==null}");
+    var contract = await contracResolver.getDeployedContract();
+    print("contract: $contract");
+    var ownAddress = await walletConector.getOwnEthAddress();
+    print("ownAddress: $ownAddress");
     //int totalTokens = await getTotalSuply(client, contract);
-    int totalTokens = await getTotalBalance(client, contract);
+    int totalTokens = await getTotalBalance(
+        client,
+        contract,
+        ownAddress!
+    );
     for (var i = 0; i < totalTokens; i++) {
       BigInt myTokenIndex = await getIndexOfOwnedToken(
           client,
@@ -81,16 +88,17 @@ class ProfileRepository{
           i
       );
       print("auxIndex: $myTokenIndex");
-      _profile = await getRecipeAtIndex(
+      _profile = await getProfileAtIndex(
           client,
           contract,
           myTokenIndex
       );
     }
+    print("_profile: ${_profile.toString()}");
     return _profile;
   }
 
-  Future<Profile> getRecipeAtIndex(
+  Future<Profile> getProfileAtIndex(
       Web3Client? client,
       DeployedContract contract,
       BigInt myTokenIndex
@@ -100,14 +108,16 @@ class ProfileRepository{
         function: _getProfile,
         params: [myTokenIndex]
     );
-    print("temp: ${temp[0]}");
-    return Profile(
+    print("temp: ${temp.toString()}");
+    var toReturn = Profile(
         id: temp[0],
         name: temp[1],
-        lastName: temp[2],
+        lastName: "${temp[2]}",
         photo: "",
-        dir: ""
+        dir: walletConector.getOwnHexAddress()!
     );
+    print("toReturn: ${toReturn.toString()}");
+    return toReturn;
   }
 
   Future<BigInt> getIndexOfOwnedToken(
@@ -141,12 +151,13 @@ class ProfileRepository{
 
   Future<int> getTotalBalance(
       Web3Client? client,
-      DeployedContract contract
+      DeployedContract contract,
+      EthereumAddress ownAddress
       ) async {
     var totalTokensInList = await client!.call(
         contract: contract,
         function: _balanceOf,
-        params: []
+        params: [ownAddress]
     );
     BigInt totalTokens = totalTokensInList[0];
     print("total tokens in balance: $totalTokens");
@@ -154,9 +165,9 @@ class ProfileRepository{
   }
 
   Future<void> generateNewProfile(String taskNameData) async {
+    var client = clientProvider.getClient();
     var contract = await contracResolver.getDeployedContract();
     var credentials = await walletConector.getCredentials();
-    var client = clientProvider.getClient();
     print("credenciales: $credentials");
     await client!.sendTransaction(
         credentials!,

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:medical_recipe_viewer/blockchain/contract_resolver.dart';
 import 'package:medical_recipe_viewer/blockchain/wallet_conector.dart';
 import 'package:medical_recipe_viewer/blockchain/web3_cliente_provider.dart';
@@ -11,6 +12,7 @@ class ProfileState extends ProviderHelper {
   late ProfileRepository repository;
 
   ProfileState(){
+    this.value = Container();
     init();
   }
 
@@ -27,19 +29,29 @@ class ProfileState extends ProviderHelper {
             "Profiles"
         )
     );
+    getData();
   }
 
   @override
   void getData() {
     repository.getOwnedProfile()
         .then(
-            (profile) => onDataRecieved(profile)
+            (profile) => onDataReceived(profile)
         ).onError((error, stackTrace) => {
-
+            onDataReceived(
+                Profile(
+                    id: "id",
+                    name: "name",
+                    lastName: "lastName",
+                    photo: "assets/img/girl.jpg",
+                    dir: "adbf342345bcdab453"
+                )
+            )
         });
   }
 
-  void onDataRecieved(Profile profile){
+  void onDataReceived(Profile profile){
+    print("profile data: ${profile.toString()}");
     this.value = ProfileView(
         profile
     );
