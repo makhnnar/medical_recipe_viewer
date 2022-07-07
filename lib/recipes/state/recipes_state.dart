@@ -1,20 +1,54 @@
+import 'package:flutter/cupertino.dart';
+import 'package:medical_recipe_viewer/blockchain/contract_resolver.dart';
+import 'package:medical_recipe_viewer/blockchain/wallet_conector.dart';
+import 'package:medical_recipe_viewer/blockchain/web3_cliente_provider.dart';
 import 'package:medical_recipe_viewer/recipes/model/recipe.dart';
 import 'package:medical_recipe_viewer/page_view/page_view.dart';
+import 'package:medical_recipe_viewer/recipes/repository/recipes_repository.dart';
 import 'package:medical_recipe_viewer/recipes/ui/recipe_list/recipe_list_view.dart';
 
 class RecipesState extends ProviderHelper {
 
-  @override
-  void getData() {
-    this.value = RecipeListView(
-        RecipeList(
-            listOfRecipes:[
-              Recipe(id: "1", nombre: "Recipe 1",dosis: "500",unidad:"mg",frecuencia:"8",lapso: "7",descripcion: "antibiotico",tipo: "tipo 1"),
-              Recipe(id: "2", nombre: "Recipe 2",dosis: "50",unidad:"mg",frecuencia:"4",lapso: "3",descripcion: "relajante",tipo: "tipo 2"),
-              Recipe(id: "3", nombre: "Recipe 3",dosis: "5",unidad:"mg",frecuencia:"12",lapso: "15",descripcion: "antidrepesivo",tipo: "tipo 3")
-            ]
+  late RecipesRepository repository;
+
+  RecipesState(){
+    this.value = Container();
+    _init();
+  }
+
+  void _init(){
+    var client = Web3ClientProviderImpl();
+    repository =  RecipesRepository(
+        client,
+        WalletConectorImpl(
+            client,
+            "5f5761ec0e6ae960332bccd71312e2b15a710f2b1b4530c3276435fde245f417"
+        ),
+        ContracResolverImpl(
+            "src/abis/Recipes.json",
+            "Recipes"
         )
     );
+  }
+
+  @override
+  void getData() {
+    repository.getOwnedTokens()
+      .then((recipeList) => onDataReceived(recipeList))
+      .onError((error, stackTrace) => onDataReceived([]));
+  }
+
+  void onDataReceived(List<Recipe> recipeList){
+    this.value = RecipeListView(
+        RecipeList(
+            listOfRecipes:recipeList
+        )
+    );
+    notifyListeners();
+  }
+
+  void createRecipe(){
+    repository.createRecipe(taskNameData);
   }
 
 }

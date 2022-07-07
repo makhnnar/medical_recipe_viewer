@@ -58,4 +58,5 @@ flutter:
     - assets/img/river.jpeg
     - assets/icons/wallet.png
     - src/abis/Profiles.json
+    - src/abis/Recipes.json
 

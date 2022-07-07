@@ -151,6 +151,7 @@ class RecipesRepository{
     return totalTokens.toInt();
   }
 
+  //todo:add the missing params in the recipe creation
   Future<void> createRecipe(String taskNameData) async {
     var contract = await contracResolver.getDeployedContract();
     var credentials = await walletConector.getCredentials();

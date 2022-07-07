@@ -13,10 +13,10 @@ class ProfileState extends ProviderHelper {
 
   ProfileState(){
     this.value = Container();
-    init();
+    _init();
   }
 
-  void init(){
+  void _init(){
     var client = Web3ClientProviderImpl();
     repository = ProfileRepository(
         client,
