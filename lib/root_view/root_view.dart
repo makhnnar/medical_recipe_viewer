@@ -1,10 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:medical_recipe_viewer/page_view/mock_list_provider.dart';
-import 'package:medical_recipe_viewer/page_view/mock_profile_provider.dart';
 import 'package:medical_recipe_viewer/profile/state/profile_state.dart';
 import 'package:medical_recipe_viewer/profile/ui/profile_page.dart';
 import 'package:medical_recipe_viewer/recipes/state/code_state.dart';
+import 'package:medical_recipe_viewer/recipes/state/recipes_state.dart';
 import 'package:medical_recipe_viewer/recipes/ui/recipe_list/recipe_list_page.dart';
 import 'package:medical_recipe_viewer/values/app_colors.dart';
 import 'package:provider/provider.dart';
@@ -33,7 +32,7 @@ class _RootView extends State<RootView> {
               MultiProvider(
                 providers: [
                   ChangeNotifierProvider(
-                      create: (_) => MockListProvider()
+                      create: (_) => RecipesState()
                   ),
                   ChangeNotifierProvider(
                       create: (_) => CodeState()

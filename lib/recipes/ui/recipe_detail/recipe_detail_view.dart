@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:medical_recipe_viewer/recipes/model/recipe.dart';
+import 'package:medical_recipe_viewer/recipes/state/recipes_state.dart';
 import 'package:medical_recipe_viewer/recipes/ui/recipe_detail/send_dialog.dart';
 import 'package:medical_recipe_viewer/recipes/state/code_state.dart';
 import 'package:medical_recipe_viewer/utils/navigation_actions.dart';
@@ -15,12 +16,14 @@ class RecipeDetailView extends StatelessWidget implements SendActionListener{
   Recipe recipeItem;
 
   late CodeState _provider;
+  late RecipesState _recipeState;
 
   RecipeDetailView(this.recipeItem);
 
   @override
   Widget build(BuildContext context) {
     _provider = Provider.of<CodeState>(context);
+    _recipeState = Provider.of<RecipesState>(context);
     return Scaffold(
         body: Column(
           crossAxisAlignment:CrossAxisAlignment.center,
@@ -140,7 +143,10 @@ class RecipeDetailView extends StatelessWidget implements SendActionListener{
 
   @override
   void sendRecipe() {
-    _provider.getCode();
+    _recipeState.sendRecipeToAddress(
+        _provider.getCode(),
+        recipeItem.id!
+    );
   }
 
 }

@@ -1,6 +1,6 @@
 class Recipe {
 
-  String? id;
+  BigInt? id;
   String? nombre;
   String? dosis;
   String? unidad;

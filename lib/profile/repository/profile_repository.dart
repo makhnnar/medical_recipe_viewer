@@ -46,7 +46,6 @@ class ProfileRepository{
 
   Future<void> initiateSetup() async {
     await getDeployedContract();
-    await getOwnedProfile();
     var socketChannel = clientProvider.getSocketChannel();
     StreamBuilder(
       stream: socketChannel!.stream,
@@ -164,22 +163,27 @@ class ProfileRepository{
     return totalTokens.toInt();
   }
 
-  Future<void> generateNewProfile(String taskNameData) async {
+  Future<String> createProfile(
+      String id,
+      String nombre,
+      int tipo
+  ) async {
     var client = clientProvider.getClient();
     var contract = await contracResolver.getDeployedContract();
     var credentials = await walletConector.getCredentials();
     print("credenciales: $credentials");
-    await client!.sendTransaction(
+    var result = await client!.sendTransaction(
         credentials!,
         Transaction.callContract(
             contract: contract,
             function: _mint,
-            parameters: [taskNameData],
+            parameters: [id,nombre,tipo],
             gasPrice: EtherAmount.inWei(BigInt.one),
             maxGas:600000
         ),
         fetchChainIdFromNetworkId: true
     );
+    return result;
   }
 
 }

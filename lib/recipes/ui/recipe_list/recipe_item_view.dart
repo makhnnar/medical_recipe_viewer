@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:medical_recipe_viewer/recipes/model/recipe.dart';
+import 'package:medical_recipe_viewer/recipes/state/recipes_state.dart';
 import 'package:medical_recipe_viewer/recipes/ui/recipe_detail/send_dialog.dart';
 import 'package:medical_recipe_viewer/recipes/state/code_state.dart';
 import 'package:medical_recipe_viewer/utils/calculations.dart';
@@ -15,12 +16,14 @@ class RecipeItemView extends StatelessWidget implements SendActionListener{
   Recipe recipeItem;
 
   late CodeState _provider;
+  late RecipesState _recipeState;
 
   RecipeItemView(this.recipeItem);
 
   @override
   Widget build(BuildContext context) {
     _provider = Provider.of<CodeState>(context);
+    _recipeState = Provider.of<RecipesState>(context);
     return Container(
         margin: EdgeInsets.only(
             bottom: 3.0,
@@ -84,7 +87,12 @@ class RecipeItemView extends StatelessWidget implements SendActionListener{
                           ),
                           InkWell(
                             onTap: (){
-                              goToRecipeDetail(context, recipeItem,_provider);
+                              goToRecipeDetail(
+                                  context,
+                                  recipeItem,
+                                  _provider,
+                                  _recipeState
+                              );
                             },
                             child:Container(
                                 margin: EdgeInsets.only(
@@ -108,6 +116,10 @@ class RecipeItemView extends StatelessWidget implements SendActionListener{
 
   @override
   void sendRecipe() {
+    _recipeState.sendRecipeToAddress(
+        _provider.getCode(),
+        recipeItem.id!
+    );
   }
 
 }

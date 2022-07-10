@@ -58,4 +58,24 @@ class ProfileState extends ProviderHelper {
     notifyListeners();
   }
 
+  void createProfile(
+      String id,
+      String nombre,
+      int tipo
+  ){
+    repository.createProfile(
+        id,
+        nombre,
+      tipo
+    ).then(
+            (value) => {
+          print("createProfile result: $value")
+        }
+    ).onError(
+            (error, stackTrace) => {
+          print("createProfile error: $error")
+        }
+    );
+  }
+
 }

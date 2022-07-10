@@ -15,7 +15,9 @@ import 'package:web3dart/web3dart.dart';
 // }
 class RecipesRepository{
 
-  List<Recipe> recipes = [];
+  List<Recipe> recipes = [
+    //Recipe(id: BigInt.from(0), nombre: "", dosis: "", unidad: "", frecuencia: "", lapso: "", descripcion: "", tipo: "")
+  ];
 
   late ContractFunction _totalSupply;
   late ContractFunction _balanceOf;
@@ -44,7 +46,6 @@ class RecipesRepository{
 
   Future<void> initiateSetup() async {
     await getDeployedContract();
-    await getOwnedTokens();
   }
 
   Future<void> getDeployedContract() async {
@@ -63,24 +64,30 @@ class RecipesRepository{
     var ownAddress = await walletConector.getOwnEthAddress();
     var client = await clientProvider.getClient();
     //int totalTokens = await getTotalSuply(client, contract);
-    int totalTokens = await getTotalBalance(client, contract);
-    recipes.clear();
-    for (var i = 0; i < totalTokens; i++) {
-      BigInt myTokenIndex = await getIndexOfOwnedToken(
-          client,
-          contract,
-          ownAddress,
-          i
-      );
-      print("auxIndex: $myTokenIndex");
-      Recipe temp = await getRecipeAtIndex(
-          client,
-          contract,
-          myTokenIndex
-      );
-      recipes.add(
-          temp
-      );
+    int totalTokens = await getTotalBalance(
+        client,
+        contract,
+        ownAddress!
+    );
+    if(totalTokens>0) {
+      recipes.clear();
+      for (var i = 0; i < totalTokens; i++) {
+        BigInt myTokenIndex = await getIndexOfOwnedToken(
+            client,
+            contract,
+            ownAddress,
+            i
+        );
+        print("auxIndex: $myTokenIndex");
+        Recipe temp = await getRecipeAtIndex(
+            client,
+            contract,
+            myTokenIndex
+        );
+        recipes.add(
+            temp
+        );
+      }
     }
     return recipes;
   }
@@ -97,7 +104,7 @@ class RecipesRepository{
     );
     print("temp: ${temp[0]}");
     return Recipe(
-      id: "${myTokenIndex.toInt()}",
+      id: myTokenIndex,
       nombre: temp[0],
       dosis: temp[0],
       unidad: temp[0],
@@ -139,47 +146,66 @@ class RecipesRepository{
 
   Future<int> getTotalBalance(
       Web3Client? client,
-      DeployedContract contract
+      DeployedContract contract,
+      EthereumAddress ownAddress
   ) async {
     var totalTokensInList = await client!.call(
         contract: contract,
         function: _balanceOf,
-        params: []
+        params: [ownAddress]
     );
     BigInt totalTokens = totalTokensInList[0];
     print("total tokens in balance: $totalTokens");
     return totalTokens.toInt();
   }
 
-  //todo:add the missing params in the recipe creation
-  Future<void> createRecipe(String taskNameData) async {
+  Future<String> createRecipe(
+      String nombre,
+      String dosis,
+      String unidad,
+      String frecuencia,
+      String lapso,
+      String descripcion,
+      int tipo,
+      String idCreator
+  ) async {
     var contract = await contracResolver.getDeployedContract();
     var credentials = await walletConector.getCredentials();
     var client = clientProvider.getClient();
     print("credenciales: $credentials");
-    await client!.sendTransaction(
+    var result = await client!.sendTransaction(
         credentials!,
         Transaction.callContract(
             contract: contract,
             function: _mint,
-            parameters: [taskNameData],
+            parameters: [
+              nombre,
+              dosis,
+              unidad,
+              frecuencia,
+              lapso,
+              descripcion,
+              tipo,
+              idCreator
+            ],
             gasPrice: EtherAmount.inWei(BigInt.one),
             maxGas:600000
         ),
         fetchChainIdFromNetworkId: true
     );
+    return result;
   }
 
-  Future<void> sendRecipeToPatient(
+  Future<String> sendRecipeToAddress(
       String addressReceiver,
       BigInt id
-      ) async {
+  ) async {
     var contract = await contracResolver.getDeployedContract();
     var credentials = await walletConector.getCredentials();
     var client = clientProvider.getClient();
     var ownAddress = await walletConector.getOwnEthAddress();
     print("id: $id addressReceiver: $addressReceiver");
-    await client!.sendTransaction(
+    var result = await client!.sendTransaction(
         credentials!,
         Transaction.callContract(
             contract: contract,
@@ -194,6 +220,7 @@ class RecipesRepository{
         ),
         fetchChainIdFromNetworkId: true
     );
+    return result;
   }
 
 }

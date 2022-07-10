@@ -29,6 +29,7 @@ class RecipesState extends ProviderHelper {
             "Recipes"
         )
     );
+    getData();
   }
 
   @override
@@ -39,6 +40,7 @@ class RecipesState extends ProviderHelper {
   }
 
   void onDataReceived(List<Recipe> recipeList){
+    print("recipelist: ${recipeList.length}");
     this.value = RecipeListView(
         RecipeList(
             listOfRecipes:recipeList
@@ -47,8 +49,52 @@ class RecipesState extends ProviderHelper {
     notifyListeners();
   }
 
-  void createRecipe(){
-    repository.createRecipe(taskNameData);
+  void createRecipe(
+      String nombre,
+      String dosis,
+      String unidad,
+      String frecuencia,
+      String lapso,
+      String descripcion,
+      int tipo,
+      String idCreator
+  ){
+    repository.createRecipe(
+        nombre,
+        dosis,
+        unidad,
+        frecuencia,
+        lapso,
+        descripcion,
+        tipo,
+        idCreator
+    ).then(
+          (value) => {
+            print("createRecipe result: $value")
+          }
+    ).onError(
+          (error, stackTrace) => {
+              print("createRecipe error: $error")
+          }
+    );
+  }
+
+  void sendRecipeToAddress(
+      String addressReceiver,
+      BigInt id
+  ){
+    repository.sendRecipeToAddress(
+        addressReceiver,
+        id
+    ).then(
+        (value) => {
+            print("sendRecipeToAddress result: $value")
+        }
+    ).onError(
+        (error, stackTrace) => {
+          print("sendRecipeToAddress error: $error")
+        }
+    );
   }
 
 }
