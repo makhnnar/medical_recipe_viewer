@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:medical_recipe_viewer/recipes/model/recipe.dart';
+import 'package:medical_recipe_viewer/recipes/state/recipes_creation_field_state.dart';
 import 'package:medical_recipe_viewer/recipes/state/recipes_state.dart';
 import 'package:medical_recipe_viewer/recipes/ui/recipe_creation/recipe_creation_view.dart';
 import 'package:medical_recipe_viewer/recipes/state/code_state.dart';
@@ -39,10 +40,17 @@ class RecipeListView extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => ChangeNotifierProvider<RecipesState>.value(
-                          value: _recipesState,
+                      builder: (context) => MultiProvider(
+                          providers: [
+                            ChangeNotifierProvider<RecipesState>.value(
+                              value: _recipesState
+                            ),
+                            ChangeNotifierProvider(
+                                create: (_) => RecipesCreationFieldState()
+                            ),
+                          ],
                           child: RecipeCreationView(),
-                      ),
+                      )
                     ),
                   );
                 },

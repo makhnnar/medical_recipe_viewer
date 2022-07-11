@@ -10,13 +10,16 @@ class CustomTextField extends StatelessWidget {
 
   String initValue = "";
 
+  TextInputType typeOfKeyBoard;
+
   var txt = TextEditingController();
 
   CustomTextField(
       this.label,
       this.onChanged,
       {
-        this.initValue = ""
+        this.initValue = "",
+        this.typeOfKeyBoard = TextInputType.name
       }
   );
 
@@ -33,6 +36,7 @@ class CustomTextField extends StatelessWidget {
       ),
       child: TextFormField(
         controller: txt,
+        keyboardType: typeOfKeyBoard,
         decoration: InputDecoration(
           border: UnderlineInputBorder(),
           labelText: label,

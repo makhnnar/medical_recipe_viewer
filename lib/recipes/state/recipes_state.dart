@@ -12,8 +12,6 @@ class RecipesState extends ProviderHelper {
 
   late RecipesRepository repository;
 
-  RecipeType _type = RecipeType.VERDE;
-
   RecipesState(){
     this.value = Container();
     _init();
@@ -98,15 +96,6 @@ class RecipesState extends ProviderHelper {
           print("sendRecipeToAddress error: $error")
         }
     );
-  }
-
-  void setRecipeType(RecipeType recipeType){
-    this._type = recipeType;
-    notifyListeners();
-  }
-
-  RecipeType getRecipeType(){
-    return _type;
   }
 
 }
