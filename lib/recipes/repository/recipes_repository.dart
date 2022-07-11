@@ -15,9 +15,7 @@ import 'package:web3dart/web3dart.dart';
 // }
 class RecipesRepository{
 
-  List<Recipe> recipes = [
-    //Recipe(id: BigInt.from(0), nombre: "", dosis: "", unidad: "", frecuencia: "", lapso: "", descripcion: "", tipo: "")
-  ];
+  List<Recipe> recipes = [];
 
   late ContractFunction _totalSupply;
   late ContractFunction _balanceOf;
@@ -89,6 +87,7 @@ class RecipesRepository{
         );
       }
     }
+    print("recipes: ${recipes.length}");
     return recipes;
   }
 
@@ -102,16 +101,16 @@ class RecipesRepository{
         function: _getRecipe,
         params: [myTokenIndex]
     );
-    print("temp: ${temp[0]}");
+    print("temp: $temp");
     return Recipe(
       id: myTokenIndex,
-      nombre: temp[0],
-      dosis: temp[0],
-      unidad: temp[0],
-      frecuencia: temp[0],
-      lapso: temp[0],
-      descripcion: temp[0],
-      tipo: temp[0],
+      nombre: temp[0][0],
+      dosis: temp[0][1],
+      unidad: temp[0][2],
+      frecuencia: temp[0][3],
+      lapso: temp[0][4],
+      descripcion: temp[0][5],
+      tipo: temp[0][6]
     );
   }
 
@@ -185,13 +184,13 @@ class RecipesRepository{
               frecuencia,
               lapso,
               descripcion,
-              tipo,
+              BigInt.from(tipo),
               idCreator
             ],
             gasPrice: EtherAmount.inWei(BigInt.one),
             maxGas:600000
         ),
-        fetchChainIdFromNetworkId: true
+        fetchChainIdFromNetworkId: false
     );
     return result;
   }

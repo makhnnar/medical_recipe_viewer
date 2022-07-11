@@ -4,6 +4,11 @@ import 'package:medical_recipe_viewer/recipes/state/recipes_state.dart';
 import 'package:medical_recipe_viewer/widgets/custom_text_field.dart';
 import 'package:provider/provider.dart';
 
+
+enum RecipeType {
+  VERDE, AMARILLO, MORADO
+}
+
 class RecipeCreationView extends StatelessWidget {
 
   late RecipesState _state;
@@ -14,7 +19,7 @@ class RecipeCreationView extends StatelessWidget {
   late String _frecuencia;
   late String _lapso;
   late String _descripcion;
-  late String _tipo;
+  late int _tipo;
 
   RecipeCreationView();
 
@@ -66,13 +71,38 @@ class RecipeCreationView extends StatelessWidget {
               _descripcion = text;
             }
           ),
-          CustomTextField(
-            "tipo",
-            (text){
-              print('$text');
-              _tipo = text;
-            }
-          ),
+        Padding(
+            padding: EdgeInsets.symmetric(
+                horizontal: 8,
+                vertical: 16
+            ),
+            child:DropdownButton<RecipeType>(
+              value: _state.getRecipeType(),
+              elevation: 16,
+              style: const TextStyle(color: Colors.lightBlue),
+              underline: Container(
+                height: 2,
+                color: Colors.lightBlueAccent,
+              ),
+              onChanged: (RecipeType? newValue) {
+                _tipo = newValue!.index;
+                _state.setRecipeType(newValue);
+              },
+              items: <RecipeType>[ RecipeType.VERDE,RecipeType.AMARILLO,RecipeType.MORADO ]
+                  .map<DropdownMenuItem<RecipeType>>((RecipeType value) {
+                return DropdownMenuItem<RecipeType>(
+                  value: value,
+                  child: Expanded(
+                    flex: 1,
+                    child:Text(
+                        value.name,
+                        textAlign: TextAlign.center,
+                    )
+                  ),
+                );
+              }).toList(),
+            )
+        ),
           Padding(
               padding: EdgeInsets.symmetric(
                   horizontal: 8,
@@ -87,7 +117,7 @@ class RecipeCreationView extends StatelessWidget {
                       _frecuencia,
                       _lapso,
                       _descripcion,
-                      int.parse(_tipo),
+                      _tipo,
                       "idCreator"
                     )
                   },

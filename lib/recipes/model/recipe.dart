@@ -26,7 +26,7 @@ class Recipe {
   }
 
   Recipe.fromJson(dynamic json) {
-    id = json['id'];
+    id = BigInt.from(json['id']);
     nombre = json['nombre'];
     dosis = json['dosis'];
     unidad = json['unidad'];
@@ -38,7 +38,7 @@ class Recipe {
 
   Map<String, dynamic> toJson() {
     var map = <String, dynamic>{};
-    map['id'] = id;
+    map['id'] = id?.toInt();
     map['nombre'] = nombre;
     map['dosis'] = dosis;
     map['frecuencia'] = frecuencia;

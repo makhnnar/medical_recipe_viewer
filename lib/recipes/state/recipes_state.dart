@@ -5,11 +5,14 @@ import 'package:medical_recipe_viewer/blockchain/web3_cliente_provider.dart';
 import 'package:medical_recipe_viewer/recipes/model/recipe.dart';
 import 'package:medical_recipe_viewer/page_view/page_view.dart';
 import 'package:medical_recipe_viewer/recipes/repository/recipes_repository.dart';
+import 'package:medical_recipe_viewer/recipes/ui/recipe_creation/recipe_creation_view.dart';
 import 'package:medical_recipe_viewer/recipes/ui/recipe_list/recipe_list_view.dart';
 
 class RecipesState extends ProviderHelper {
 
   late RecipesRepository repository;
+
+  RecipeType _type = RecipeType.VERDE;
 
   RecipesState(){
     this.value = Container();
@@ -95,6 +98,15 @@ class RecipesState extends ProviderHelper {
           print("sendRecipeToAddress error: $error")
         }
     );
+  }
+
+  void setRecipeType(RecipeType recipeType){
+    this._type = recipeType;
+    notifyListeners();
+  }
+
+  RecipeType getRecipeType(){
+    return _type;
   }
 
 }
