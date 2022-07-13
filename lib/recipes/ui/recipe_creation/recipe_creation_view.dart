@@ -1,27 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:medical_recipe_viewer/recipes/model/recipe.dart';
 import 'package:medical_recipe_viewer/recipes/state/recipes_creation_field_state.dart';
 import 'package:medical_recipe_viewer/recipes/state/recipes_state.dart';
 import 'package:medical_recipe_viewer/widgets/custom_text_field.dart';
 import 'package:provider/provider.dart';
 
-
-enum RecipeType {
-  VERDE, AMARILLO, MORADO
-}
-
 class RecipeCreationView extends StatelessWidget {
 
   late RecipesState _state;
   late RecipesCreationFieldState _stateCreationFields;
-
-  late String _nombre;
-  late String _dosis;
-  late String _unidad;
-  late String _frecuencia;
-  late String _lapso;
-  late String _descripcion;
-  late int _tipo;
 
   RecipeCreationView();
 
@@ -36,14 +24,14 @@ class RecipeCreationView extends StatelessWidget {
             "medicamento",
             (text){
               print('$text');
-              _nombre = text;
+              _stateCreationFields.nombre = text;
             }
           ),
           CustomTextField(
             "dosis",
             (text){
               print('$text');
-              _dosis = text;
+              _stateCreationFields.dosis = text;
             },
             typeOfKeyBoard: TextInputType.number
           ),
@@ -96,7 +84,7 @@ class RecipeCreationView extends StatelessWidget {
                         color: Colors.lightBlueAccent,
                       ),
                       onChanged: (UnitOption? newValue) {
-                        _unidad = newValue!.name;
+                        _stateCreationFields.unidad = newValue!.name;
                         _stateCreationFields.setUnitOption(newValue!);
                       },
                       items: _stateCreationFields.unitOptions
@@ -118,7 +106,7 @@ class RecipeCreationView extends StatelessWidget {
             "frecuencia",
             (text){
               print('$text');
-              _frecuencia = text;
+              _stateCreationFields.frecuencia = text;
             },
             typeOfKeyBoard: TextInputType.number
           ),
@@ -126,7 +114,7 @@ class RecipeCreationView extends StatelessWidget {
             "lapso",
             (text){
               print('$text');
-              _lapso = text;
+              _stateCreationFields.lapso = text;
             },
             typeOfKeyBoard: TextInputType.number
           ),
@@ -134,7 +122,7 @@ class RecipeCreationView extends StatelessWidget {
             "descripcion",
             (text){
               print('$text');
-              _descripcion = text;
+              _stateCreationFields.descripcion = text;
             }
           ),
           Padding(
@@ -151,7 +139,7 @@ class RecipeCreationView extends StatelessWidget {
                   color: Colors.lightBlueAccent,
                 ),
                 onChanged: (RecipeType? newValue) {
-                  _tipo = newValue!.index;
+                  _stateCreationFields.tipo = newValue!.index;
                   _stateCreationFields.setRecipeType(newValue);
                 },
                 items: <RecipeType>[ RecipeType.VERDE,RecipeType.AMARILLO,RecipeType.MORADO ]
@@ -177,14 +165,14 @@ class RecipeCreationView extends StatelessWidget {
               child:ElevatedButton(
                   onPressed: ()=>{
                     _state.createRecipe(
-                      _nombre,
-                      _dosis,
-                      _unidad,
-                      _frecuencia,
-                      _lapso,
-                      _descripcion,
-                      _tipo,
-                      "idCreator"
+                        _stateCreationFields.nombre,
+                        _stateCreationFields.dosis,
+                        _stateCreationFields.unidad,
+                        _stateCreationFields.frecuencia,
+                        _stateCreationFields.lapso,
+                        _stateCreationFields.descripcion,
+                        _stateCreationFields.tipo,
+                        "idCreator"
                     )
                   },
                   child: Text("Crear")

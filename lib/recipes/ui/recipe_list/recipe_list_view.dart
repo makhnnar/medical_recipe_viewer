@@ -31,57 +31,12 @@ class RecipeListView extends StatelessWidget {
       ),
       floatingActionButton:Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: <Widget>[
-              FloatingActionButton(
-                heroTag: "btn1",
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => MultiProvider(
-                          providers: [
-                            ChangeNotifierProvider<RecipesState>.value(
-                              value: _recipesState
-                            ),
-                            ChangeNotifierProvider(
-                                create: (_) => RecipesCreationFieldState()
-                            ),
-                          ],
-                          child: RecipeCreationView(),
-                      )
-                    ),
-                  );
-                },
-                child: const Icon(Icons.add),
-              ),
-              FloatingActionButton(
-                heroTag: "btn2",
-                onPressed: () {
-                  scanQR().then(
-                        (value) {
-                            Map<String, dynamic> jsonData = jsonDecode(value);
-                            var formattedResponse = Recipe.fromJson(jsonData);
-                            goToRecipeDetail(
-                                context,
-                                formattedResponse,
-                                _provider,
-                                null
-                            );
-                        }
-                  );
-                },
-                child: Icon(Icons.search),
-              ),
-              FloatingActionButton(
-                heroTag: "btn3",
-                onPressed: () {
-                    showQRDialog(context, recipeList.toJson());
-                },
-                child: Icon(Icons.share),
-              )
-            ],
+          child: FloatingActionButton(
+            heroTag: "btn3",
+            onPressed: () {
+              showQRDialog(context, recipeList.toJson());
+            },
+            child: Icon(Icons.share),
           )
       )
     );

@@ -1,12 +1,22 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:medical_recipe_viewer/profile/state/profile_state.dart';
 import 'package:medical_recipe_viewer/profile/ui/profile_page.dart';
+import 'package:medical_recipe_viewer/recipes/model/recipe.dart';
 import 'package:medical_recipe_viewer/recipes/state/code_state.dart';
+import 'package:medical_recipe_viewer/recipes/state/recipes_creation_field_state.dart';
 import 'package:medical_recipe_viewer/recipes/state/recipes_state.dart';
+import 'package:medical_recipe_viewer/recipes/ui/recipe_creation/recipe_creation_view.dart';
 import 'package:medical_recipe_viewer/recipes/ui/recipe_list/recipe_list_page.dart';
+import 'package:medical_recipe_viewer/utils/navigation_actions.dart';
+import 'package:medical_recipe_viewer/utils/qr_reader.dart';
 import 'package:medical_recipe_viewer/values/app_colors.dart';
 import 'package:provider/provider.dart';
+
+/** todo: crear a la vista que encapsula a root view y que consulta
+        si tienes perfil o no creado
+*/
 
 class RootView extends StatefulWidget {
   @override
@@ -14,6 +24,7 @@ class RootView extends StatefulWidget {
 }
 
 class _RootView extends State<RootView> {
+
   @override
   Widget build(BuildContext context) {
     return myView();
@@ -43,6 +54,17 @@ class _RootView extends State<RootView> {
               MultiProvider(
                 providers: [
                   ChangeNotifierProvider(
+                      create: (_) => RecipesState()
+                  ),
+                  ChangeNotifierProvider(
+                      create: (_) => RecipesCreationFieldState()
+                  ),
+                ],
+                child: RecipeCreationView(),
+              ),
+              MultiProvider(
+                providers: [
+                  ChangeNotifierProvider(
                       create: (_) => ProfileState()
                   )
                 ],
@@ -59,8 +81,8 @@ class _RootView extends State<RootView> {
                   Expanded(
                       flex: 1,
                       child:IconButton(
-                        tooltip: 'Open navigation menu',
-                        icon: const Icon(Icons.search),
+                        tooltip: 'lista',
+                        icon: const Icon(Icons.menu),
                         onPressed: () {
                           controller.jumpToPage(0);
                         },
@@ -69,7 +91,36 @@ class _RootView extends State<RootView> {
                   Expanded(
                       flex: 1,
                       child:IconButton(
-                        tooltip: 'Favorite',
+                        tooltip: 'agregar',
+                        icon: const Icon(Icons.add),
+                        onPressed: () {
+                          controller.jumpToPage(1);
+                        },
+                      )
+                  ),
+                  Expanded(
+                      flex: 1,
+                      child:IconButton(
+                        tooltip: 'leer',
+                        icon: const Icon(Icons.qr_code_scanner_rounded),
+                        onPressed: () {
+                          scanQR().then((value) {
+                            Map<String, dynamic> jsonData = jsonDecode(value);
+                            var formattedResponse = Recipe.fromJson(jsonData);
+                            goToRecipeDetail(
+                                context,
+                                formattedResponse,
+                                CodeState(),//cuando solo vamos al detalle no necesitamos el code state. modificar
+                                null
+                            );
+                          });
+                        },
+                      )
+                  ),
+                  Expanded(
+                      flex: 1,
+                      child:IconButton(
+                        tooltip: 'perfil',
                         icon: const Icon(Icons.person_rounded),
                         onPressed: () {
                           controller.jumpToPage(2);

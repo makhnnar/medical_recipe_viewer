@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:medical_recipe_viewer/recipes/ui/recipe_creation/recipe_creation_view.dart';
+import 'package:medical_recipe_viewer/recipes/model/recipe.dart';
 
 enum UnitType{
   MASA,
@@ -21,6 +21,14 @@ class RecipesCreationFieldState extends ChangeNotifier{
 
   UnitType unitType = UnitType.MASA;
   UnitOption unitOption = UnitOption.gr;
+
+  String nombre = "";
+  String dosis = "";
+  String unidad = "";
+  String frecuencia = "";
+  String lapso = "";
+  String descripcion = "";
+  int tipo = 0;
 
   Map<UnitType,List<UnitOption>> _unidades = {
     UnitType.MASA : [

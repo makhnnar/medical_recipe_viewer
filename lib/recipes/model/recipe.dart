@@ -1,3 +1,7 @@
+enum RecipeType {
+  VERDE, AMARILLO, MORADO
+}
+
 class Recipe {
 
   BigInt? id;
