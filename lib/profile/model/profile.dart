@@ -19,4 +19,8 @@ class Profile {
     return 'Profile{id: $id, name: $name, lastName: $lastName, photo: $photo, dir: $dir}';
   }
 
+  bool isEmpty() {
+    return id.isEmpty && name.isEmpty && lastName.isEmpty && photo.isEmpty && dir.isEmpty;
+  }
+
 }
