@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:medical_recipe_viewer/di/module.dart';
 import 'package:medical_recipe_viewer/profile/state/profile_state.dart';
 import 'package:medical_recipe_viewer/profile/ui/profile_page.dart';
 import 'package:medical_recipe_viewer/recipes/model/recipe.dart';
@@ -25,12 +26,15 @@ class RootView extends StatefulWidget {
 
 class _RootView extends State<RootView> {
 
+  late WalletReposProvider _walletReposProvider;
+
   @override
   Widget build(BuildContext context) {
     return myView();
   }
 
   Widget myView() {
+    _walletReposProvider =  Provider.of<WalletReposProvider>(context);
     final PageController controller = PageController(initialPage: 0);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -43,7 +47,9 @@ class _RootView extends State<RootView> {
               MultiProvider(
                 providers: [
                   ChangeNotifierProvider(
-                      create: (_) => RecipesState()
+                      create: (_) => RecipesState(
+                          _walletReposProvider.getDeployedRecipesRepository()!
+                      )
                   ),
                   ChangeNotifierProvider(
                       create: (_) => CodeState()
@@ -54,7 +60,9 @@ class _RootView extends State<RootView> {
               MultiProvider(
                 providers: [
                   ChangeNotifierProvider(
-                      create: (_) => RecipesState()
+                      create: (_) => RecipesState(
+                          _walletReposProvider.getDeployedRecipesRepository()!
+                      )
                   ),
                   ChangeNotifierProvider(
                       create: (_) => RecipesCreationFieldState()
@@ -65,7 +73,9 @@ class _RootView extends State<RootView> {
               MultiProvider(
                 providers: [
                   ChangeNotifierProvider(
-                      create: (_) => ProfileState()
+                      create: (_) => ProfileState(
+                          _walletReposProvider.getDeployedProfileRepository()!
+                      )
                   )
                 ],
                 child:ProfilePage(),

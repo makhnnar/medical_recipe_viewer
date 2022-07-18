@@ -9,11 +9,10 @@ import 'package:medical_recipe_viewer/profile/ui/profile_view.dart';
 
 class ProfileState extends ProviderHelper {
 
-  late ProfileRepository repository;
+ ProfileRepository repository;
 
-  ProfileState(){
+  ProfileState(this.repository){
     this.value = Container();
-    _init();
   }
 
   void _init(){

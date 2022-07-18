@@ -10,11 +10,12 @@ import 'package:medical_recipe_viewer/recipes/ui/recipe_list/recipe_list_view.da
 
 class RecipesState extends ProviderHelper {
 
-  late RecipesRepository repository;
+  RecipesRepository repository;
 
-  RecipesState(){
+  RecipesState(
+      this.repository
+  ){
     this.value = Container();
-    _init();
   }
 
   void _init(){

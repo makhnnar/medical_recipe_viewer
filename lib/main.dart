@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:medical_recipe_viewer/splash/splash_view.dart';
+import 'package:provider/provider.dart';
+
+import 'my_app.dart';
 
 void main() {
+  //Provider.debugCheckInvalidValueType = null;
   runApp(
-      SplashView()
+      MyApp()
   );
 }

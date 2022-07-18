@@ -1,57 +1,32 @@
 
 import 'package:flutter/cupertino.dart';
-import 'package:medical_recipe_viewer/blockchain/contract_resolver.dart';
-import 'package:medical_recipe_viewer/blockchain/wallet_conector.dart';
-import 'package:medical_recipe_viewer/blockchain/web3_cliente_provider.dart';
+import 'package:flutter/material.dart';
 import 'package:medical_recipe_viewer/profile/model/profile.dart';
 import 'package:medical_recipe_viewer/profile/repository/profile_repository.dart';
-import 'package:medical_recipe_viewer/splash/data_source_repository.dart';
-import 'package:medical_recipe_viewer/values/contanst.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-class SplashState extends ChangeNotifier {
+class SplashState {
 
-  var goToApp;
+  BuildContext? context;
 
-  late ProfileRepository _profileRepository;
-  Web3ClientProviderImpl _client = Web3ClientProviderImpl();
-  late WalletConectorImpl _walletConectorImpl;
-  ContracResolverImpl _contracResolverImpl = ContracResolverImpl(
-      "src/abis/Profiles.json",
-      "Profiles"
-  );
-  DataSourceRepository dataSourceRepository = DataSourceRepository();
+  int switchTo = 0;
 
-  SplashState(
-    this.goToApp
-  ){
-    _loadWallet();
-  }
-
-  _loadWallet() async {
-    String wallerAdr = dataSourceRepository.getWalletAdr();
-    if(wallerAdr.isNotEmpty){
-        Profile profile = await getDeployedProfile(wallerAdr);
+  void checkIfProfileExist(
+      ProfileRepository? profileRepository,
+      dynamic goToApp
+  ) async {
+    if(profileRepository!=null){
+        Profile profile = await profileRepository.getOwnedProfile();
         if(!profile.isEmpty()){
-          goToApp("some value");
+          print("profileRepository!=null? ${profileRepository!=null} !profile.isEmpty() ${!profile.isEmpty()} goToApp: 2");
+          goToApp(1);
+        }else{
+          print("goToApp: 2");
+          print("profileRepository!=null? ${profileRepository!=null} !profile.isEmpty() ${!profile.isEmpty()} goToApp: 2");
         }
     }else{
-      goToApp("other value");
+      print("profileRepository!=null? ${profileRepository!=null} goToApp: 2");
+      goToApp(2);
     }
-  }
-
-  Future<Profile> getDeployedProfile(String wallerAdr) async {
-    _walletConectorImpl = WalletConectorImpl(
-        _client,
-        wallerAdr
-    );
-    _profileRepository = ProfileRepository(
-        _client,
-        _walletConectorImpl,
-        _contracResolverImpl
-    );
-    var profile = await _profileRepository.getOwnedProfile();
-    return profile;
   }
 
 }
