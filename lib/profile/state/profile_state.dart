@@ -34,14 +34,13 @@ class ProfileState extends ProviderHelper {
   @override
   void getData() {
     repository.getOwnedProfile()
-        .then(
-            (profile) => onDataReceived(profile)
-        ).onError((error, stackTrace) => {
+        .then((profile) => onDataReceived(profile))
+        .onError((error, stackTrace) => {
             onDataReceived(
                 Profile(
                     id: "id",
                     name: "name",
-                    lastName: "lastName",
+                    tipo: -1,
                     photo: "assets/img/girl.jpg",
                     dir: "adbf342345bcdab453"
                 )
@@ -55,26 +54,6 @@ class ProfileState extends ProviderHelper {
         profile
     );
     notifyListeners();
-  }
-
-  void createProfile(
-      String id,
-      String nombre,
-      int tipo
-  ){
-    repository.createProfile(
-        id,
-        nombre,
-      tipo
-    ).then(
-            (value) => {
-          print("createProfile result: $value")
-        }
-    ).onError(
-            (error, stackTrace) => {
-          print("createProfile error: $error")
-        }
-    );
   }
 
 }

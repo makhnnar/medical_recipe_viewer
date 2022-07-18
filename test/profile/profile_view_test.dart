@@ -6,7 +6,7 @@ import 'package:medical_recipe_viewer/profile/ui/profile_view.dart';
 Profile profile = Profile(
     id:"id",
     name: "name",
-    lastName: "lastName",
+    tipo: -1,
     photo: "",
     dir: "",
 );

@@ -18,7 +18,7 @@ import 'package:web3dart/web3dart.dart';
 // }
 class ProfileRepository{
 
-  Profile _profile = Profile(id: "", name: "", lastName: "", photo: "", dir: "");
+  Profile _profile = Profile(id: "", name: "", tipo: -1, photo: "", dir: "");
 
   late ContractFunction _totalSupply;
   late ContractFunction _balanceOf;
@@ -111,7 +111,7 @@ class ProfileRepository{
     var toReturn = Profile(
         id: temp[0],
         name: temp[1],
-        lastName: "${temp[2]}",
+        tipo: temp[2],
         photo: "",
         dir: walletConector.getOwnHexAddress()!
     );

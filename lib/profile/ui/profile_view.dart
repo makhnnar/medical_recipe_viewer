@@ -53,7 +53,7 @@ class ProfileView extends StatelessWidget {
                 right: 2.0
                 ),
                 child:Text(
-                    "${profile.name} ${profile.lastName}",
+                    "${profile.name}",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontWeight: FontWeight.bold,

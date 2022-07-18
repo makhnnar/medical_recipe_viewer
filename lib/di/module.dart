@@ -12,9 +12,9 @@ class WalletReposProvider{
 
   RecipesRepository? _recipesRepository;
 
-  WalletConectorImpl? _walletConectorImpl;
+  WalletConectorImpl? walletConectorImpl;
 
-  Web3ClientProviderImpl _client = Web3ClientProviderImpl();
+  Web3ClientProviderImpl client = Web3ClientProviderImpl();
 
   ContracResolverImpl _contractProfileResolver = ContracResolverImpl(
       "src/abis/Profiles.json",
@@ -33,9 +33,9 @@ class WalletReposProvider{
   );
 
   void _initWalletConector() {
-    if(_walletConectorImpl==null) {
-      _walletConectorImpl = WalletConectorImpl(
-          _client,
+    if(walletConectorImpl==null) {
+      walletConectorImpl = WalletConectorImpl(
+          client,
           dataSourceRepository.getWalletAdr()
       );
     }
@@ -46,8 +46,8 @@ class WalletReposProvider{
       _initWalletConector();
       if(_profileRepository==null){
         _profileRepository = ProfileRepository(
-            _client,
-            _walletConectorImpl!,
+            client,
+            walletConectorImpl!,
             _contractProfileResolver
         );
       }
@@ -61,8 +61,8 @@ class WalletReposProvider{
       _initWalletConector();
       if(_profileRepository==null){
         _recipesRepository = RecipesRepository(
-            _client,
-            _walletConectorImpl!,
+            client,
+            walletConectorImpl!,
             _contractRecipesResolver
         );
       }
