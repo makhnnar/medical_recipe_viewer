@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:medical_recipe_viewer/blockchain/contract_resolver.dart';
-import 'package:medical_recipe_viewer/blockchain/wallet_conector.dart';
-import 'package:medical_recipe_viewer/blockchain/web3_cliente_provider.dart';
+import 'package:http/http.dart';
 import 'package:medical_recipe_viewer/page_view/page_view.dart';
 import 'package:medical_recipe_viewer/profile/model/profile.dart';
 import 'package:medical_recipe_viewer/profile/repository/profile_repository.dart';
@@ -13,21 +11,6 @@ class ProfileState extends ProviderHelper {
 
   ProfileState(this.repository){
     this.value = Container();
-  }
-
-  void _init(){
-    var client = Web3ClientProviderImpl();
-    repository = ProfileRepository(
-        client,
-        WalletConectorImpl(
-            client,
-            "5f5761ec0e6ae960332bccd71312e2b15a710f2b1b4530c3276435fde245f417"
-        ),
-        ContracResolverImpl(
-            "src/abis/Profiles.json",
-            "Profiles"
-        )
-    );
     getData();
   }
 

@@ -2,9 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:medical_recipe_viewer/di/module.dart';
+import 'package:medical_recipe_viewer/profile/repository/profile_repository.dart';
 import 'package:medical_recipe_viewer/profile/state/profile_state.dart';
 import 'package:medical_recipe_viewer/profile/ui/profile_page.dart';
 import 'package:medical_recipe_viewer/recipes/model/recipe.dart';
+import 'package:medical_recipe_viewer/recipes/repository/recipes_repository.dart';
 import 'package:medical_recipe_viewer/recipes/state/code_state.dart';
 import 'package:medical_recipe_viewer/recipes/state/recipes_creation_field_state.dart';
 import 'package:medical_recipe_viewer/recipes/state/recipes_state.dart';
@@ -15,10 +17,6 @@ import 'package:medical_recipe_viewer/utils/qr_reader.dart';
 import 'package:medical_recipe_viewer/values/app_colors.dart';
 import 'package:provider/provider.dart';
 
-/** todo: crear a la vista que encapsula a root view y que consulta
-        si tienes perfil o no creado
-*/
-
 class RootView extends StatefulWidget {
   @override
   _RootView createState() => _RootView();
@@ -26,15 +24,12 @@ class RootView extends StatefulWidget {
 
 class _RootView extends State<RootView> {
 
-  late WalletReposProvider _walletReposProvider;
-
   @override
   Widget build(BuildContext context) {
     return myView();
   }
 
   Widget myView() {
-    _walletReposProvider =  Provider.of<WalletReposProvider>(context);
     final PageController controller = PageController(initialPage: 0);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -48,7 +43,7 @@ class _RootView extends State<RootView> {
                 providers: [
                   ChangeNotifierProvider(
                       create: (_) => RecipesState(
-                          _walletReposProvider.getDeployedRecipesRepository()!
+                          Provider.of<RecipesRepository>(context,listen: false)
                       )
                   ),
                   ChangeNotifierProvider(
@@ -61,7 +56,7 @@ class _RootView extends State<RootView> {
                 providers: [
                   ChangeNotifierProvider(
                       create: (_) => RecipesState(
-                          _walletReposProvider.getDeployedRecipesRepository()!
+                          Provider.of<RecipesRepository>(context,listen: false)
                       )
                   ),
                   ChangeNotifierProvider(
@@ -74,7 +69,7 @@ class _RootView extends State<RootView> {
                 providers: [
                   ChangeNotifierProvider(
                       create: (_) => ProfileState(
-                          _walletReposProvider.getDeployedProfileRepository()!
+                          Provider.of<ProfileRepository>(context,listen: false)
                       )
                   )
                 ],

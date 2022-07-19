@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:medical_recipe_viewer/profile/repository/profile_id_repository.dart';
+import 'package:medical_recipe_viewer/profile/repository/profile_repository.dart';
 import 'package:medical_recipe_viewer/profile/state/profile_creation_field_state.dart';
 import 'package:medical_recipe_viewer/profile/state/profile_creation_state.dart';
 import 'package:medical_recipe_viewer/profile/ui/profile_creation_view.dart';
+import 'package:medical_recipe_viewer/recipes/repository/recipes_repository.dart';
 import 'package:medical_recipe_viewer/root_view/root_view.dart';
 import 'package:medical_recipe_viewer/splash/data_source_repository.dart';
 import 'package:medical_recipe_viewer/splash/splash_state.dart';
@@ -46,7 +48,13 @@ class MyApp extends StatelessWidget {
                 create: (context) => SplashState(),
                 child: SplashView(),
             ),//change this for a splash, in splash decide go to home or login
-            '/root': (context) => RootView(),
+            '/root': (context) => MultiProvider(
+                providers: [
+                  Provider<ProfileRepository>(create: (_) => Provider.of<WalletReposProvider>(context, listen: false).getProfileRepository()),
+                  Provider<RecipesRepository>(create: (_) => Provider.of<WalletReposProvider>(context, listen: false).getRecipesRepository())
+                ],
+                child:RootView()
+            ),
             '/profileCreation': (context) => MultiProvider(
                 providers: [
                   ChangeNotifierProvider(

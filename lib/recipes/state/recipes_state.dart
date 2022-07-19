@@ -1,11 +1,8 @@
 import 'package:flutter/cupertino.dart';
-import 'package:medical_recipe_viewer/blockchain/contract_resolver.dart';
-import 'package:medical_recipe_viewer/blockchain/wallet_conector.dart';
-import 'package:medical_recipe_viewer/blockchain/web3_cliente_provider.dart';
+import 'package:medical_recipe_viewer/di/module.dart';
 import 'package:medical_recipe_viewer/recipes/model/recipe.dart';
 import 'package:medical_recipe_viewer/page_view/page_view.dart';
 import 'package:medical_recipe_viewer/recipes/repository/recipes_repository.dart';
-import 'package:medical_recipe_viewer/recipes/ui/recipe_creation/recipe_creation_view.dart';
 import 'package:medical_recipe_viewer/recipes/ui/recipe_list/recipe_list_view.dart';
 
 class RecipesState extends ProviderHelper {
@@ -16,21 +13,6 @@ class RecipesState extends ProviderHelper {
       this.repository
   ){
     this.value = Container();
-  }
-
-  void _init(){
-    var client = Web3ClientProviderImpl();
-    repository =  RecipesRepository(
-        client,
-        WalletConectorImpl(
-            client,
-            "5f5761ec0e6ae960332bccd71312e2b15a710f2b1b4530c3276435fde245f417"
-        ),
-        ContracResolverImpl(
-            "src/abis/Recipes.json",
-            "Recipes"
-        )
-    );
     getData();
   }
 

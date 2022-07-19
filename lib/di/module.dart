@@ -71,4 +71,20 @@ class WalletReposProvider{
     return null;
   }
 
+  ProfileRepository getProfileRepository() {
+    return getDeployedProfileRepository() ?? ProfileRepository(
+        client,
+        walletConectorImpl!,
+        _contractProfileResolver
+    );
+  }
+
+  RecipesRepository getRecipesRepository() {
+    return getDeployedRecipesRepository() ?? RecipesRepository(
+        client,
+        walletConectorImpl!,
+        _contractRecipesResolver
+    );
+  }
+
 }

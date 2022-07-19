@@ -39,6 +39,7 @@ class ProfileCreationState extends ChangeNotifier {
   }
 
   void savePrivateKey(String privateKey){
+    print("privateKey: $privateKey");
     dataSourceRepository.setWalletAdr(privateKey);
   }
 
@@ -53,16 +54,28 @@ class ProfileCreationState extends ChangeNotifier {
   void createProfile(){
     if(!_profile!.isEmpty()) {
       _connectWalletWithTheNewAddress();
-      walletReposProvider.getDeployedProfileRepository()!.createProfile(
-          _profile!.id,
-          _profile!.name,
-          _profile!.tipo
-      ).then((value) {
-        print("createProfile result: $value");
-        goToRoot = true;
-      }).onError((error, stackTrace) {
-        print("createProfile error: $error");
-      });
+      walletReposProvider.getDeployedProfileRepository()!.getOwnedProfile()
+          .then((value){
+              print("getOwnedProfile result: $value");
+              if(value.isEmpty()){
+                walletReposProvider.getDeployedProfileRepository()!.createProfile(
+                    _profile!.id,
+                    _profile!.name,
+                    _profile!.tipo
+                ).then((value) {
+                  print("createProfile result: $value");
+                  goToRoot = true;
+                  notifyListeners();
+                }).onError((error, stackTrace) {
+                  print("createProfile error: $error");
+                });
+              }else{
+                goToRoot = true;
+                notifyListeners();
+              }
+          }).onError((error, stackTrace) {
+            print("getOwnedProfile error: $error");
+          });
     }
   }
 

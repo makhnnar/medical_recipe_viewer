@@ -111,7 +111,7 @@ class ProfileRepository{
     var toReturn = Profile(
         id: temp[0],
         name: temp[1],
-        tipo: temp[2],
+        tipo: temp[2].toInt(),
         photo: "",
         dir: walletConector.getOwnHexAddress()!
     );
