@@ -8,9 +8,9 @@ import 'package:medical_recipe_viewer/splash/data_source_repository.dart';
 
 class ProfileCreationState extends ChangeNotifier {
 
-  DataSourceRepository dataSourceRepository;
-  WalletReposProvider walletReposProvider;
-  ProfileIdRepository profileIdRepository;
+  late DataSourceRepository dataSourceRepository;
+  late WalletReposProvider walletReposProvider;
+  late ProfileIdRepository profileIdRepository;
   Profile? _profile;
 
   Widget view = CheckProfileIdView();
@@ -18,10 +18,14 @@ class ProfileCreationState extends ChangeNotifier {
   bool goToRoot = false;
 
   ProfileCreationState(
-      this.dataSourceRepository,
-      this.walletReposProvider,
-      this.profileIdRepository
-  );
+    DataSourceRepository dataSourceRepository,
+    WalletReposProvider walletReposProvider,
+    ProfileIdRepository profileIdRepository,
+  ){
+    this.dataSourceRepository = dataSourceRepository;
+    this.walletReposProvider = walletReposProvider;
+    this.profileIdRepository = profileIdRepository;
+  }
 
   String getProfileName(){
     return _profile!.name;

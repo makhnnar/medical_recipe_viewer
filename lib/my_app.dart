@@ -1,5 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:medical_recipe_viewer/profile/repository/profile_id_repository.dart';
+import 'package:medical_recipe_viewer/profile/state/profile_creation_field_state.dart';
+import 'package:medical_recipe_viewer/profile/state/profile_creation_state.dart';
 import 'package:medical_recipe_viewer/profile/ui/profile_creation_view.dart';
 import 'package:medical_recipe_viewer/root_view/root_view.dart';
 import 'package:medical_recipe_viewer/splash/data_source_repository.dart';
@@ -26,8 +29,8 @@ class MyApp extends StatelessWidget {
               walletReposProvider
           ) => WalletReposProvider(dataSourceRepository),
         ),
-        Provider(
-          create: (context) => SplashState(),
+        Provider<ProfileIdRepository>(
+            create: (_) => ProfileIdRepository()
         ),
       ],
       child: MaterialApp(
@@ -39,9 +42,26 @@ class MyApp extends StatelessWidget {
         ),
         initialRoute: '/',
         routes: {
-            '/': (context) => SplashView(),//change this for a splash, in splash decide go to home or login
+            '/': (context) => Provider(
+                create: (context) => SplashState(),
+                child: SplashView(),
+            ),//change this for a splash, in splash decide go to home or login
             '/root': (context) => RootView(),
-            '/profileCreation': (context) => ProfileCreationView(),
+            '/profileCreation': (context) => MultiProvider(
+                providers: [
+                  ChangeNotifierProvider(
+                      create: (_) => ProfileCreationFieldState()
+                  ),
+                  ChangeNotifierProvider(
+                      create: (_) => ProfileCreationState(
+                          Provider.of<DataSourceRepository>(context, listen: false),
+                          Provider.of<WalletReposProvider>(context, listen: false),
+                          Provider.of<ProfileIdRepository>(context, listen: false),
+                      )
+                  ),
+                ],
+                child: ProfileCreationView()
+            ),
         },
       ),
     );
