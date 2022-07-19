@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1024119073780",
+    "project_id": "medicalrecipeviewer",
+    "storage_bucket": "medicalrecipeviewer.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1024119073780:android:4a5d6068486e063a1867a1",
+        "android_client_info": {
+          "package_name": "com.example.medical_recipe_viewer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1024119073780-4t6crqoubu07db4u92c2mfgb75qpeqqi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.medical_recipe_viewer",
+            "certificate_hash": "a047b2935174f25d575944a00ddae8f6aa138935"
+          }
+        },
+        {
+          "client_id": "1024119073780-s69kh3nrgr4e6q6fpgnjk2bog8kcbdin.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyASvHypdCJJntmj9PZ3VvhC84oaALAMkSE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1024119073780-s69kh3nrgr4e6q6fpgnjk2bog8kcbdin.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
