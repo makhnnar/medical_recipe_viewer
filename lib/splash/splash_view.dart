@@ -51,12 +51,18 @@ class _SplashView extends State<SplashView > {
   Widget build(BuildContext context) {
     splashState = Provider.of<SplashState>(context);
     _walletReposProvider = Provider.of<WalletReposProvider>(context);
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        CircularProgressIndicator()
-      ],
+    return Scaffold(
+      backgroundColor: Theme.of(context).backgroundColor,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+            color: Colors.white
+          ),
+          CircularProgressIndicator()
+        ],
+      )
     );
   }
 

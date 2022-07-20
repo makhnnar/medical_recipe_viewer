@@ -37,12 +37,30 @@ class CustomTextField extends StatelessWidget {
       child: TextFormField(
         controller: txt,
         keyboardType: typeOfKeyBoard,
+        style: Theme.of(context).textTheme.bodyMedium,
         decoration: InputDecoration(
+          enabledBorder: UnderlineInputBorder(),
           border: UnderlineInputBorder(),
+          errorStyle: TextStyle(
+            color: Colors.redAccent,
+          ),
+          hoverColor: Theme.of(context).hoverColor,
+          prefixStyle: TextStyle(
+            color: Colors.black,
+          ),
+          counterStyle: TextStyle(
+            color: Colors.black,
+          ),
+          labelStyle: TextStyle(
+            color: Theme.of(context).hoverColor,
+          ),
+          floatingLabelStyle: TextStyle(
+            color: Colors.black,
+          ),
           labelText: label,
         ),
-        //onChanged: onChanged,
-        onFieldSubmitted: onChanged,
+        onChanged: onChanged,
+        //onFieldSubmitted: onChanged,
       ),
     );
   }

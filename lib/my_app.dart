@@ -49,6 +49,16 @@ class MyApp extends StatelessWidget {
                 theme: ThemeData(
                   brightness: Brightness.dark,
                   visualDensity: VisualDensity.adaptivePlatformDensity,
+                  backgroundColor: Colors.white,
+                  hoverColor: Colors.black26,
+                  textTheme: TextTheme(
+                    titleLarge: TextStyle(
+                      color: Colors.black,
+                    ),
+                    bodyMedium: TextStyle(
+                      color: Colors.black,
+                    ),
+                  )
                 ),
                 initialRoute: '/',
                 routes: {

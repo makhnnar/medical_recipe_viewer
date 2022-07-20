@@ -17,6 +17,10 @@ class ProfileCreationState extends ChangeNotifier {
 
   bool goToRoot = false;
 
+  bool showAlert = false;
+
+  String alertMsg  = "";
+
   ProfileCreationState(
     DataSourceRepository dataSourceRepository,
     WalletReposProvider walletReposProvider,
@@ -47,9 +51,14 @@ class ProfileCreationState extends ChangeNotifier {
     _profile = await profileIdRepository.checkIfIdProfileExists(id);
     print("profile from firebase: ${_profile.toString()}");
     if(!_profile!.isEmpty()){
+      showAlert = false;
+      alertMsg = "";
       view = EnterWalletAddressView();
-      notifyListeners();
+    }else{
+      showAlert = true;
+      alertMsg = "Documento de identidad no valido";
     }
+    notifyListeners();
   }
 
   void createProfile(){

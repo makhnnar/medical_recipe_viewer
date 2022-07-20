@@ -30,34 +30,71 @@ class CheckProfileIdView extends StatelessWidget {
     _profileCreationState = Provider.of<ProfileCreationState>(context);
     _stateCreationFields = Provider.of<ProfileCreationFieldState>(context);
     return Scaffold(
-        body: ListView(
-            children: [
-              CustomTextField(
-                  "Numero de Identidad",
-                      (text){
-                    print('$text');
-                    _stateCreationFields.numeroIdentidad = text;
-                  }
-              ),
-              Padding(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 16
-                  ),
-                  child:ElevatedButton(
-                      onPressed: ()=>{
-                        _profileCreationState.checkIfIdProfileExists(
+        backgroundColor: Theme.of(context).backgroundColor,
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            CustomTextField(
+                "Numero de Identidad",
+                    (text){
+                  print('$text');
+                  _stateCreationFields.numeroIdentidad = text;
+                }
+            ),
+            Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 16
+                ),
+                child:ElevatedButton(
+                    onPressed: ()=>{
+                      _profileCreationState.checkIfIdProfileExists(
                           _stateCreationFields.numeroIdentidad
-                        )
-                      },
-                      child: Text("verificar identidad")
-                  )
-              )
-            ]
+                      )
+                    },
+                    child: Text("verificar identidad")
+                )
+            ),
+            if(_profileCreationState.showAlert)
+              BadDataAlert(profileCreationState: _profileCreationState)
+          ],
         )
     );
   }
 
+}
+
+class BadDataAlert extends StatelessWidget {
+  const BadDataAlert({
+    Key? key,
+    required ProfileCreationState profileCreationState,
+  }) : _profileCreationState = profileCreationState, super(key: key);
+
+  final ProfileCreationState _profileCreationState;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+        onTap: (){
+
+        },
+        child:Container(
+          height: 60,
+          color: Colors.black26,
+          margin: EdgeInsets.only(
+              left: 8.0,
+              right: 8.0
+          ),
+          child:Expanded(
+              flex: 1,
+              child: Center(
+                child: Text(_profileCreationState.alertMsg),
+              )
+          ),
+        )
+    );
+  }
 }
 
 class EnterWalletAddressView extends StatelessWidget {
@@ -73,7 +110,10 @@ class EnterWalletAddressView extends StatelessWidget {
       Navigator.of(context).pushReplacementNamed('/root');
     }
     return Scaffold(
-        body: ListView(
+        backgroundColor: Theme.of(context).backgroundColor,
+        body: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text("Bienvenido ${_profileCreationState.getProfileName()}"),
               Text("Ingrese la llave privada de su wallet:"),
@@ -96,7 +136,9 @@ class EnterWalletAddressView extends StatelessWidget {
                       },
                       child: Text("Crear Usuario")
                   )
-              )
+              ),
+              if(_profileCreationState.showAlert)
+                BadDataAlert(profileCreationState: _profileCreationState)
             ]
         )
     );
