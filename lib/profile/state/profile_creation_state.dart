@@ -43,8 +43,9 @@ class ProfileCreationState extends ChangeNotifier {
     dataSourceRepository.setWalletAdr(privateKey);
   }
 
-  void checkIfIdProfileExists(String id){
-    _profile = profileIdRepository.checkIfIdProfileExists(id);
+  void checkIfIdProfileExists(String id) async{
+    _profile = await profileIdRepository.checkIfIdProfileExists(id);
+    print("profile from firebase: ${_profile.toString()}");
     if(!_profile!.isEmpty()){
       view = EnterWalletAddressView();
       notifyListeners();

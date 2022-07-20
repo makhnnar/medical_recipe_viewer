@@ -36,7 +36,7 @@ class CheckProfileIdView extends StatelessWidget {
                   "Numero de Identidad",
                       (text){
                     print('$text');
-                    _stateCreationFields.privAddr = text;
+                    _stateCreationFields.numeroIdentidad = text;
                   }
               ),
               Padding(
