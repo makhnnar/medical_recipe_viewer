@@ -74,7 +74,12 @@ class ProfileCreationState extends ChangeNotifier {
                     _profile!.tipo
                 ).then((value) {
                   print("createProfile result: $value");
-                  goToRoot = true;
+                  if(value=="success"){
+                    goToRoot = true;
+                  }else{
+                    showAlert = true;
+                    alertMsg = "Error creando su perfil. $value";
+                  }
                   notifyListeners();
                 }).onError((error, stackTrace) {
                   print("createProfile error: $error");
@@ -84,6 +89,9 @@ class ProfileCreationState extends ChangeNotifier {
                 notifyListeners();
               }
           }).onError((error, stackTrace) {
+            showAlert = true;
+            alertMsg = "Error al conectar su wallet. Intente nuevamente. ";
+            notifyListeners();
             print("getOwnedProfile error: $error");
           });
     }

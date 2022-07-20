@@ -153,14 +153,18 @@ class ProfileRepository{
       DeployedContract contract,
       EthereumAddress ownAddress
       ) async {
-    var totalTokensInList = await client!.call(
-        contract: contract,
-        function: _balanceOf,
-        params: [ownAddress]
-    );
-    BigInt totalTokens = totalTokensInList[0];
-    print("total tokens in balance: $totalTokens");
-    return totalTokens.toInt();
+    try{
+      var totalTokensInList = await client!.call(
+          contract: contract,
+          function: _balanceOf,
+          params: [ownAddress]
+      );
+      BigInt totalTokens = totalTokensInList[0];
+      print("total tokens in balance: $totalTokens");
+      return totalTokens.toInt();
+    }catch(exception){
+      return 0;
+    }
   }
 
   Future<String> createProfile(
@@ -172,18 +176,22 @@ class ProfileRepository{
     var contract = await contracResolver.getDeployedContract();
     var credentials = await walletConector.getCredentials();
     print("credenciales: $credentials");
-    var result = await client!.sendTransaction(
-        credentials!,
-        Transaction.callContract(
-            contract: contract,
-            function: _mint,
-            parameters: [id,nombre,tipo],
-            gasPrice: EtherAmount.inWei(BigInt.one),
-            maxGas:600000
-        ),
-        fetchChainIdFromNetworkId: true
-    );
-    return result;
+    try{
+      var result = await client!.sendTransaction(
+          credentials!,
+          Transaction.callContract(
+              contract: contract,
+              function: _mint,
+              parameters: [id,nombre,BigInt.from(tipo)],
+              gasPrice: EtherAmount.inWei(BigInt.one),
+              maxGas:600000
+          ),
+          fetchChainIdFromNetworkId: true
+      );
+      return (result.isEmpty)?"success":result;
+    }catch(exception){
+      return "Problema de conexion";
+    }
   }
 
 }

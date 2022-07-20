@@ -89,7 +89,10 @@ class BadDataAlert extends StatelessWidget {
           child:Expanded(
               flex: 1,
               child: Center(
-                child: Text(_profileCreationState.alertMsg),
+                child: Text(
+                    _profileCreationState.alertMsg,
+                    textAlign: TextAlign.center,
+                ),
               )
           ),
         )
