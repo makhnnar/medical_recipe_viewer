@@ -17,6 +17,8 @@ import 'package:medical_recipe_viewer/utils/qr_reader.dart';
 import 'package:medical_recipe_viewer/values/app_colors.dart';
 import 'package:provider/provider.dart';
 
+import '../repository/data_source_repository.dart';
+
 class RootView extends StatefulWidget {
   @override
   _RootView createState() => _RootView();
@@ -93,7 +95,8 @@ class _RootView extends State<RootView> {
                         },
                       )
                   ),
-                  Expanded(
+                  if(Provider.of<DataSourceRepository>(context,listen: false).getProfileType()==0)
+                    Expanded(
                       flex: 1,
                       child:IconButton(
                         tooltip: 'agregar',
@@ -102,7 +105,7 @@ class _RootView extends State<RootView> {
                           controller.jumpToPage(1);
                         },
                       )
-                  ),
+                    ),
                   Expanded(
                       flex: 1,
                       child:IconButton(

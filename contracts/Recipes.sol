@@ -1,6 +1,9 @@
 pragma solidity 0.5.16;
 
 import "./ERC721Full.sol";
+
+import "./Profiles.sol";
+
 pragma experimental ABIEncoderV2;
 
 contract Recipes is ERC721Full {

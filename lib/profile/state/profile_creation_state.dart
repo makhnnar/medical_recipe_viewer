@@ -4,7 +4,7 @@ import 'package:medical_recipe_viewer/di/module.dart';
 import 'package:medical_recipe_viewer/profile/model/profile.dart';
 import 'package:medical_recipe_viewer/profile/repository/profile_id_repository.dart';
 import 'package:medical_recipe_viewer/profile/ui/profile_creation_view.dart';
-import 'package:medical_recipe_viewer/splash/data_source_repository.dart';
+import 'package:medical_recipe_viewer/repository/data_source_repository.dart';
 
 class ProfileCreationState extends ChangeNotifier {
 
@@ -75,6 +75,7 @@ class ProfileCreationState extends ChangeNotifier {
                 ).then((value) {
                   print("createProfile result: $value");
                   if(value=="success"){
+                    dataSourceRepository.setProfileType(_profile!.tipo);
                     goToRoot = true;
                   }else{
                     showAlert = true;

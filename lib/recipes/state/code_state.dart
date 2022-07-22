@@ -1,15 +1,18 @@
 import 'package:flutter/cupertino.dart';
 
+import '../../utils/forms.dart';
+import '../../values/contanst.dart';
+
 class CodeState extends ChangeNotifier{
 
   String _code = "";
 
-  String jsonRegx = "[\{](.|\n)*[\}]";
-  //[\{]("|\w+|\s*|:|\n|,|\[|\]|\{|\})+[\}]
-  String jsonRegxComplete = "[\{](\"|\w+|\s*|:|\n|,|\[|\]|\{|\})+[\}]";
-
-  void setCode(String code){
-    this._code = code;
+  void setCode(String value){
+    if(validateValue(value, RegularExpressions.json2)){
+      this._code = value;
+    }else{
+      this._code = "";
+    }
     notifyListeners();
   }
 

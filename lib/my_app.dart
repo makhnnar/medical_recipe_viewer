@@ -8,7 +8,7 @@ import 'package:medical_recipe_viewer/profile/state/profile_creation_state.dart'
 import 'package:medical_recipe_viewer/profile/ui/profile_creation_view.dart';
 import 'package:medical_recipe_viewer/recipes/repository/recipes_repository.dart';
 import 'package:medical_recipe_viewer/root_view/root_view.dart';
-import 'package:medical_recipe_viewer/splash/data_source_repository.dart';
+import 'package:medical_recipe_viewer/repository/data_source_repository.dart';
 import 'package:medical_recipe_viewer/splash/splash_state.dart';
 import 'package:medical_recipe_viewer/splash/splash_view.dart';
 import 'package:provider/provider.dart';

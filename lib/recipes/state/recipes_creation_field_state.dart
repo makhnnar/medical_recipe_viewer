@@ -1,5 +1,9 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:medical_recipe_viewer/recipes/model/recipe.dart';
+import 'package:medical_recipe_viewer/utils/forms.dart';
+
+import '../../values/contanst.dart';
 
 enum UnitType{
   MASA,
@@ -22,12 +26,54 @@ class RecipesCreationFieldState extends ChangeNotifier{
   UnitType unitType = UnitType.MASA;
   UnitOption unitOption = UnitOption.gr;
 
-  String nombre = "";
-  String dosis = "";
-  String unidad = "";
-  String frecuencia = "";
-  String lapso = "";
-  String descripcion = "";
+  String _nombre = "";
+  set nombre(String value){
+    if(validateValue(value, RegularExpressions.texto)){
+      _nombre = value;
+    }
+  }
+  String get nombre => _nombre;
+
+  String _dosis = "";
+  set dosis(String value){
+    if(validateValue(value, RegularExpressions.numero)){
+      _dosis = value;
+    }
+  }
+  String get dosis => _dosis;
+
+  String _unidad = "";
+  set unidad(String value){
+    if(validateValue(value, RegularExpressions.unidad)){
+      _unidad = value;
+    }
+  }
+  String get unidad => _unidad;
+
+  String _frecuencia = "";
+  set frecuencia(String value){
+    if(validateValue(value, RegularExpressions.numero)){
+      _frecuencia = value;
+    }
+  }
+  String get frecuencia => _frecuencia;
+
+  String _lapso = "";
+  set lapso(String value){
+    if(validateValue(value, RegularExpressions.numero)){
+      _lapso = value;
+    }
+  }
+  String get lapso => _lapso;
+
+  String _descripcion = "";
+  set descripcion(String value){
+    if(validateValue(value, RegularExpressions.texto)){
+      _descripcion = value;
+    }
+  }
+  String get descripcion => _descripcion;
+
   int tipo = 0;
 
   Map<UnitType,List<UnitOption>> _unidades = {

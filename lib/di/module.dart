@@ -4,7 +4,7 @@ import 'package:medical_recipe_viewer/blockchain/wallet_conector.dart';
 import 'package:medical_recipe_viewer/blockchain/web3_cliente_provider.dart';
 import 'package:medical_recipe_viewer/profile/repository/profile_repository.dart';
 import 'package:medical_recipe_viewer/recipes/repository/recipes_repository.dart';
-import 'package:medical_recipe_viewer/splash/data_source_repository.dart';
+import 'package:medical_recipe_viewer/repository/data_source_repository.dart';
 
 class WalletReposProvider{
 

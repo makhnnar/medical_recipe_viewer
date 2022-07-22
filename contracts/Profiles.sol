@@ -2,6 +2,12 @@ pragma solidity 0.5.16;
 
 import "./ERC721Full.sol";
 
+contract ProfileContract {
+
+    function getProfileWithAdress(address owner) external view returns(Profile memory);
+
+}
+
 contract Profiles is ERC721Full {
 
     enum ProfileType{ MEDICO, PACIENTE, FARMACIA }
@@ -20,6 +26,12 @@ contract Profiles is ERC721Full {
     }
 
     event addedUser();
+
+    function getProfileWithAdress(address owner) external view returns(Profile memory){
+        uint balance = balanceOf(owner);
+        uint index = tokenOfOwnerByIndex(owner, balance);
+        return profiles[index];
+    }
 
     function addNewProfile(
         string memory id,

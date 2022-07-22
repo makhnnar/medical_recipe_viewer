@@ -1,5 +1,3 @@
-
-import 'package:flutter/cupertino.dart';
 import 'package:medical_recipe_viewer/values/contanst.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -19,13 +17,22 @@ class DataSourceRepository{
 
   String getWalletAdr(){
     init();
-    print("prefs is null? ${prefs==null}");
     return prefs?.getString(PrefKeys.WALLET_ADR.name) ?? "";
   }
 
   void setWalletAdr(String walletAdr) {
     init();
     prefs!.setString(PrefKeys.WALLET_ADR.name, walletAdr);
+  }
+
+  int getProfileType(){
+    init();
+    return prefs?.getInt(PrefKeys.PROFILE_TYPE.name) ?? -1;
+  }
+
+  void setProfileType(int profileType) {
+    init();
+    prefs!.setInt(PrefKeys.PROFILE_TYPE.name, profileType);
   }
 
 }
