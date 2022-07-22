@@ -1,12 +1,7 @@
-pragma solidity 0.5.16;
+pragma solidity 0.5.0;
 
 import "./ERC721Full.sol";
-
-contract ProfileContract {
-
-    function getProfileWithAdress(address owner) external view returns(Profile memory);
-
-}
+pragma experimental ABIEncoderV2;
 
 contract Profiles is ERC721Full {
 

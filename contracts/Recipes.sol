@@ -1,4 +1,4 @@
-pragma solidity 0.5.16;
+pragma solidity 0.5.0;
 
 import "./ERC721Full.sol";
 
@@ -59,22 +59,27 @@ contract Recipes is ERC721Full {
         string memory _lapso,
         string memory _descripcion,
         RecipeType _tipo,
-        string memory _idCreador
+        string memory _idCreador,
+        address profileAdr
     ) public {
-        uint _id = recipes.push(
-            Recipe(
-                _nombre,
-                _dosis,
-                _unidad,
-                _frecuencia,
-                _lapso,
-                _descripcion,
-                _tipo,
-                _idCreador
-            )
-        );
-        _mint(msg.sender, _id);
-        emit addedRecipe();
+        Profiles profilesImpl = Profiles(profileAdr);
+        Profiles.Profile memory profileData = profilesImpl.getProfileWithAdress(msg.sender);
+        if(profileData.tipo == Profiles.ProfileType.MEDICO){
+            uint _id = recipes.push(
+                Recipe(
+                    _nombre,
+                    _dosis,
+                    _unidad,
+                    _frecuencia,
+                    _lapso,
+                    _descripcion,
+                    _tipo,
+                    _idCreador
+                )
+            );
+            _mint(msg.sender, _id);
+            emit addedRecipe();
+        }
     }
 
 }
