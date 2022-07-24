@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:medical_recipe_viewer/di/module.dart';
 import 'package:medical_recipe_viewer/profile/repository/profile_repository.dart';
 import 'package:medical_recipe_viewer/profile/state/profile_state.dart';
 import 'package:medical_recipe_viewer/profile/ui/profile_page.dart';
@@ -71,7 +70,8 @@ class _RootView extends State<RootView> {
                 providers: [
                   ChangeNotifierProvider(
                       create: (_) => ProfileState(
-                          Provider.of<ProfileRepository>(context,listen: false)
+                          Provider.of<ProfileRepository>(context,listen: false),
+                          Provider.of<DataSourceRepository>(context,listen: false),
                       )
                   )
                 ],

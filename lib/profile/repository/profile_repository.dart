@@ -4,8 +4,10 @@ import 'package:medical_recipe_viewer/blockchain/contract_resolver.dart';
 import 'package:medical_recipe_viewer/blockchain/wallet_conector.dart';
 import 'package:medical_recipe_viewer/blockchain/web3_cliente_provider.dart';
 import 'package:medical_recipe_viewer/profile/model/profile.dart';
-import 'package:medical_recipe_viewer/recipes/model/recipe.dart';
 import 'package:web3dart/web3dart.dart';
+
+import '../../utils/forms.dart';
+import '../../values/contanst.dart';
 
 
 //{
@@ -25,6 +27,7 @@ class ProfileRepository{
   late ContractFunction _tokenOfOwnerByIndex;
   late ContractFunction _mint;
   late ContractFunction _getProfile;
+  late ContractFunction _getProfileWithAdress;
   late ContractEvent _addedUser;
 
   IWeb3ClientProvider clientProvider;
@@ -50,7 +53,7 @@ class ProfileRepository{
     StreamBuilder(
       stream: socketChannel!.stream,
       builder: (context, snapshot) {
-        print("${snapshot.data}");
+        print("data del sockect: ${snapshot.data}");
         return Container();
       },
     );
@@ -63,16 +66,17 @@ class ProfileRepository{
     _mint = contract.function("addNewProfile");
     _tokenOfOwnerByIndex = contract.function("tokenOfOwnerByIndex");
     _getProfile = contract.function("profiles");
+    _getProfileWithAdress = contract.function("getProfileWithAdress");
     _addedUser = contract.event("addedUser");
   }
 
   Future<Profile> getOwnedProfile() async{
     var client = clientProvider.getClient();
-    print("cliente on profile repo is null? ${client==null}");
+    print("getOwnedProfile cliente on profile repo is null? ${client==null}");
     var contract = await contracResolver.getDeployedContract();
     print("contract: $contract");
     var ownAddress = await walletConector.getOwnEthAddress();
-    print("ownAddress: $ownAddress");
+    print("getOwnedProfile ownAddress: $ownAddress");
     //int totalTokens = await getTotalSuply(client, contract);
     int totalTokens = await getTotalBalance(
         client,
@@ -87,10 +91,15 @@ class ProfileRepository{
           i
       );
       print("auxIndex: $myTokenIndex");
-      _profile = await getProfileAtIndex(
+      /*_profile = await getProfileAtIndex(
           client,
           contract,
           myTokenIndex
+      );*/
+      _profile = await getProfileWithAdress(
+          client,
+          contract,
+          ownAddress!
       );
     }
     print("_profile: ${_profile.toString()}");
@@ -107,7 +116,7 @@ class ProfileRepository{
         function: _getProfile,
         params: [myTokenIndex]
     );
-    print("temp: ${temp.toString()}");
+    print("getOwnedProfile temp: ${temp.toString()}");
     var toReturn = Profile(
         id: temp[0],
         name: temp[1],
@@ -115,8 +124,36 @@ class ProfileRepository{
         photo: "",
         dir: walletConector.getOwnHexAddress()!
     );
-    print("toReturn: ${toReturn.toString()}");
+    print("getOwnedProfile toReturn: ${toReturn.toString()}");
     return toReturn;
+  }
+
+  Future<Profile> getProfileWithAdress(
+      Web3Client? client,
+      DeployedContract contract,
+      EthereumAddress ownAddress
+  ) async {
+    print("getProfileWithAdress: ${ownAddress.toString()}");
+    try {
+      var temp = await client!.call(
+          contract: contract,
+          function: _getProfileWithAdress,
+          params: [ownAddress]
+      );
+      print("getProfileWithAdress: ${temp.toString()}");
+      var toReturn = Profile(
+          id: temp[0][0],
+          name: temp[0][1],
+          tipo: temp[0][2].toInt(),
+          photo: "",
+          dir: walletConector.getOwnHexAddress()!
+      );
+      print("_getProfileWithAdress: ${toReturn.toString()}");
+      return toReturn;
+    }catch(error){
+      print("error getProfileWithAdress: $error");
+      return _profile;
+    }
   }
 
   Future<BigInt> getIndexOfOwnedToken(
@@ -175,7 +212,7 @@ class ProfileRepository{
     var client = clientProvider.getClient();
     var contract = await contracResolver.getDeployedContract();
     var credentials = await walletConector.getCredentials();
-    print("credenciales: $credentials");
+    print("createProfile credenciales: $credentials contract: $contract client: $client");
     try{
       var result = await client!.sendTransaction(
           credentials!,
@@ -186,10 +223,13 @@ class ProfileRepository{
               gasPrice: EtherAmount.inWei(BigInt.one),
               maxGas:600000
           ),
-          fetchChainIdFromNetworkId: true
+          fetchChainIdFromNetworkId: false
       );
-      return (result.isEmpty)?"success":result;
+      //0x864acf22e48b75c1bd402cda01ed4d89a04fc0aa0209b8590fa4367a7b36a3a9
+      //es el valor de retorno cuando una transaccion es valida
+      return (validateValue(result,RegularExpressions.privAddr))?"success":result;
     }catch(exception){
+      print("createProfile error: $exception");
       return "Problema de conexion";
     }
   }

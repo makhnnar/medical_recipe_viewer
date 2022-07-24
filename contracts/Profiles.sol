@@ -1,6 +1,7 @@
-pragma solidity 0.5.0;
+pragma solidity 0.5.16;
 
 import "./ERC721Full.sol";
+
 pragma experimental ABIEncoderV2;
 
 contract Profiles is ERC721Full {
@@ -23,9 +24,10 @@ contract Profiles is ERC721Full {
     event addedUser();
 
     function getProfileWithAdress(address owner) external view returns(Profile memory){
-        uint balance = balanceOf(owner);
-        uint index = tokenOfOwnerByIndex(owner, balance);
-        return profiles[index];
+        uint256 balance = balanceOf(owner);
+        uint256 index = tokenOfOwnerByIndex(owner, balance-1);
+        Profile memory profileData = profiles[index-1];
+        return profileData;
     }
 
     function addNewProfile(

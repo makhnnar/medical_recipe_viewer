@@ -5,11 +5,18 @@ import 'package:medical_recipe_viewer/profile/model/profile.dart';
 import 'package:medical_recipe_viewer/profile/repository/profile_repository.dart';
 import 'package:medical_recipe_viewer/profile/ui/profile_view.dart';
 
+import '../../repository/data_source_repository.dart';
+
 class ProfileState extends ProviderHelper {
 
- ProfileRepository repository;
+  late DataSourceRepository dataSourceRepository;
 
-  ProfileState(this.repository){
+  ProfileRepository repository;
+
+  ProfileState(
+      this.repository,
+      this.dataSourceRepository
+  ){
     this.value = Container();
     getData();
   }
@@ -33,6 +40,9 @@ class ProfileState extends ProviderHelper {
 
   void onDataReceived(Profile profile){
     print("profile data: ${profile.toString()}");
+    if(!profile.isEmpty()){
+      dataSourceRepository.setProfileType(profile!.tipo);
+    }
     this.value = ProfileView(
         profile
     );

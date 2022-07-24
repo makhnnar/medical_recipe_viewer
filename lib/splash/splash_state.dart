@@ -22,6 +22,7 @@ class SplashState {
         }else{
           print("goToApp: 2");
           print("profileRepository!=null? ${profileRepository!=null} !profile.isEmpty() ${!profile.isEmpty()} goToApp: 2");
+          goToApp(2);
         }
     }else{
       print("profileRepository!=null? ${profileRepository!=null} goToApp: 2");

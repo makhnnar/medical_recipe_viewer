@@ -17,12 +17,12 @@ class WalletConectorImpl implements IWalletConector{
   ) ;
 
   Future<Credentials?> getCredentials() async {
-    print("asking the Credentials with the pAddress: $privateKey");
+    print("getCredentials(): asking the Credentials with the pAddress: $privateKey");
     if(_credentials==null){
       _credentials = await clientProvider.getClient()!.credentialsFromPrivateKey(
           privateKey
       );
-      print("My Credentials: $_credentials");
+      print("getCredentials() My Credentials: $_credentials");
     }
     return _credentials;
   }
