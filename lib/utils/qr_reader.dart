@@ -5,7 +5,7 @@ Future<String> scanQR() async {
   await Permission.camera.request();
   String? barcode = await scanner.scan();
   if (barcode != null) {
-    print(barcode);
+    print("scanQR: $barcode");
     return barcode;
   }
   return "";

@@ -68,6 +68,7 @@ class RecipesState extends ProviderHelper {
       String addressReceiver,
       BigInt id
   ){
+    print("sendRecipeToAddress id $id addressReceiver $addressReceiver ");
     repository.sendRecipeToAddress(
         addressReceiver,
         id

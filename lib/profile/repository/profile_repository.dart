@@ -184,7 +184,8 @@ class ProfileRepository{
           ),
           fetchChainIdFromNetworkId: false
       );
-      //0x864acf22e48b75c1bd402cda01ed4d89a04fc0aa0209b8590fa4367a7b36a3a9
+      //todo: validar que pasa con el proceso de creacion de perfiles
+      // 0x864acf22e48b75c1bd402cda01ed4d89a04fc0aa0209b8590fa4367a7b36a3a9
       //es el valor de retorno cuando una transaccion es valida
       return (validateValue(result,RegularExpressions.privAddr))?"success":result;
     }catch(exception){

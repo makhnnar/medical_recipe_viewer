@@ -59,11 +59,8 @@ class RecipeItemView extends StatelessWidget implements SendActionListener{
                                 margin: EdgeInsets.only(
                                       left: 8.0,
                                       right: 4.0
-                                  ),
-                                  child:Expanded(
-                                    flex: 1,
-                                    child: const Icon(Icons.qr_code)
                                 ),
+                                child:const Icon(Icons.read_more),
                             )
                           ),
                           InkWell(
@@ -78,11 +75,8 @@ class RecipeItemView extends StatelessWidget implements SendActionListener{
                                 margin: EdgeInsets.only(
                                       left: 8.0,
                                       right: 4.0
-                                  ),
-                                  child:Expanded(
-                                    flex: 1,
-                                    child: const Icon(Icons.send)
                                 ),
+                                child: const Icon(Icons.send),
                             )
                           ),
                           InkWell(
@@ -99,10 +93,7 @@ class RecipeItemView extends StatelessWidget implements SendActionListener{
                                     left: 4.0,
                                     right: 8.0
                                 ),
-                                child:Expanded(
-                                  flex: 1,
-                                  child: const Icon(Icons.read_more)
-                              ),
+                                child:const Icon(Icons.read_more),
                             )
                           ),
                         ],

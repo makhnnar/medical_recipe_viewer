@@ -17,6 +17,8 @@ import 'package:medical_recipe_viewer/values/app_colors.dart';
 import 'package:provider/provider.dart';
 
 import '../repository/data_source_repository.dart';
+import '../utils/forms.dart';
+import '../values/contanst.dart';
 
 class RootView extends StatefulWidget {
   @override
@@ -113,14 +115,16 @@ class _RootView extends State<RootView> {
                         icon: const Icon(Icons.qr_code_scanner_rounded),
                         onPressed: () {
                           scanQR().then((value) {
-                            Map<String, dynamic> jsonData = jsonDecode(value);
-                            var formattedResponse = Recipe.fromJson(jsonData);
-                            goToRecipeDetail(
+                            if(validateValue(value, RegularExpressions.json2)){
+                              Map<String, dynamic> jsonData = jsonDecode(value);
+                              var formattedResponse = Recipe.fromJson(jsonData);
+                              goToRecipeDetail(
                                 context,
                                 formattedResponse,
                                 CodeState(),//cuando solo vamos al detalle no necesitamos el code state. modificar
                                 null
-                            );
+                              );
+                            }
                           });
                         },
                       )
