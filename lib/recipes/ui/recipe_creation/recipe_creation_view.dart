@@ -25,7 +25,8 @@ class RecipeCreationView extends StatelessWidget {
             (text){
               print('$text');
               _stateCreationFields.nombre = text;
-            }
+            },
+            initValue: _stateCreationFields.nombre
           ),
           CustomTextField(
             "dosis",
@@ -33,7 +34,8 @@ class RecipeCreationView extends StatelessWidget {
               print('$text');
               _stateCreationFields.dosis = text;
             },
-            typeOfKeyBoard: TextInputType.number
+            typeOfKeyBoard: TextInputType.number,
+            initValue: _stateCreationFields.dosis
           ),
           Row(
             children: [
@@ -108,7 +110,8 @@ class RecipeCreationView extends StatelessWidget {
               print('$text');
               _stateCreationFields.frecuencia = text;
             },
-            typeOfKeyBoard: TextInputType.number
+            typeOfKeyBoard: TextInputType.number,
+            initValue: _stateCreationFields.frecuencia
           ),
           CustomTextField(
             "lapso",
@@ -116,14 +119,16 @@ class RecipeCreationView extends StatelessWidget {
               print('$text');
               _stateCreationFields.lapso = text;
             },
-            typeOfKeyBoard: TextInputType.number
+            typeOfKeyBoard: TextInputType.number,
+            initValue: _stateCreationFields.lapso
           ),
           CustomTextField(
             "descripcion",
             (text){
               print('$text');
               _stateCreationFields.descripcion = text;
-            }
+            },
+            initValue: _stateCreationFields.descripcion
           ),
           Padding(
               padding: EdgeInsets.symmetric(

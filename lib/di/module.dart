@@ -63,7 +63,8 @@ class WalletReposProvider{
         _recipesRepository = RecipesRepository(
             client,
             walletConectorImpl!,
-            _contractRecipesResolver
+            _contractRecipesResolver,
+            _contractProfileResolver
         );
       }
       return _recipesRepository;
@@ -83,7 +84,8 @@ class WalletReposProvider{
     return getDeployedRecipesRepository() ?? RecipesRepository(
         client,
         walletConectorImpl!,
-        _contractRecipesResolver
+        _contractRecipesResolver,
+        _contractProfileResolver
     );
   }
 

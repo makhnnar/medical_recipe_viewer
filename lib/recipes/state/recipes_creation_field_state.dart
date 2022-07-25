@@ -36,6 +36,7 @@ class RecipesCreationFieldState extends ChangeNotifier{
 
   String _dosis = "";
   set dosis(String value){
+    print("value: value");
     if(validateValue(value, RegularExpressions.numero)){
       _dosis = value;
     }
@@ -52,6 +53,7 @@ class RecipesCreationFieldState extends ChangeNotifier{
 
   String _frecuencia = "";
   set frecuencia(String value){
+    print("value: value");
     if(validateValue(value, RegularExpressions.numero)){
       _frecuencia = value;
     }
@@ -60,6 +62,7 @@ class RecipesCreationFieldState extends ChangeNotifier{
 
   String _lapso = "";
   set lapso(String value){
+    print("value: value");
     if(validateValue(value, RegularExpressions.numero)){
       _lapso = value;
     }
@@ -90,6 +93,10 @@ class RecipesCreationFieldState extends ChangeNotifier{
   };
 
   List<UnitOption> unitOptions = [];
+
+  RecipesCreationFieldState(){
+    unitOptions = _unidades[UnitType.MASA]!;
+  }
 
   void setRecipeType(RecipeType recipeType){
     this._type = recipeType;

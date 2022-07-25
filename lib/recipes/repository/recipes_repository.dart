@@ -28,11 +28,13 @@ class RecipesRepository{
   IWeb3ClientProvider clientProvider;
   IWalletConector walletConector;
   IContracResolver contracResolver;
+  IContracResolver profileContracResolver;
 
   RecipesRepository(
       this.clientProvider,
       this.walletConector,
-      this.contracResolver
+      this.contracResolver,
+      this.profileContracResolver
       ) {
     initiateSetup();
   }
@@ -171,7 +173,8 @@ class RecipesRepository{
     var contract = await contracResolver.getDeployedContract();
     var credentials = await walletConector.getCredentials();
     var client = clientProvider.getClient();
-    print("credenciales: $credentials");
+    var profileContract = await profileContracResolver.getDeployedContract();
+    print("createRecipe credenciales: $credentials profileContract: $profileContract");
     var result = await client!.sendTransaction(
         credentials!,
         Transaction.callContract(
@@ -185,7 +188,8 @@ class RecipesRepository{
               lapso,
               descripcion,
               BigInt.from(tipo),
-              idCreator
+              idCreator,
+              profileContract.address
             ],
             gasPrice: EtherAmount.inWei(BigInt.one),
             maxGas:600000
@@ -217,7 +221,7 @@ class RecipesRepository{
             gasPrice: EtherAmount.inWei(BigInt.one),
             maxGas:600000
         ),
-        fetchChainIdFromNetworkId: true
+        fetchChainIdFromNetworkId: false
     );
     return result;
   }
