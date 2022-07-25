@@ -77,56 +77,15 @@ class ProfileRepository{
     print("contract: $contract");
     var ownAddress = await walletConector.getOwnEthAddress();
     print("getOwnedProfile ownAddress: $ownAddress");
-    //int totalTokens = await getTotalSuply(client, contract);
-    int totalTokens = await getTotalBalance(
+    _profile = await getProfileWithAdress(
         client,
         contract,
         ownAddress!
     );
-    for (var i = 0; i < totalTokens; i++) {
-      BigInt myTokenIndex = await getIndexOfOwnedToken(
-          client,
-          contract,
-          ownAddress,
-          i
-      );
-      print("auxIndex: $myTokenIndex");
-      /*_profile = await getProfileAtIndex(
-          client,
-          contract,
-          myTokenIndex
-      );*/
-      _profile = await getProfileWithAdress(
-          client,
-          contract,
-          ownAddress!
-      );
-    }
     print("_profile: ${_profile.toString()}");
     return _profile;
   }
 
-  Future<Profile> getProfileAtIndex(
-      Web3Client? client,
-      DeployedContract contract,
-      BigInt myTokenIndex
-  ) async {
-    var temp = await client!.call(
-        contract: contract,
-        function: _getProfile,
-        params: [myTokenIndex]
-    );
-    print("getOwnedProfile temp: ${temp.toString()}");
-    var toReturn = Profile(
-        id: temp[0],
-        name: temp[1],
-        tipo: temp[2].toInt(),
-        photo: "",
-        dir: walletConector.getOwnHexAddress()!
-    );
-    print("getOwnedProfile toReturn: ${toReturn.toString()}");
-    return toReturn;
-  }
 
   Future<Profile> getProfileWithAdress(
       Web3Client? client,
