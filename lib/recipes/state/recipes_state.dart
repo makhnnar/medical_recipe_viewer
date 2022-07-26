@@ -1,9 +1,12 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:medical_recipe_viewer/di/module.dart';
 import 'package:medical_recipe_viewer/recipes/model/recipe.dart';
 import 'package:medical_recipe_viewer/page_view/page_view.dart';
 import 'package:medical_recipe_viewer/recipes/repository/recipes_repository.dart';
 import 'package:medical_recipe_viewer/recipes/ui/recipe_list/recipe_list_view.dart';
+import 'package:medical_recipe_viewer/values/contanst.dart';
 
 class RecipesState extends ProviderHelper {
 
@@ -33,6 +36,7 @@ class RecipesState extends ProviderHelper {
     notifyListeners();
   }
 
+  //todo: cambiar a future
   void createRecipe(
       String nombre,
       String dosis,
@@ -53,13 +57,23 @@ class RecipesState extends ProviderHelper {
         tipo,
         idCreator
     ).then(
-          (value) => {
-            print("createRecipe result: $value")
+          (value) {
+            print("createRecipe result: $value");
+            //todo: agregar validacion del success
+            Fluttertoast.showToast(
+                msg: "Su recipe ha sido creado",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.CENTER,
+                timeInSecForIosWeb: 1,
+                backgroundColor: Colors.red,
+                textColor: Colors.white,
+                fontSize: 16.0
+            );
             //todo: agregar proceso que muestre que ya se logro crear un recipe
           }
     ).onError(
-          (error, stackTrace) => {
-              print("createRecipe error: $error")
+          (error, stackTrace){
+              print("createRecipe error: $error");
           }
     );
   }
@@ -73,12 +87,34 @@ class RecipesState extends ProviderHelper {
         addressReceiver,
         id
     ).then(
-        (value) => {
-            print("sendRecipeToAddress result: $value")
+        (value) {
+            print("sendRecipeToAddress result: $value");
+            if(value==ContractResponse.SUCCESS){
+              //todo: disparar actualizacion de lista de recipes
+              Fluttertoast.showToast(
+                  msg: "Su recipe ha sido enviado.",
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.CENTER,
+                  timeInSecForIosWeb: 1,
+                  backgroundColor: Colors.red,
+                  textColor: Colors.white,
+                  fontSize: 16.0
+              );
+            }else{
+              Fluttertoast.showToast(
+                  msg: "Ocurrio un error al enviar su recipe.",
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.CENTER,
+                  timeInSecForIosWeb: 1,
+                  backgroundColor: Colors.red,
+                  textColor: Colors.white,
+                  fontSize: 16.0
+              );
+            }
         }
     ).onError(
-        (error, stackTrace) => {
-          print("sendRecipeToAddress error: $error")
+        (error, stackTrace) {
+          print("sendRecipeToAddress error: $error");
         }
     );
   }

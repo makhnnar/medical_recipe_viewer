@@ -6,6 +6,8 @@ import 'package:medical_recipe_viewer/profile/repository/profile_id_repository.d
 import 'package:medical_recipe_viewer/profile/ui/profile_creation_view.dart';
 import 'package:medical_recipe_viewer/repository/data_source_repository.dart';
 
+import '../../values/contanst.dart';
+
 class ProfileCreationState extends ChangeNotifier {
 
   late DataSourceRepository dataSourceRepository;
@@ -61,39 +63,40 @@ class ProfileCreationState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void createProfile(){
+  //todo: cambiar e usar future
+  void createProfile(dynamic successCallback){
     if(!_profile!.isEmpty()) {
       _connectWalletWithTheNewAddress();
       walletReposProvider.getDeployedProfileRepository()!.getOwnedProfile()
           .then((value){
-              print("getOwnedProfile result: $value");
+              print("createProfile getOwnedProfile result: $value");
               if(value.isEmpty()){
                 walletReposProvider.getDeployedProfileRepository()!.createProfile(
                     _profile!.id,
                     _profile!.name,
                     _profile!.tipo
                 ).then((value) {
-                  print("createProfile result: $value");
-                  if(value=="success"){
+                  print("createProfile createProfile result: $value");
+                  if(value==ContractResponse.SUCCESS){
                     dataSourceRepository.setProfileType(_profile!.tipo);
-                    goToRoot = true;
+                    successCallback();
                   }else{
                     showAlert = true;
                     alertMsg = "Error creando su perfil. $value";
                   }
                   notifyListeners();
                 }).onError((error, stackTrace) {
-                  print("createProfile error: $error");
+                  print("createProfile createProfile error: $error");
                 });
               }else{
-                goToRoot = true;
-                notifyListeners();
+                dataSourceRepository.setProfileType(value.tipo);
+                successCallback();
               }
           }).onError((error, stackTrace) {
             showAlert = true;
             alertMsg = "Error al conectar su wallet. Intente nuevamente. ";
             notifyListeners();
-            print("getOwnedProfile error: $error");
+            print("createProfile getOwnedProfile error: $error");
           });
     }
   }

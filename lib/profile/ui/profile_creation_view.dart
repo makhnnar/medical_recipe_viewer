@@ -109,9 +109,6 @@ class EnterWalletAddressView extends StatelessWidget {
   Widget build(BuildContext context) {
     _profileCreationState = Provider.of<ProfileCreationState>(context);
     _stateCreationFields = Provider.of<ProfileCreationFieldState>(context);
-    if(_profileCreationState.goToRoot){
-      Navigator.of(context).pushReplacementNamed('/root');
-    }
     return Scaffold(
         backgroundColor: Theme.of(context).backgroundColor,
         body: Column(
@@ -135,7 +132,9 @@ class EnterWalletAddressView extends StatelessWidget {
                   child:ElevatedButton(
                       onPressed: (){
                         _profileCreationState.savePrivateKey(_stateCreationFields.privAddr);
-                        _profileCreationState.createProfile();
+                        _profileCreationState.createProfile(()=>{
+                            Navigator.of(context).pushReplacementNamed('/root')
+                        });
                       },
                       child: Text("Crear Usuario")
                   )

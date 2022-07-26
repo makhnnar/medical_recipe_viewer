@@ -19,3 +19,26 @@ class RegularExpressions{
   static const String json2 = "[\{](\"|\w+|\s*|:|\n|,|\[|\]|\{|\})+[\}]";
 
 }
+
+//todo: usar este objeto para retornar valores de logs e
+// informacion extra al usario
+class TransactionResponse{
+
+  final String status;
+  final String msg;
+
+  TransactionResponse(
+      this.status,
+      this.msg
+  );
+
+}
+
+class ContractResponse{
+
+  ContractResponse._();
+
+  static const String SUCCESS = "success";
+  static const String FAILED = "failed";
+
+}

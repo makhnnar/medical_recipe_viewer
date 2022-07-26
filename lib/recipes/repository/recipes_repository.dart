@@ -1,8 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:medical_recipe_viewer/blockchain/contract_resolver.dart';
 import 'package:medical_recipe_viewer/blockchain/wallet_conector.dart';
 import 'package:medical_recipe_viewer/blockchain/web3_cliente_provider.dart';
 import 'package:medical_recipe_viewer/recipes/model/recipe.dart';
 import 'package:web3dart/web3dart.dart';
+
+import '../../utils/forms.dart';
+import '../../values/contanst.dart';
 
 
 //{
@@ -46,6 +50,17 @@ class RecipesRepository{
 
   Future<void> initiateSetup() async {
     await getDeployedContract();
+    var socketChannel = clientProvider.getSocketChannel();
+    /*todo:el socket no funciona pero podemos recibir un hash de transaccion al final de cada accion
+       de transferencia o de creacion. usar eso para dar feedback al usuario
+    */
+    StreamBuilder(
+      stream: socketChannel!.stream,
+      builder: (context, snapshot) {
+        print("StreamBuilder data del sockect: ${snapshot.data}");
+        return Container();
+      },
+    );
   }
 
   Future<void> getDeployedContract() async {
@@ -196,7 +211,7 @@ class RecipesRepository{
         ),
         fetchChainIdFromNetworkId: false
     );
-    return result;
+    return (validateValue(result,RegularExpressions.privAddr))?ContractResponse.SUCCESS:ContractResponse.FAILED;
   }
 
   Future<String> sendRecipeToAddress(
@@ -223,7 +238,7 @@ class RecipesRepository{
         ),
         fetchChainIdFromNetworkId: false
     );
-    return result;
+    return (validateValue(result,RegularExpressions.privAddr))?ContractResponse.SUCCESS:ContractResponse.FAILED;
   }
 
 }

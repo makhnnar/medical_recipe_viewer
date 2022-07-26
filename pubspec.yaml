@@ -36,6 +36,7 @@ dependencies:
   qrscan: ^0.3.2
   firebase_core: ^1.19.2
   cloud_firestore: ^3.3.0
+  fluttertoast: ^8.0.9
 
 dev_dependencies:
   flutter_test:
