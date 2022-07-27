@@ -132,7 +132,7 @@ class EnterWalletAddressView extends StatelessWidget {
                   child:ElevatedButton(
                       onPressed: (){
                         _profileCreationState.savePrivateKey(_stateCreationFields.privAddr);
-                        _profileCreationState.createProfile(()=>{
+                        _profileCreationState.getOrCreateProfile(()=>{
                             Navigator.of(context).pushReplacementNamed('/root')
                         });
                       },

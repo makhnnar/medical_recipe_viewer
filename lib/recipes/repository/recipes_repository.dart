@@ -32,13 +32,11 @@ class RecipesRepository{
   IWeb3ClientProvider clientProvider;
   IWalletConector walletConector;
   IContracResolver contracResolver;
-  IContracResolver profileContracResolver;
 
   RecipesRepository(
       this.clientProvider,
       this.walletConector,
-      this.contracResolver,
-      this.profileContracResolver
+      this.contracResolver
       ) {
     initiateSetup();
   }
@@ -183,13 +181,12 @@ class RecipesRepository{
       String lapso,
       String descripcion,
       int tipo,
-      String idCreator
+      String idCreator,
+      EthereumAddress profileContractAddr
   ) async {
     var contract = await contracResolver.getDeployedContract();
     var credentials = await walletConector.getCredentials();
     var client = clientProvider.getClient();
-    var profileContract = await profileContracResolver.getDeployedContract();
-    print("createRecipe credenciales: $credentials profileContract: $profileContract");
     var result = await client!.sendTransaction(
         credentials!,
         Transaction.callContract(
@@ -204,7 +201,7 @@ class RecipesRepository{
               descripcion,
               BigInt.from(tipo),
               idCreator,
-              profileContract.address
+              profileContractAddr
             ],
             gasPrice: EtherAmount.inWei(BigInt.one),
             maxGas:600000

@@ -1,4 +1,6 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:medical_recipe_viewer/blockchain/wallet_conector.dart';
 import 'package:medical_recipe_viewer/di/module.dart';
 import 'package:medical_recipe_viewer/profile/model/profile.dart';
@@ -6,6 +8,7 @@ import 'package:medical_recipe_viewer/profile/repository/profile_id_repository.d
 import 'package:medical_recipe_viewer/profile/ui/profile_creation_view.dart';
 import 'package:medical_recipe_viewer/repository/data_source_repository.dart';
 
+import '../../utils/forms.dart';
 import '../../values/contanst.dart';
 
 class ProfileCreationState extends ChangeNotifier {
@@ -53,51 +56,54 @@ class ProfileCreationState extends ChangeNotifier {
     _profile = await profileIdRepository.checkIfIdProfileExists(id);
     print("profile from firebase: ${_profile.toString()}");
     if(!_profile!.isEmpty()){
-      showAlert = false;
-      alertMsg = "";
       view = EnterWalletAddressView();
+      notifyListeners();
     }else{
-      showAlert = true;
-      alertMsg = "Documento de identidad no valido";
+      showToast("Documento de identidad no valido");
     }
-    notifyListeners();
   }
 
-  //todo: cambiar e usar future
-  void createProfile(dynamic successCallback){
+  Future<void> getOrCreateProfile(dynamic successCallback) async{
     if(!_profile!.isEmpty()) {
       _connectWalletWithTheNewAddress();
-      walletReposProvider.getDeployedProfileRepository()!.getOwnedProfile()
-          .then((value){
-              print("createProfile getOwnedProfile result: $value");
-              if(value.isEmpty()){
-                walletReposProvider.getDeployedProfileRepository()!.createProfile(
-                    _profile!.id,
-                    _profile!.name,
-                    _profile!.tipo
-                ).then((value) {
-                  print("createProfile createProfile result: $value");
-                  if(value==ContractResponse.SUCCESS){
-                    dataSourceRepository.setProfileType(_profile!.tipo);
-                    successCallback();
-                  }else{
-                    showAlert = true;
-                    alertMsg = "Error creando su perfil. $value";
-                  }
-                  notifyListeners();
-                }).onError((error, stackTrace) {
-                  print("createProfile createProfile error: $error");
-                });
-              }else{
-                dataSourceRepository.setProfileType(value.tipo);
-                successCallback();
-              }
-          }).onError((error, stackTrace) {
-            showAlert = true;
-            alertMsg = "Error al conectar su wallet. Intente nuevamente. ";
-            notifyListeners();
-            print("createProfile getOwnedProfile error: $error");
-          });
+      try{
+        var hasProfileResponse = await walletReposProvider
+            .getDeployedProfileRepository()!
+            .getOwnedProfile();
+        print("createProfile getOwnedProfile result: $hasProfileResponse");
+        if(hasProfileResponse.isEmpty()){
+          await createProfile(successCallback);
+        }else{
+          dataSourceRepository.setProfileType(hasProfileResponse.tipo);
+          successCallback();
+        }
+      }catch(errorGettingProfile){
+        showToast("Error al conectar su wallet. Intente nuevamente.");
+        print("createProfile getOwnedProfile error: $errorGettingProfile");
+      }
+      return;
+    }
+    showToast("No puedes crear un perfil. Tus datos personales no existen");
+  }
+
+  Future<void> createProfile(successCallback) async {
+    try{
+      var wasProfileCreted = await walletReposProvider
+          .getDeployedProfileRepository()!
+          .createProfile(
+              _profile!.id,
+              _profile!.name,
+              _profile!.tipo
+          );
+      print("createProfile createProfile result: $wasProfileCreted");
+      if(wasProfileCreted==ContractResponse.SUCCESS){
+        dataSourceRepository.setProfileType(_profile!.tipo);
+        successCallback();
+      }else{
+        showToast("Error creando su perfil. $wasProfileCreted");
+      }
+    }catch(errorCreatingProfile){
+      print("createProfile createProfile error: $errorCreatingProfile");
     }
   }
 

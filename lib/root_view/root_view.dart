@@ -16,6 +16,8 @@ import 'package:medical_recipe_viewer/utils/qr_reader.dart';
 import 'package:medical_recipe_viewer/values/app_colors.dart';
 import 'package:provider/provider.dart';
 
+import '../blockchain/contract_resolver.dart';
+import '../di/module.dart';
 import '../repository/data_source_repository.dart';
 import '../utils/forms.dart';
 import '../values/contanst.dart';
@@ -34,116 +36,113 @@ class _RootView extends State<RootView> {
 
   Widget myView() {
     final PageController controller = PageController(initialPage: 0);
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-          backgroundColor: Colors.white,
-          body:PageView(
-            scrollDirection: Axis.horizontal,
-            controller: controller,
-            children: <Widget>[
-              MultiProvider(
-                providers: [
-                  ChangeNotifierProvider(
-                      create: (_) => RecipesState(
-                          Provider.of<RecipesRepository>(context,listen: false)
-                      )
-                  ),
-                  ChangeNotifierProvider(
-                      create: (_) => CodeState()
-                  ),
-                ],
-                child:RecipeListPage(),
-              ),
-              MultiProvider(
-                providers: [
-                  ChangeNotifierProvider(
-                      create: (_) => RecipesState(
-                          Provider.of<RecipesRepository>(context,listen: false)
-                      )
-                  ),
-                  ChangeNotifierProvider(
-                      create: (_) => RecipesCreationFieldState()
-                  ),
-                ],
-                child: RecipeCreationView(),
-              ),
-              MultiProvider(
-                providers: [
-                  ChangeNotifierProvider(
-                      create: (_) => ProfileState(
-                          Provider.of<ProfileRepository>(context,listen: false),
-                          Provider.of<DataSourceRepository>(context,listen: false),
-                      )
-                  )
-                ],
-                child:ProfilePage(),
-              ),
-            ],
+    return MultiProvider(
+        providers: [
+          ChangeNotifierProvider(
+              create: (_) => RecipesState(
+                  Provider.of<RecipesRepository>(context,listen: false)
+              )
           ),
-          bottomNavigationBar:BottomAppBar(
-            color: mainColors['dPurpleL1'],
-            child: IconTheme(
-              data: IconThemeData(color: Theme.of(context).colorScheme.onPrimary),
-              child: Row(
+          ChangeNotifierProvider(
+              create: (_) => ProfileState(
+                Provider.of<ProfileRepository>(context,listen: false),
+                Provider.of<DataSourceRepository>(context,listen: false),
+              )
+          )
+        ],
+        child:MaterialApp(
+          debugShowCheckedModeBanner: false,
+          home: Scaffold(
+              backgroundColor: Colors.white,
+              body:PageView(
+                scrollDirection: Axis.horizontal,
+                controller: controller,
                 children: <Widget>[
-                  Expanded(
-                      flex: 1,
-                      child:IconButton(
-                        tooltip: 'lista',
-                        icon: const Icon(Icons.menu),
-                        onPressed: () {
-                          controller.jumpToPage(0);
-                        },
-                      )
+                  MultiProvider(
+                    providers: [
+                      ChangeNotifierProvider(
+                          create: (_) => CodeState()
+                      ),
+                    ],
+                    child:RecipeListPage(),
                   ),
-                  if(Provider.of<DataSourceRepository>(context,listen: false).getProfileType()==0)
-                    Expanded(
-                      flex: 1,
-                      child:IconButton(
-                        tooltip: 'agregar',
-                        icon: const Icon(Icons.add),
-                        onPressed: () {
-                          controller.jumpToPage(1);
-                        },
-                      )
-                    ),
-                  Expanded(
-                      flex: 1,
-                      child:IconButton(
-                        tooltip: 'leer',
-                        icon: const Icon(Icons.qr_code_scanner_rounded),
-                        onPressed: () {
-                          scanQR().then((value) {
-                            if(validateValue(value, RegularExpressions.json2)){
-                              Map<String, dynamic> jsonData = jsonDecode(value);
-                              var formattedResponse = Recipe.fromJson(jsonData);
-                              goToRecipeDetail(
-                                context,
-                                formattedResponse,
-                                CodeState(),//cuando solo vamos al detalle no necesitamos el code state. modificar
-                                null
-                              );
-                            }
-                          });
-                        },
-                      )
+                  MultiProvider(
+                    providers: [
+                      ChangeNotifierProvider(
+                          create: (_) => RecipesCreationFieldState()
+                      ),
+                      Provider<ContracResolverImpl>(create: (_) => Provider.of<WalletReposProvider>(context, listen: false).contractProfileResolver)
+                    ],
+                    child: RecipeCreationView(),
                   ),
-                  Expanded(
-                      flex: 1,
-                      child:IconButton(
-                        tooltip: 'perfil',
-                        icon: const Icon(Icons.person_rounded),
-                        onPressed: () {
-                          controller.jumpToPage(2);
-                        },
-                      )
-                  )
+                  ProfilePage()
                 ],
               ),
-            ),
-          )
-      ),
+              bottomNavigationBar:BottomAppBar(
+                color: mainColors['dPurpleL1'],
+                child: IconTheme(
+                  data: IconThemeData(color: Theme.of(context).colorScheme.onPrimary),
+                  child: Row(
+                    children: <Widget>[
+                      Expanded(
+                          flex: 1,
+                          child:IconButton(
+                            tooltip: 'lista',
+                            icon: const Icon(Icons.menu),
+                            onPressed: () {
+                              controller.jumpToPage(0);
+                            },
+                          )
+                      ),
+                      if(Provider.of<DataSourceRepository>(context,listen: false).getProfileType()==0)
+                        Expanded(
+                          flex: 1,
+                          child:IconButton(
+                            tooltip: 'agregar',
+                            icon: const Icon(Icons.add),
+                            onPressed: () {
+                              controller.jumpToPage(1);
+                            },
+                          )
+                        ),
+                      Expanded(
+                          flex: 1,
+                          child:IconButton(
+                            tooltip: 'leer',
+                            icon: const Icon(Icons.qr_code_scanner_rounded),
+                            onPressed: () {
+                              scanQR().then((value) {
+                                //todo: fixar o fluxo da leitura do codigo qr
+                                if(validateValue(value, RegularExpressions.json2)){
+                                  Map<String, dynamic> jsonData = jsonDecode(value);
+                                  var formattedResponse = Recipe.fromJson(jsonData);
+                                  goToRecipeDetail(
+                                    context,
+                                    formattedResponse,
+                                    CodeState(),//cuando solo vamos al detalle no necesitamos el code state. modificar
+                                    null
+                                  );
+                                }
+                              });
+                            },
+                          )
+                      ),
+                      Expanded(
+                          flex: 1,
+                          child:IconButton(
+                            tooltip: 'perfil',
+                            icon: const Icon(Icons.person_rounded),
+                            onPressed: () {
+                              controller.jumpToPage(2);
+                            },
+                          )
+                      )
+                    ],
+                  ),
+                ),
+              )
+          ),
+        )
     );
   }
 

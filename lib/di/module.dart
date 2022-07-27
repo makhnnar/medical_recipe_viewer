@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:medical_recipe_viewer/blockchain/contract_resolver.dart';
 import 'package:medical_recipe_viewer/blockchain/wallet_conector.dart';
 import 'package:medical_recipe_viewer/blockchain/web3_cliente_provider.dart';
@@ -16,12 +15,12 @@ class WalletReposProvider{
 
   Web3ClientProviderImpl client = Web3ClientProviderImpl();
 
-  ContracResolverImpl _contractProfileResolver = ContracResolverImpl(
+  ContracResolverImpl contractProfileResolver = ContracResolverImpl(
       "src/abis/Profiles.json",
       "Profiles"
   );
 
-  ContracResolverImpl _contractRecipesResolver = ContracResolverImpl(
+  ContracResolverImpl contractRecipesResolver = ContracResolverImpl(
       "src/abis/Recipes.json",
       "Recipes"
   );
@@ -48,7 +47,7 @@ class WalletReposProvider{
         _profileRepository = ProfileRepository(
             client,
             walletConectorImpl!,
-            _contractProfileResolver
+            contractProfileResolver
         );
       }
       return _profileRepository;
@@ -63,8 +62,7 @@ class WalletReposProvider{
         _recipesRepository = RecipesRepository(
             client,
             walletConectorImpl!,
-            _contractRecipesResolver,
-            _contractProfileResolver
+            contractRecipesResolver
         );
       }
       return _recipesRepository;
@@ -76,7 +74,7 @@ class WalletReposProvider{
     return getDeployedProfileRepository() ?? ProfileRepository(
         client,
         walletConectorImpl!,
-        _contractProfileResolver
+        contractProfileResolver
     );
   }
 
@@ -84,8 +82,7 @@ class WalletReposProvider{
     return getDeployedRecipesRepository() ?? RecipesRepository(
         client,
         walletConectorImpl!,
-        _contractRecipesResolver,
-        _contractProfileResolver
+        contractRecipesResolver
     );
   }
 

@@ -6,6 +6,8 @@ import 'package:medical_recipe_viewer/recipes/state/recipes_state.dart';
 import 'package:medical_recipe_viewer/widgets/custom_text_field.dart';
 import 'package:provider/provider.dart';
 
+import '../../../blockchain/contract_resolver.dart';
+
 class RecipeCreationView extends StatelessWidget {
 
   late RecipesState _state;
@@ -177,7 +179,8 @@ class RecipeCreationView extends StatelessWidget {
                         _stateCreationFields.lapso,
                         _stateCreationFields.descripcion,
                         _stateCreationFields.tipo,
-                        "idCreator"
+                        "idCreator",//todo: reemplazar con el id real del usuario. usar el datasource
+                        Provider.of<ContracResolverImpl>(context,listen: false)
                     )
                   },
                   child: Text("Crear")

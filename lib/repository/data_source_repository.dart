@@ -35,4 +35,14 @@ class DataSourceRepository{
     prefs!.setInt(PrefKeys.PROFILE_TYPE.name, profileType);
   }
 
+  String getProfileId(){
+    init();
+    return prefs?.getString(PrefKeys.PROFILE_ID.name) ?? "";
+  }
+
+  void setProfileId(String profileType) {
+    init();
+    prefs!.setString(PrefKeys.PROFILE_ID.name, profileType);
+  }
+
 }
