@@ -5,8 +5,8 @@ import 'package:web_socket_channel/io.dart';
 
 class Web3ClientProviderImpl implements IWeb3ClientProvider{
 
-  final String _rpcUrl = "http://192.168.15.6:7545";
-  final String _wsUrl = "ws://192.168.15.6:7545/";
+  final String _rpcUrl = "http://192.168.15.7:7545";
+  final String _wsUrl = "ws://192.168.15.7:7545/";
 
   Web3Client? _client;
   IOWebSocketChannel? socketChannel;

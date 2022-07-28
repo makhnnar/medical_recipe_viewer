@@ -113,15 +113,32 @@ class _RootView extends State<RootView> {
                             onPressed: () {
                               scanQR().then((value) {
                                 //todo: fixar o fluxo da leitura do codigo qr
-                                if(validateValue(value, RegularExpressions.json2)){
+                                if(validateValue(value, RegularExpressions.json1)){
                                   Map<String, dynamic> jsonData = jsonDecode(value);
-                                  var formattedResponse = Recipe.fromJson(jsonData);
-                                  goToRecipeDetail(
-                                    context,
-                                    formattedResponse,
-                                    CodeState(),//cuando solo vamos al detalle no necesitamos el code state. modificar
-                                    null
-                                  );
+                                  try{
+                                    var formattedRecipeResponse = Recipe.fromJson(jsonData);
+                                    goToRecipeDetail(
+                                        context,
+                                        formattedRecipeResponse,
+                                        CodeState(),//cuando solo vamos al detalle no necesitamos el code state. modificar
+                                        null
+                                    );
+                                  }catch(error){
+                                    try{
+                                      var formattedListResponse = RecipeList.fromJson(jsonData);
+                                      print("logramos formatear la lista");
+                                      //todo: agregar redireccion a la lista
+                                      /*goToRecipeDetail(
+                                          context,
+                                          formattedListResponse,
+                                          CodeState(),//cuando solo vamos al detalle no necesitamos el code state. modificar
+                                          null
+                                      );*/
+                                    }catch(error){
+
+                                    }
+                                  }
+
                                 }
                               });
                             },

@@ -60,7 +60,7 @@ class RecipeItemView extends StatelessWidget implements SendActionListener{
                                       left: 8.0,
                                       right: 4.0
                                 ),
-                                child:const Icon(Icons.read_more),
+                                child:const Icon(Icons.qr_code),
                             )
                           ),
                           InkWell(

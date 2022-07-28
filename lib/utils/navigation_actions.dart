@@ -10,25 +10,40 @@ import 'package:medical_recipe_viewer/recipes/ui/recipe_list/qr_viewer_dialog.da
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
+void goToListDetail(
+    BuildContext context,
+    Recipe data,
+    CodeState codeState,
+    RecipesState? recipesState,
+) {
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) =>MultiProvider(
+        providers: [
+          ChangeNotifierProvider<CodeState>.value(value: codeState),
+          ChangeNotifierProvider<RecipesState?>.value(value: recipesState)
+        ],
+        child:RecipeDetailView(data),
+      ),
+    )
+  );
+}
+
 void goToRecipeDetail(
     BuildContext context,
     Recipe data,
     CodeState codeState,
     RecipesState? recipesState,
 ) {
-  List<SingleChildWidget> listProviders = [
-    ChangeNotifierProvider<CodeState>.value(value: codeState)
-  ];
-  if(recipesState!=null){
-    listProviders.add(
-        ChangeNotifierProvider<RecipesState>.value(value: recipesState)
-    );
-  }
   Navigator.push(
     context,
     MaterialPageRoute(
       builder: (context) =>MultiProvider(
-        providers: listProviders,
+        providers: [
+          ChangeNotifierProvider<CodeState>.value(value: codeState),
+          ChangeNotifierProvider<RecipesState?>.value(value: recipesState)
+        ],
         child:RecipeDetailView(data),
       ),
     )

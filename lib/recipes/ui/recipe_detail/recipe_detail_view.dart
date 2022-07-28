@@ -16,14 +16,15 @@ class RecipeDetailView extends StatelessWidget implements SendActionListener{
   Recipe recipeItem;
 
   late CodeState _provider;
-  late RecipesState _recipeState;
+  late RecipesState? _recipeState;
 
   RecipeDetailView(this.recipeItem);
 
   @override
   Widget build(BuildContext context) {
     _provider = Provider.of<CodeState>(context);
-    _recipeState = Provider.of<RecipesState>(context);
+    //todo: agregar logica para detectar provider nulo y cambiar la ui
+    _recipeState = Provider.of<RecipesState?>(context);
     return Scaffold(
         body: Column(
           crossAxisAlignment:CrossAxisAlignment.center,
@@ -143,7 +144,7 @@ class RecipeDetailView extends StatelessWidget implements SendActionListener{
 
   @override
   void sendRecipe() {
-    _recipeState.sendRecipeToAddress(
+    _recipeState?.sendRecipeToAddress(
         _provider.getCode(),
         recipeItem.id!
     );
