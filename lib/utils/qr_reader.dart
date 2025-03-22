@@ -1,9 +1,10 @@
 import 'package:permission_handler/permission_handler.dart';
-import 'package:qrscan/qrscan.dart' as scanner;
+import 'package:secure_qr_scan_ecubix/secure_qr_scan_ecubix.dart';
 
 Future<String> scanQR() async {
+  final secureQrScanEcubixPlugin = SecureQrScanEcubix();
   await Permission.camera.request();
-  String? barcode = await scanner.scan();
+  String? barcode = await secureQrScanEcubixPlugin.getSecureQRCode();
   if (barcode != null) {
     print("scanQR: $barcode");
     return barcode;

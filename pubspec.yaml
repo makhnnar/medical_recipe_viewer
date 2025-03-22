@@ -23,19 +23,19 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  provider: ^5.0.0
+  provider: ^6.1.2
   web3dart: ^2.3.3
   web_socket_channel: ^2.1.0
   http: ^0.13.4
   cached_network_image: ^3.2.0
   cupertino_icons: ^1.0.2
   shared_preferences: ^2.0.11
-  platform_device_id: ^1.0.1
-  pretty_qr_code: ^2.0.2
-  permission_handler: ^8.3.0
-  qrscan: ^0.3.2
-  firebase_core: ^1.19.2
-  cloud_firestore: ^3.3.0
+  mobile_device_identifier: ^0.0.3
+  pretty_qr_code: ^3.3.0
+  permission_handler: ^11.0.1
+  secure_qr_scan_ecubix: ^1.0.25
+  firebase_core: ^2.24.2
+  cloud_firestore: ^4.14.0
   fluttertoast: ^8.0.9
 
 dev_dependencies:

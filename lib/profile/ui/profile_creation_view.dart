@@ -30,7 +30,7 @@ class CheckProfileIdView extends StatelessWidget {
     _profileCreationState = Provider.of<ProfileCreationState>(context);
     _stateCreationFields = Provider.of<ProfileCreationFieldState>(context);
     return Scaffold(
-        backgroundColor: Theme.of(context).backgroundColor,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -110,7 +110,7 @@ class EnterWalletAddressView extends StatelessWidget {
     _profileCreationState = Provider.of<ProfileCreationState>(context);
     _stateCreationFields = Provider.of<ProfileCreationFieldState>(context);
     return Scaffold(
-        backgroundColor: Theme.of(context).backgroundColor,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         body: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,

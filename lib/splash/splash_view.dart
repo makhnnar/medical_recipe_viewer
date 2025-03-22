@@ -52,7 +52,7 @@ class _SplashView extends State<SplashView > {
     splashState = Provider.of<SplashState>(context);
     _walletReposProvider = Provider.of<WalletReposProvider>(context);
     return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
