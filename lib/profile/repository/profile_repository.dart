@@ -179,9 +179,10 @@ class ProfileRepository{
               contract: contract,
               function: _mint,
               parameters: [id,nombre,BigInt.from(tipo)],
-              gasPrice: EtherAmount.inWei(BigInt.one),
-              maxGas:600000
+              gasPrice: EtherAmount.inWei(BigInt.from(574560130)),
+              maxGas:600000,
           ),
+          chainId: 1337,
           fetchChainIdFromNetworkId: false
       );
       //todo: validar que pasa con el proceso de creacion de perfiles
