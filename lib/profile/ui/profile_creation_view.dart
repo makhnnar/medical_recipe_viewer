@@ -48,10 +48,16 @@ class CheckProfileIdView extends StatelessWidget {
                     vertical: 16
                 ),
                 child:ElevatedButton(
-                    onPressed: ()=>{
+                    onPressed: () {
                       _profileCreationState.checkIfIdProfileExists(
-                          _stateCreationFields.numeroIdentidad
-                      )
+                          _stateCreationFields.numeroIdentidad,
+                          (){
+                            _profileCreationState.savePrivateKey(_profileCreationState.getProfilePrivateKey());
+                            _profileCreationState.getOrCreateProfile(()=>{
+                              Navigator.of(context).pushReplacementNamed('/root')
+                            });
+                          }
+                      );
                     },
                     child: Text("verificar identidad")
                 )
@@ -131,7 +137,7 @@ class EnterWalletAddressView extends StatelessWidget {
                   ),
                   child:ElevatedButton(
                       onPressed: (){
-                        _profileCreationState.savePrivateKey(_stateCreationFields.privAddr);
+                        _profileCreationState.savePrivateKey(_profileCreationState.getProfilePrivateKey());
                         _profileCreationState.getOrCreateProfile(()=>{
                             Navigator.of(context).pushReplacementNamed('/root')
                         });

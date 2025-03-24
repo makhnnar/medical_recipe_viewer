@@ -40,6 +40,10 @@ class ProfileCreationState extends ChangeNotifier {
     return _profile!.name;
   }
 
+  String getProfilePrivateKey(){
+    return _profile!.privateKey;
+  }
+
   void _connectWalletWithTheNewAddress(){
     walletReposProvider.walletConectorImpl = WalletConectorImpl(
         walletReposProvider.client,
@@ -52,12 +56,12 @@ class ProfileCreationState extends ChangeNotifier {
     dataSourceRepository.setWalletAdr(privateKey);
   }
 
-  void checkIfIdProfileExists(String id) async{
+  Future<void> checkIfIdProfileExists(String id,dynamic successCallback) async {
     _profile = await profileIdRepository.checkIfIdProfileExists(id);
     print("profile from firebase: ${_profile.toString()}");
     if(!_profile!.isEmpty()){
-      view = EnterWalletAddressView();
-      notifyListeners();
+      successCallback();
+      return;
     }else{
       showToast("Documento de identidad no valido");
     }

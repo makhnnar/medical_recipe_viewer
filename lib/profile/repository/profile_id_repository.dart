@@ -15,7 +15,8 @@ class ProfileIdRepository{
           id: snapshot['id'],
           name: snapshot['name'],
           tipo: snapshot['tipo'],
-          photo: "",
+          photo: snapshot['photo'],
+          privateKey: snapshot['privateKey'],
           dir: ""
       );
     }
