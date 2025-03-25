@@ -112,7 +112,7 @@ class RecipeCreationView extends StatelessWidget {
               print('$text');
               _stateCreationFields.frecuencia = text;
             },
-            typeOfKeyBoard: TextInputType.number,
+            typeOfKeyBoard: TextInputType.text,
             initValue: _stateCreationFields.frecuencia
           ),
           CustomTextField(
@@ -121,7 +121,7 @@ class RecipeCreationView extends StatelessWidget {
               print('$text');
               _stateCreationFields.lapso = text;
             },
-            typeOfKeyBoard: TextInputType.number,
+            typeOfKeyBoard: TextInputType.text,
             initValue: _stateCreationFields.lapso
           ),
           CustomTextField(
