@@ -26,8 +26,13 @@ class RecipeListView extends StatelessWidget {
     _provider = Provider.of<CodeState>(context);
     _recipesState = Provider.of<RecipesState>(context);
     return Scaffold(
-      body: ListView(
-          children: getList(recipeList.listOfRecipes!)
+      body: RefreshIndicator(
+          onRefresh: () async {
+            _recipesState.getData();
+          },
+          child:ListView(
+            children: getList(recipeList.listOfRecipes!)
+          ),
       ),
       floatingActionButton:Padding(
           padding: const EdgeInsets.all(8.0),

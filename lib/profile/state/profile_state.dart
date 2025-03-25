@@ -29,11 +29,11 @@ class ProfileState extends ProviderHelper {
         .onError((error, stackTrace) => {
             onDataReceived(
                 Profile(
-                    id: "id",
-                    name: "name",
+                    id: "",
+                    name: "",
                     tipo: -1,
-                    photo: "assets/img/girl.jpg",
-                    dir: "adbf342345bcdab453"
+                    photo: "",
+                    dir: ""
                 )
             )
         });
