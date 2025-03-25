@@ -82,8 +82,8 @@ class RecipesRepository{
         contract,
         ownAddress!
     );
+    recipes.clear();
     if(totalTokens>0) {
-      recipes.clear();
       for (var i = 0; i < totalTokens; i++) {
         BigInt myTokenIndex = await getIndexOfOwnedToken(
             client,

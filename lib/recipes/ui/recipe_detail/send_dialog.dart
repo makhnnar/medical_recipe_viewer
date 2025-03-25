@@ -53,7 +53,7 @@ class SendDialog extends StatelessWidget {
                       child:ElevatedButton(
                           onPressed: () {
                             scanQR().then((value) => {
-                              _provider.setCode(value)
+                              _provider.setCode(getWalletAddressFromQRReading(value))
                             });
                           },
                           child: Text("Read Code")
