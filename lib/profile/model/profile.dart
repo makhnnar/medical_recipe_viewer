@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 class Profile {
 
   String id;
@@ -23,6 +26,11 @@ class Profile {
 
   bool isEmpty() {
     return id.isEmpty && name.isEmpty && tipo<0 && photo.isEmpty && dir.isEmpty && privateKey.isEmpty;
+  }
+
+  //using the method base64Decode and split(',').last return a Uint8List from a base64 string on the photo attribute
+  Uint8List getPhotoAsUint8List(){
+    return base64Decode(photo.split(',').last);
   }
 
 }

@@ -45,4 +45,15 @@ class DataSourceRepository{
     prefs!.setString(PrefKeys.PROFILE_ID.name, profileType);
   }
 
+  //create set and get methods for the profile id
+  String getDocumentId(){
+    init();
+    return prefs?.getString(PrefKeys.DOCUMENT_ID.name) ?? "";
+  }
+
+  void setDocumentId(String documentId) {
+    init();
+    prefs!.setString(PrefKeys.DOCUMENT_ID.name, documentId);
+  }
+
 }

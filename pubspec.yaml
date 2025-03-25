@@ -59,6 +59,7 @@ flutter:
     - assets/img/mountain_stars.jpeg
     - assets/img/sunset.jpeg
     - assets/img/river.jpeg
+    - assets/img/avatar.png
     - assets/icons/wallet.png
     - src/abis/
 

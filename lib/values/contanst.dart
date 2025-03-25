@@ -2,7 +2,8 @@
 enum PrefKeys {
   WALLET_ADR,
   PROFILE_TYPE,
-  PROFILE_ID
+  PROFILE_ID,
+  DOCUMENT_ID
 }
 
 

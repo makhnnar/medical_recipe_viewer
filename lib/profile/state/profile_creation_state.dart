@@ -56,10 +56,15 @@ class ProfileCreationState extends ChangeNotifier {
     dataSourceRepository.setWalletAdr(privateKey);
   }
 
+  void saveDocumentId(String id){
+    dataSourceRepository.setDocumentId(id);
+  }
+
   Future<void> checkIfIdProfileExists(String id,dynamic successCallback) async {
     _profile = await profileIdRepository.checkIfIdProfileExists(id);
     print("profile from firebase: ${_profile.toString()}");
     if(!_profile!.isEmpty()){
+      saveDocumentId(_profile!.id);
       successCallback();
       return;
     }else{
@@ -73,7 +78,7 @@ class ProfileCreationState extends ChangeNotifier {
       try{
         var hasProfileResponse = await walletReposProvider
             .getDeployedProfileRepository()!
-            .getOwnedProfile();
+            .getOwnedProfile(null);
         print("createProfile getOwnedProfile result: $hasProfileResponse");
         if(hasProfileResponse.isEmpty()){
           await createProfile(successCallback);

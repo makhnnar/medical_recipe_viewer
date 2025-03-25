@@ -23,8 +23,9 @@ class ProfileState extends ProviderHelper {
 
   @override
   void getData() {
-    repository.getOwnedProfile()
-        .then((profile) => onDataReceived(profile))
+    repository.getOwnedProfile(
+        dataSourceRepository.getDocumentId()
+    ).then((profile) => onDataReceived(profile))
         .onError((error, stackTrace) => {
             onDataReceived(
                 Profile(

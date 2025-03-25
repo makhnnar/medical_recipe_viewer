@@ -5,7 +5,7 @@ class WalletConectorImpl implements IWalletConector{
 
   IWeb3ClientProvider clientProvider;
 
-  String privateKey = "0x"+"5f5761ec0e6ae960332bccd71312e2b15a710f2b1b4530c3276435fde245f417";
+  String privateKey = ""; //this value needs to be solved on the constructor
 
   Credentials? _credentials;
 

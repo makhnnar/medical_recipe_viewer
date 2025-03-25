@@ -7,6 +7,10 @@ class ProfileIdRepository{
 
   CollectionReference documentos = FirebaseFirestore.instance.collection('documentos');
 
+  ProfileIdRepository(){
+    FirebaseFirestore.instance.settings = Settings(persistenceEnabled: false);
+  }
+
   Future<Profile> checkIfIdProfileExists(String id) async{
     print("document: $id");
     DocumentSnapshot snapshot = await documentos.doc(id).get();
@@ -14,13 +18,20 @@ class ProfileIdRepository{
       return Profile(
           id: snapshot['id'],
           name: snapshot['name'],
-          tipo: snapshot['tipo'],
+          tipo: int.parse(snapshot['tipo']),
           photo: snapshot['photo'],
           privateKey: snapshot['privateKey'],
-          dir: ""
+          dir: snapshot['dir']
       );
     }
     return Profile(id: "", name: "", tipo: -1, photo: "", dir: "");
+  }
+
+  //using the id put/update the dir property on the document
+  Future<void> updateDir(String id, String dir) async{
+    await documentos.doc(id).update({
+      'dir': dir
+    });
   }
 
 }

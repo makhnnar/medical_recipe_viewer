@@ -4,6 +4,7 @@ import 'package:medical_recipe_viewer/blockchain/contract_resolver.dart';
 import 'package:medical_recipe_viewer/blockchain/wallet_conector.dart';
 import 'package:medical_recipe_viewer/blockchain/web3_cliente_provider.dart';
 import 'package:medical_recipe_viewer/profile/model/profile.dart';
+import 'package:medical_recipe_viewer/profile/repository/profile_id_repository.dart';
 import 'package:web3dart/web3dart.dart';
 
 import '../../utils/forms.dart';
@@ -33,6 +34,8 @@ class ProfileRepository{
   IWeb3ClientProvider clientProvider;
   IWalletConector walletConector;
   IContracResolver contracResolver;
+
+  ProfileIdRepository _profileIdRepository = ProfileIdRepository();
 
   ProfileRepository(
       this.clientProvider,
@@ -70,20 +73,34 @@ class ProfileRepository{
     _addedUser = contract.event("addedUser");
   }
 
-  Future<Profile> getOwnedProfile() async{
+  Future<Profile> getProfileOnBlockchain(Profile profile) async{
     var client = clientProvider.getClient();
     print("getOwnedProfile cliente on profile repo is null? ${client==null}");
     var contract = await contracResolver.getDeployedContract();
     print("contract: $contract");
     var ownAddress = await walletConector.getOwnEthAddress();
     print("getOwnedProfile ownAddress: $ownAddress");
-    _profile = await getProfileWithAdress(
+    Profile profileFromBlockChain = await getProfileWithAdress(
         client,
         contract,
         ownAddress!
     );
-    print("_profile: ${_profile.toString()}");
-    return _profile;
+    print("_profile from blockchain: ${profileFromBlockChain.toString()}");
+    if(profileFromBlockChain.isEmpty()){
+      return profile;
+    }
+    profileFromBlockChain.photo = profile.photo;
+    return profileFromBlockChain;
+  }
+
+  Future<Profile> getOwnedProfile(String? documentId) async{
+    if(documentId!=null && documentId.isNotEmpty){
+      var firestoreProfile = await _profileIdRepository.checkIfIdProfileExists(documentId);
+      var blockchainProfile = await getProfileOnBlockchain(firestoreProfile);
+      await _profileIdRepository.updateDir(documentId,blockchainProfile.dir);
+      return blockchainProfile;
+    }
+    return getProfileOnBlockchain(_profile);
   }
 
 

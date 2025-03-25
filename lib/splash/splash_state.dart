@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:medical_recipe_viewer/profile/model/profile.dart';
 import 'package:medical_recipe_viewer/profile/repository/profile_repository.dart';
 
+import '../repository/data_source_repository.dart';
+
 class SplashState {
 
   BuildContext? context;
@@ -15,7 +17,10 @@ class SplashState {
       dynamic goToApp
   ) async {
     if(profileRepository!=null){
-        Profile profile = await profileRepository.getOwnedProfile();
+        DataSourceRepository dataSourceRepository = DataSourceRepository();
+        Profile profile = await profileRepository.getOwnedProfile(
+            dataSourceRepository.getDocumentId()
+        );
         if(!profile.isEmpty()){
           print("profileRepository!=null? ${profileRepository!=null} !profile.isEmpty() ${!profile.isEmpty()} goToApp: 2");
           goToApp(1);

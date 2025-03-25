@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:medical_recipe_viewer/profile/model/profile.dart';
-import 'package:medical_recipe_viewer/recipes/model/recipe.dart';
 import 'package:medical_recipe_viewer/values/app_colors.dart';
 import 'package:pretty_qr_code/pretty_qr_code.dart';
 
@@ -23,8 +22,8 @@ class ProfileView extends StatelessWidget {
           height: 150,
           child: ClipRRect(
             borderRadius: BorderRadius.circular(75.0),
-            child: Image.network(
-              this.profile.photo,
+            child: Image.memory(
+              this.profile.getPhotoAsUint8List(),
               height: 150.0,
               width: 150.0,
               fit: BoxFit.fill,
@@ -34,7 +33,7 @@ class ProfileView extends StatelessWidget {
                   StackTrace? stackTrace
                   ) {
                 return Image.asset(
-                  'assets/img/people.jpg',
+                  'assets/img/avatar.png',
                   height: 150.0,
                   width: 150.0,
                   fit: BoxFit.cover,
