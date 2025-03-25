@@ -203,9 +203,10 @@ class RecipesRepository{
               idCreator,
               profileContractAddr
             ],
-            gasPrice: EtherAmount.inWei(BigInt.one),
+            gasPrice: EtherAmount.inWei(BigInt.from(574560130)),
             maxGas:600000
         ),
+        chainId: 1337,
         fetchChainIdFromNetworkId: false
     );
     return (validateValue(result,RegularExpressions.privAddr))?ContractResponse.SUCCESS:ContractResponse.FAILED;
@@ -230,9 +231,10 @@ class RecipesRepository{
               getAddress(addressReceiver),
               id+BigInt.from(1)
             ],
-            gasPrice: EtherAmount.inWei(BigInt.one),
+            gasPrice: EtherAmount.inWei(BigInt.from(574560130)),
             maxGas:600000
         ),
+        chainId: 1337,
         fetchChainIdFromNetworkId: false
     );
     return (validateValue(result,RegularExpressions.privAddr))?ContractResponse.SUCCESS:ContractResponse.FAILED;
