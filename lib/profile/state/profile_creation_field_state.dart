@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-import '../../utils/forms.dart';
+import '../../utils/data_validations.dart';
 import '../../values/contanst.dart';
 
 class ProfileCreationFieldState extends ChangeNotifier{
@@ -9,7 +9,7 @@ class ProfileCreationFieldState extends ChangeNotifier{
 
   String _privAddr = "";
   set privAddr(String value){
-    if(validateValue(value, RegularExpressions.privAddr)){
+    if(validateValueWithRexExpression(value, RegularExpressions.privAddr)){
       _privAddr = value;
     }
   }
@@ -17,7 +17,7 @@ class ProfileCreationFieldState extends ChangeNotifier{
 
   String _numeroIdentidad = "";
   set numeroIdentidad(String value){
-    if(validateValue(value, RegularExpressions.numeroIdentidad)){
+    if(validateValueWithRexExpression(value, RegularExpressions.numeroIdentidad)){
       _numeroIdentidad = value;
     }
   }

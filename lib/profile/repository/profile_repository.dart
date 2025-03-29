@@ -7,7 +7,7 @@ import 'package:medical_recipe_viewer/profile/model/profile.dart';
 import 'package:medical_recipe_viewer/profile/repository/profile_id_repository.dart';
 import 'package:web3dart/web3dart.dart';
 
-import '../../utils/forms.dart';
+import '../../utils/data_validations.dart';
 import '../../values/contanst.dart';
 
 
@@ -97,7 +97,9 @@ class ProfileRepository{
     if(documentId!=null && documentId.isNotEmpty){
       var firestoreProfile = await _profileIdRepository.checkIfIdProfileExists(documentId);
       var blockchainProfile = await getProfileOnBlockchain(firestoreProfile);
-      await _profileIdRepository.updateDir(documentId,blockchainProfile.dir);
+      if(firestoreProfile.dir.isEmpty) {
+        await _profileIdRepository.updateDir(documentId, blockchainProfile.dir);
+      }
       return blockchainProfile;
     }
     return getProfileOnBlockchain(_profile);
@@ -206,7 +208,7 @@ class ProfileRepository{
       // 0x864acf22e48b75c1bd402cda01ed4d89a04fc0aa0209b8590fa4367a7b36a3a9
       //es el valor de retorno cuando una transaccion es valida
       //todo: colocar el log del error para la consola de firebase
-      return (validateValue(result,RegularExpressions.privAddr))?ContractResponse.SUCCESS:ContractResponse.FAILED;
+      return (validateValueWithRexExpression(result,RegularExpressions.privAddr))?ContractResponse.SUCCESS:ContractResponse.FAILED;
     }catch(exception){
       print("createProfile error: $exception");
       return "Problema de conexion";

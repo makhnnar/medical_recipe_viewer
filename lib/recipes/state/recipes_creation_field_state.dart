@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:medical_recipe_viewer/recipes/model/recipe.dart';
-import 'package:medical_recipe_viewer/utils/forms.dart';
 
+import '../../utils/data_validations.dart';
 import '../../values/contanst.dart';
 
 enum UnitType{
@@ -28,7 +28,7 @@ class RecipesCreationFieldState extends ChangeNotifier{
 
   String _nombre = "";
   set nombre(String value){
-    if(validateValue(value, RegularExpressions.texto)){
+    if(validateValueWithRexExpression(value, RegularExpressions.texto)){
       _nombre = value;
     }
   }
@@ -37,7 +37,7 @@ class RecipesCreationFieldState extends ChangeNotifier{
   String _dosis = "";
   set dosis(String value){
     print("value: value");
-    if(validateValue(value, RegularExpressions.numero)){
+    if(validateValueWithRexExpression(value, RegularExpressions.numero)){
       _dosis = value;
     }
   }
@@ -45,7 +45,7 @@ class RecipesCreationFieldState extends ChangeNotifier{
 
   String _unidad = "";
   set unidad(String value){
-    if(validateValue(value, RegularExpressions.unidad)){
+    if(validateValueWithRexExpression(value, RegularExpressions.unidad)){
       _unidad = value;
     }
   }
@@ -54,7 +54,7 @@ class RecipesCreationFieldState extends ChangeNotifier{
   String _frecuencia = "";
   set frecuencia(String value){
     print("value: value");
-    if(validateValue(value, RegularExpressions.numero)){
+    if(validateValueWithRexExpression(value, RegularExpressions.numero)){
       _frecuencia = value;
     }
   }
@@ -63,7 +63,7 @@ class RecipesCreationFieldState extends ChangeNotifier{
   String _lapso = "";
   set lapso(String value){
     print("value: value");
-    if(validateValue(value, RegularExpressions.numero)){
+    if(validateValueWithRexExpression(value, RegularExpressions.numero)){
       _lapso = value;
     }
   }
@@ -71,7 +71,7 @@ class RecipesCreationFieldState extends ChangeNotifier{
 
   String _descripcion = "";
   set descripcion(String value){
-    if(validateValue(value, RegularExpressions.texto)){
+    if(validateValueWithRexExpression(value, RegularExpressions.texto)){
       _descripcion = value;
     }
   }

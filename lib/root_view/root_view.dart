@@ -11,6 +11,7 @@ import 'package:medical_recipe_viewer/recipes/state/recipes_creation_field_state
 import 'package:medical_recipe_viewer/recipes/state/recipes_state.dart';
 import 'package:medical_recipe_viewer/recipes/ui/recipe_creation/recipe_creation_view.dart';
 import 'package:medical_recipe_viewer/recipes/ui/recipe_list/recipe_list_page.dart';
+import 'package:medical_recipe_viewer/utils/data_validations.dart';
 import 'package:medical_recipe_viewer/utils/navigation_actions.dart';
 import 'package:medical_recipe_viewer/utils/qr_reader.dart';
 import 'package:medical_recipe_viewer/values/app_colors.dart';
@@ -18,8 +19,9 @@ import 'package:provider/provider.dart';
 
 import '../blockchain/contract_resolver.dart';
 import '../di/module.dart';
+import '../recipes/ui/recipe_detail/recipe_detail_view.dart';
+import '../recipes/ui/recipe_list/recipe_list_view.dart';
 import '../repository/data_source_repository.dart';
-import '../utils/forms.dart';
 import '../values/contanst.dart';
 
 class RootView extends StatefulWidget {
@@ -112,33 +114,33 @@ class _RootView extends State<RootView> {
                             icon: const Icon(Icons.qr_code_scanner_rounded),
                             onPressed: () {
                               scanQR().then((value) {
-                                //todo: fixar o fluxo da leitura do codigo qr
-                                if(validateValue(value, RegularExpressions.json1)){
-                                  Map<String, dynamic> jsonData = jsonDecode(value);
+                                if(validateValueWithRexExpression(value, RegularExpressions.json1)){
+                                  var notifiers = [
+                                    ChangeNotifierProvider<CodeState>.value(value: CodeState()),
+                                    ChangeNotifierProvider<RecipesState?>.value(value: null)
+                                  ];
                                   try{
-                                    var formattedRecipeResponse = Recipe.fromJson(jsonData);
-                                    goToRecipeDetail(
-                                        context,
-                                        formattedRecipeResponse,
-                                        CodeState(),//cuando solo vamos al detalle no necesitamos el code state. modificar
-                                        null
-                                    );
-                                  }catch(error){
-                                    try{
-                                      var formattedListResponse = RecipeList.fromJson(jsonData);
-                                      print("logramos formatear la lista");
-                                      //todo: agregar redireccion a la lista
-                                      /*goToRecipeDetail(
+                                    Map<String, dynamic> jsonData = jsonDecode(value);
+                                    if(isListOfRecipes(jsonData)){
+                                      goToPage(
                                           context,
-                                          formattedListResponse,
-                                          CodeState(),//cuando solo vamos al detalle no necesitamos el code state. modificar
-                                          null
-                                      );*/
-                                    }catch(error){
-
+                                          RecipeListView(
+                                              RecipeList.fromJson(jsonData)
+                                          ),
+                                          notifiers
+                                      );
+                                    } else {
+                                      goToPage(
+                                          context,
+                                          RecipeDetailView(
+                                              Recipe.fromJson(jsonData)
+                                          ),
+                                          notifiers
+                                      );
                                     }
+                                  }catch(error){
+                                    print("error displaying the detail: $error");
                                   }
-
                                 }
                               });
                             },

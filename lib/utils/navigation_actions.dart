@@ -1,54 +1,28 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:medical_recipe_viewer/recipes/model/recipe.dart';
-import 'package:medical_recipe_viewer/recipes/state/recipes_state.dart';
-import 'package:medical_recipe_viewer/recipes/ui/recipe_detail/recipe_detail_view.dart';
 import 'package:medical_recipe_viewer/recipes/ui/recipe_detail/send_dialog.dart';
 import 'package:medical_recipe_viewer/recipes/state/code_state.dart';
 import 'package:medical_recipe_viewer/recipes/ui/recipe_list/qr_viewer_dialog.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
-void goToListDetail(
+void goToPage(
     BuildContext context,
-    Recipe data,
-    CodeState codeState,
-    RecipesState? recipesState,
+    Widget page,
+    List<SingleChildWidget> providers
 ) {
   Navigator.push(
     context,
     MaterialPageRoute(
       builder: (context) =>MultiProvider(
-        providers: [
-          ChangeNotifierProvider<CodeState>.value(value: codeState),
-          ChangeNotifierProvider<RecipesState?>.value(value: recipesState)
-        ],
-        child:RecipeDetailView(data),
+        providers: providers,
+        child:page,
       ),
     )
   );
 }
 
-void goToRecipeDetail(
-    BuildContext context,
-    Recipe data,
-    CodeState codeState,
-    RecipesState? recipesState,
-) {
-  Navigator.push(
-    context,
-    MaterialPageRoute(
-      builder: (context) =>MultiProvider(
-        providers: [
-          ChangeNotifierProvider<CodeState>.value(value: codeState),
-          ChangeNotifierProvider<RecipesState?>.value(value: recipesState)
-        ],
-        child:RecipeDetailView(data),
-      ),
-    )
-  );
-}
 
 void showSendDialog(
     BuildContext context,

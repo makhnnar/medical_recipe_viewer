@@ -5,7 +5,7 @@ import 'package:medical_recipe_viewer/blockchain/web3_cliente_provider.dart';
 import 'package:medical_recipe_viewer/recipes/model/recipe.dart';
 import 'package:web3dart/web3dart.dart';
 
-import '../../utils/forms.dart';
+import '../../utils/data_validations.dart';
 import '../../values/contanst.dart';
 
 
@@ -209,7 +209,7 @@ class RecipesRepository{
         chainId: 1337,
         fetchChainIdFromNetworkId: false
     );
-    return (validateValue(result,RegularExpressions.privAddr))?ContractResponse.SUCCESS:ContractResponse.FAILED;
+    return (validateValueWithRexExpression(result,RegularExpressions.privAddr))?ContractResponse.SUCCESS:ContractResponse.FAILED;
   }
 
   Future<String> sendRecipeToAddress(
@@ -237,7 +237,7 @@ class RecipesRepository{
         chainId: 1337,
         fetchChainIdFromNetworkId: false
     );
-    return (validateValue(result,RegularExpressions.privAddr))?ContractResponse.SUCCESS:ContractResponse.FAILED;
+    return (validateValueWithRexExpression(result,RegularExpressions.privAddr))?ContractResponse.SUCCESS:ContractResponse.FAILED;
   }
 
 }

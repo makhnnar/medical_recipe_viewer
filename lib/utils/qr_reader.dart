@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:permission_handler/permission_handler.dart';
 import 'package:secure_qr_scan_ecubix/secure_qr_scan_ecubix.dart';
 
@@ -6,14 +8,14 @@ Future<String> scanQR() async {
   await Permission.camera.request();
   String? barcode = await secureQrScanEcubixPlugin.getSecureQRCode();
   if (barcode != null) {
-    print("scanQR: $barcode");
-    return barcode;
+    return getContentOnQRReading(barcode);
   }
   return "";
 }
 
-String getWalletAddressFromQRReading(String qrCode){
-  RegExp regExp = new RegExp(r'(?<="QRText":")(.*?)(?=")');
-  var addrr = regExp.stringMatch(qrCode!);
-  return addrr!;
+//the content of the QR code is a json string, so we need to decode it
+String getContentOnQRReading(String qrCode){
+  Map<String, dynamic> jsonData = jsonDecode(qrCode);
+  String qrText = jsonData["QRText"];
+  return qrText;
 }
