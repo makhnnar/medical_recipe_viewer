@@ -27,6 +27,7 @@ class RecipeItemView extends StatelessWidget implements SendActionListener{
     _provider = Provider.of<CodeState>(context);
     _recipeState = Provider.of<RecipesState?>(context);
     return Container(
+        color: tableColors['bgValue'],
         margin: EdgeInsets.only(
             bottom: 3.0,
             left: 2.0,
@@ -34,6 +35,7 @@ class RecipeItemView extends StatelessWidget implements SendActionListener{
         ),
         child: Material(
             elevation: 5,
+            color: tableColors['bgValue'],
             child:ExpansionTile(
               title: Text(
                 recipeItem.nombre!,
