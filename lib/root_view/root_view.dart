@@ -125,7 +125,8 @@ class _RootView extends State<RootView> {
                                       goToPage(
                                           context,
                                           RecipeListView(
-                                              RecipeList.fromJson(jsonData)
+                                              recipeList: RecipeList.fromJson(jsonData),
+                                              allowShareAndSend: false
                                           ),
                                           notifiers
                                       );

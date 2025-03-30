@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:medical_recipe_viewer/recipes/model/recipe.dart';
 import 'package:medical_recipe_viewer/recipes/state/recipes_state.dart';
@@ -17,10 +16,15 @@ class RecipeItemView extends StatelessWidget implements SendActionListener{
 
   Recipe recipeItem;
 
+  bool allowShareAndSend;
+
   late CodeState _provider;
   late RecipesState? _recipeState;
 
-  RecipeItemView(this.recipeItem);
+  RecipeItemView({
+    required this.recipeItem,
+    this.allowShareAndSend = true
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -36,78 +40,113 @@ class RecipeItemView extends StatelessWidget implements SendActionListener{
         child: Material(
             elevation: 5,
             color: tableColors['bgValue'],
-            child:ExpansionTile(
-              title: Text(
-                recipeItem.nombre!,
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: tableColors['tColorContent']
-                ),
-              ) ,
-              subtitle: Text(
-                "Necesita ${getTotalDosis(recipeItem)} de ${recipeItem.dosis} ${recipeItem.unidad}",
-                style: TextStyle(
-                    color: tableColors['tColorContent']
-                ),
-              ),
-              children: <Widget>[
-                ListTile(
-                    title: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          InkWell(
-                            onTap: (){
-                              showQRDialog(context,recipeItem.toJson());
-                            },
-                            child:Container(
-                                margin: EdgeInsets.only(
-                                      left: 8.0,
-                                      right: 4.0
-                                ),
-                                child:const Icon(Icons.qr_code),
-                            )
-                          ),
-                          InkWell(
-                            onTap: (){
-                              showSendDialog(
-                                  context,
-                                  _provider,
-                                  this
-                              );
-                            },
-                            child:Container(
-                                margin: EdgeInsets.only(
-                                      left: 8.0,
-                                      right: 4.0
-                                ),
-                                child: const Icon(Icons.send),
-                            )
-                          ),
-                          InkWell(
-                            onTap: (){
-                              goToPage(
-                                  context,
-                                  RecipeDetailView(recipeItem),
-                                  [
-                                    ChangeNotifierProvider<CodeState>.value(value: _provider),
-                                    ChangeNotifierProvider<RecipesState?>.value(value: _recipeState)
-                                  ]
-                              );
-                            },
-                            child:Container(
-                                margin: EdgeInsets.only(
-                                    left: 4.0,
-                                    right: 8.0
-                                ),
-                                child:const Icon(Icons.read_more),
-                            )
-                          ),
-                        ],
-                    )
-                ),
-              ],
+            child: displayRowOrExpansionTile(context)
+        )
+    );
+  }
+
+  Widget displayRowOrExpansionTile(BuildContext context){
+    if(allowShareAndSend){
+      return buildExpansionTile(context);
+    }
+    return buildClickableRow(context);
+  }
+
+  Widget buildClickableRow(BuildContext context) {
+    return InkWell(
+        onTap: (){
+          navigateToRowDetail(context);
+        },
+        child: Container(
+            margin: EdgeInsets.only(
+                left: 4.0,
+            ),
+            height: 70.0,
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    recipeItem.nombre!,
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20.0,
+                        color: tableColors['tColorContent']
+                    ),
+                  ),
+                  Text(
+                    "Necesita ${getTotalDosis(recipeItem)} de ${recipeItem.dosis} ${recipeItem.unidad}",
+                    style: TextStyle(
+                        color: tableColors['tColorContent']
+                    ),
+                  ),
+                ]
             )
         )
+    );
+  }
+
+  Widget buildExpansionTile(BuildContext context) {
+    return ExpansionTile(
+        title: Text(
+          recipeItem.nombre!,
+          style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: tableColors['tColorContent']
+          ),
+        ) ,
+        subtitle: Text(
+          "Necesita ${getTotalDosis(recipeItem)} de ${recipeItem.dosis} ${recipeItem.unidad}",
+          style: TextStyle(
+              color: tableColors['tColorContent']
+          ),
+        ),
+        children: <Widget>[
+          ListTile(
+              title: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    getIconButton(
+                        Icons.qr_code,
+                        (){ showQRDialog(context,recipeItem.toJson()); }
+                    ),
+                    getIconButton(
+                        Icons.send,
+                        (){ showSendDialog(context, _provider, this); }
+                    ),
+                    getIconButton(
+                        Icons.read_more,
+                        (){ navigateToRowDetail(context); }
+                    ),
+                  ],
+              )
+          ),
+        ],
+    );
+  }
+
+  Widget getIconButton(IconData icon, Function() onPressed){
+    return InkWell(
+        onTap: onPressed,
+        child:Container(
+          margin: EdgeInsets.only(
+              left: 8.0,
+              right: 4.0
+          ),
+          child: Icon(icon),
+        )
+    );
+  }
+
+
+  void navigateToRowDetail(BuildContext context) {
+    goToPage(
+        context,
+        RecipeDetailView(recipeItem),
+        [
+          ChangeNotifierProvider<CodeState>.value(value: _provider),
+          ChangeNotifierProvider<RecipesState?>.value(value: _recipeState)
+        ]
     );
   }
 

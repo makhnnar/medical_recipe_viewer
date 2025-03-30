@@ -30,7 +30,7 @@ class RecipesState extends ProviderHelper {
   void onDataReceived(List<Recipe> recipeList){
     print("recipelist: ${recipeList.length}");
     this.value = RecipeListView(
-        RecipeList(
+        recipeList: RecipeList(
             listOfRecipes:recipeList
         )
     );

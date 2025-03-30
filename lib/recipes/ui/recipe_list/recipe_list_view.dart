@@ -10,10 +10,15 @@ class RecipeListView extends StatelessWidget {
 
   RecipeList recipeList;
 
+  bool allowShareAndSend;
+
   late CodeState _provider;
   late RecipesState? _recipesState;
 
-  RecipeListView(this.recipeList);
+  RecipeListView({
+    required this.recipeList,
+    this.allowShareAndSend = true
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -25,10 +30,17 @@ class RecipeListView extends StatelessWidget {
             _recipesState?.getData();
           },
           child:ListView(
-            children: getList(recipeList.listOfRecipes!)
+            children: getList(recipeList.listOfRecipes!, allowShareAndSend)
           ),
       ),
-      floatingActionButton:Padding(
+      floatingActionButton: getFloatingButton(context, allowShareAndSend),
+    );
+  }
+
+  //create a function that returns the floating button or null if the user is not allowed to share or send
+  Widget? getFloatingButton(BuildContext context, bool allowShareAndSend){
+    if(allowShareAndSend){
+      return Padding(
           padding: const EdgeInsets.all(8.0),
           child: FloatingActionButton(
             heroTag: "btn3",
@@ -37,17 +49,19 @@ class RecipeListView extends StatelessWidget {
             },
             child: Icon(Icons.share),
           )
-      )
-    );
+      );
+    }
+    return null;
   }
 
-  List<Widget> getList(List<Recipe> recipes) {
+  List<Widget> getList(List<Recipe> recipes, bool canShareAndSend) {
     List<Widget> list = [];
     if(recipes.isNotEmpty){
       for (Recipe recipe in recipes) {
         list.add(
             RecipeItemView(
-                recipe
+                recipeItem: recipe,
+                allowShareAndSend: canShareAndSend,
             )
         );
       }
