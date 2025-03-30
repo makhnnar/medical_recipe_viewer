@@ -88,6 +88,7 @@ class RecipeCreationView extends StatelessWidget {
                         color: Colors.lightBlueAccent,
                       ),
                       onChanged: (UnitOption? newValue) {
+                        print("newValue: $newValue");
                         _stateCreationFields.unidad = newValue!.name;
                         _stateCreationFields.setUnitOption(newValue!);
                       },

@@ -45,6 +45,7 @@ class RecipesCreationFieldState extends ChangeNotifier{
 
   String _unidad = "";
   set unidad(String value){
+    print("value: $value");
     if(validateValueWithRexExpression(value, RegularExpressions.unidad)){
       _unidad = value;
     }
