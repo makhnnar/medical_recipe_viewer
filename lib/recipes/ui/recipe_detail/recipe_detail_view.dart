@@ -15,10 +15,15 @@ class RecipeDetailView extends StatelessWidget implements SendActionListener{
 
   Recipe recipeItem;
 
+  bool allowShareAndSend;
+
   late CodeState _provider;
   late RecipesState? _recipeState;
 
-  RecipeDetailView(this.recipeItem);
+  RecipeDetailView({
+    required this.recipeItem,
+    this.allowShareAndSend = true
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -126,20 +131,28 @@ class RecipeDetailView extends StatelessWidget implements SendActionListener{
             ),
           ],
         ),
-        floatingActionButton:Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: FloatingActionButton(
-              onPressed: () {
-                  showSendDialog(
-                      context,
-                      _provider,
-                      this
-                  );
-              },
-              child: Icon(Icons.search),
-            )
-        )
+        floatingActionButton: getFloatingButton(context, allowShareAndSend)
     );
+  }
+
+  Widget? getFloatingButton(BuildContext context, bool allowShareAndSend){
+    if(allowShareAndSend){
+      return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: FloatingActionButton(
+            heroTag: "btn3",
+            onPressed: () {
+              showSendDialog(
+                  context,
+                  _provider,
+                  this
+              );
+            },
+            child: Icon(Icons.search),
+          )
+      );
+    }
+    return null;
   }
 
   @override

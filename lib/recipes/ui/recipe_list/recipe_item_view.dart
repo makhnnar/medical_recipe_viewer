@@ -142,7 +142,7 @@ class RecipeItemView extends StatelessWidget implements SendActionListener{
   void navigateToRowDetail(BuildContext context) {
     goToPage(
         context,
-        RecipeDetailView(recipeItem),
+        RecipeDetailView(recipeItem:recipeItem, allowShareAndSend: allowShareAndSend),
         [
           ChangeNotifierProvider<CodeState>.value(value: _provider),
           ChangeNotifierProvider<RecipesState?>.value(value: _recipeState)
