@@ -47,7 +47,7 @@ class RecipeDetailView extends StatelessWidget implements SendActionListener{
                         right: 2.0
                     ),
                     child:Text(
-                      "${recipeItem.nombre}",
+                      "Nombre: ${recipeItem.nombre}",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
@@ -125,7 +125,7 @@ class RecipeDetailView extends StatelessWidget implements SendActionListener{
                         )
                     ),
                     Text(
-                      "Address to be sended: ${_provider.getCode()}",
+                      "Lee este QR para compartir el recipe",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontSize: 12,
@@ -164,7 +164,7 @@ class RecipeDetailView extends StatelessWidget implements SendActionListener{
                   this
               );
             },
-            child: Icon(Icons.search),
+            child: Icon(Icons.arrow_circle_right_outlined),
           )
       );
     }

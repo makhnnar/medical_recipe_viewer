@@ -43,6 +43,9 @@ class CustomTextField extends StatelessWidget {
             color: Colors.redAccent,
           ),
           hoverColor: Theme.of(context).hoverColor,
+          hintStyle: TextStyle(
+            color: Colors.black,
+          ),
           prefixStyle: TextStyle(
             color: Colors.black,
           ),
@@ -50,7 +53,7 @@ class CustomTextField extends StatelessWidget {
             color: Colors.black,
           ),
           labelStyle: TextStyle(
-            color: Theme.of(context).hoverColor,
+            color: Colors.black,
           ),
           floatingLabelStyle: TextStyle(
             color: Colors.black,
