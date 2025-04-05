@@ -80,7 +80,7 @@ class RecipesCreationFieldState extends ChangeNotifier{
 
   int tipo = 0;
 
-  Map<UnitType,List<UnitOption>> _unidades = {
+  Map<UnitType,List<UnitOption>> unidades = {
     UnitType.MASA : [
       UnitOption.gr,
       UnitOption.mg,
@@ -93,11 +93,7 @@ class RecipesCreationFieldState extends ChangeNotifier{
     ],
   };
 
-  List<UnitOption> unitOptions = [];
-
-  RecipesCreationFieldState(){
-    unitOptions = _unidades[UnitType.MASA]!;
-  }
+  RecipesCreationFieldState();
 
   void setRecipeType(RecipeType recipeType){
     this._type = recipeType;
@@ -110,8 +106,7 @@ class RecipesCreationFieldState extends ChangeNotifier{
 
   void setOptionsToChoose(UnitType type){
     unitType = type;
-    unitOptions = _unidades[type]!;
-    unitOption = _unidades[type]![0];
+    unitOption = unidades[type]![0];
     notifyListeners();
   }
 

@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:medical_recipe_viewer/recipes/model/recipe.dart';
 
 class CustomTextField extends StatelessWidget {
 
