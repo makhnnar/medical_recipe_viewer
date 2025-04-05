@@ -115,7 +115,7 @@ class RecipeItemView extends StatelessWidget implements SendActionListener{
                         (){ showSendDialog(context, _provider, this); }
                     ),
                     getIconButton(
-                        Icons.read_more,
+                        Icons.remove_red_eye,
                         (){ navigateToRowDetail(context); }
                     ),
                   ],

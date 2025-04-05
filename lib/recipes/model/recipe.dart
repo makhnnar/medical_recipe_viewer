@@ -12,6 +12,7 @@ class Recipe {
   String? lapso;
   String? descripcion;
   String? tipo;
+  String? idCreador;
 
   Recipe({
     required this.id,
@@ -22,6 +23,7 @@ class Recipe {
     required this.lapso,
     required this.descripcion,
     required this.tipo,
+    required this.idCreador
   });
 
   @override
@@ -38,6 +40,7 @@ class Recipe {
     lapso = json['lapso'];
     descripcion = json['descripcion'];
     tipo = json['tipo'];
+    idCreador = json['id_creador'];
   }
 
   Map<String, dynamic> toJson() {
@@ -45,9 +48,12 @@ class Recipe {
     map['id'] = id?.toInt();
     map['nombre'] = nombre;
     map['dosis'] = dosis;
+    map['unidad'] = unidad;
     map['frecuencia'] = frecuencia;
     map['lapso'] = lapso;
     map['descripcion'] = descripcion;
+    map['tipo'] = tipo;
+    map['id_creador'] = idCreador;
     return map;
   }
 

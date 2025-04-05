@@ -18,30 +18,7 @@ class ProfileView extends StatelessWidget {
         Container(
           height: 50,
         ),
-        Container(
-          height: 150,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(75.0),
-            child: Image.memory(
-              this.profile.getPhotoAsUint8List(),
-              height: 150.0,
-              width: 150.0,
-              fit: BoxFit.fill,
-              errorBuilder: (
-                  BuildContext context,
-                  Object exception,
-                  StackTrace? stackTrace
-                  ) {
-                return Image.asset(
-                  'assets/img/avatar.png',
-                  height: 150.0,
-                  width: 150.0,
-                  fit: BoxFit.cover,
-                );
-              },
-            ),
-          ),
-        ),
+        CilcularImage(profile: profile),
         Expanded(
             flex: 1,
             child:Container(
@@ -98,4 +75,41 @@ class ProfileView extends StatelessWidget {
     );
   }
 
+}
+
+class CilcularImage extends StatelessWidget {
+  const CilcularImage({
+    Key? key,
+    required this.profile,
+  }) : super(key: key);
+
+  final Profile profile;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 150,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(75.0),
+        child: Image.memory(
+          this.profile.getPhotoAsUint8List(),
+          height: 150.0,
+          width: 150.0,
+          fit: BoxFit.fill,
+          errorBuilder: (
+              BuildContext context,
+              Object exception,
+              StackTrace? stackTrace
+              ) {
+            return Image.asset(
+              'assets/img/avatar.png',
+              height: 150.0,
+              width: 150.0,
+              fit: BoxFit.cover,
+            );
+          },
+        ),
+      ),
+    );
+  }
 }

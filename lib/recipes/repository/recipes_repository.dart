@@ -125,7 +125,8 @@ class RecipesRepository{
       frecuencia: temp[0][3],
       lapso: temp[0][4],
       descripcion: temp[0][5],
-      tipo: temp[0][6]
+      tipo: temp[0][6],
+      idCreador: temp[0][7],
     );
   }
 
