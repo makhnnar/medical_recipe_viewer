@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:medical_recipe_viewer/recipes/model/recipe.dart';
 import 'package:medical_recipe_viewer/recipes/state/recipes_creation_field_state.dart';
 import 'package:medical_recipe_viewer/recipes/state/recipes_state.dart';
+import 'package:medical_recipe_viewer/repository/data_source_repository.dart';
 import 'package:medical_recipe_viewer/widgets/custom_text_field.dart';
 import 'package:provider/provider.dart';
 
@@ -11,6 +12,7 @@ class RecipeCreationView extends StatelessWidget {
 
   late RecipesState _state;
   late RecipesCreationFieldState _stateCreationFields;
+  late DataSourceRepository _dataSourceRepository;
 
   RecipeCreationView();
 
@@ -18,6 +20,7 @@ class RecipeCreationView extends StatelessWidget {
   Widget build(BuildContext context) {
     _state = Provider.of<RecipesState>(context);
     _stateCreationFields = Provider.of<RecipesCreationFieldState>(context);
+    _dataSourceRepository =  Provider.of<DataSourceRepository>(context,listen: false);
     return Scaffold(
         body: ListView(
         children: [
@@ -68,23 +71,59 @@ class RecipeCreationView extends StatelessWidget {
               ),
             ],
           ),
-          CustomTextField(
-            "frecuencia",
-            (text){
-              print('$text');
-              _stateCreationFields.frecuencia = text;
-            },
-            typeOfKeyBoard: TextInputType.text,
-            initValue: _stateCreationFields.frecuencia
+          Row(
+            children: [
+              buildExpanded(
+                  CustomTextField(
+                      "Cantidad de veces",
+                          (text){
+                        print('$text');
+                        _stateCreationFields.frecuencia = text;
+                      },
+                      typeOfKeyBoard: TextInputType.number,
+                      initValue: _stateCreationFields.frecuencia
+                  )
+              ),
+              buildExpanded(
+                  DropdownButtonWidget<TimeUnit>(
+                      value: _stateCreationFields.timeFrequency,
+                      onChanged: (TimeUnit? newValue) {
+                        _stateCreationFields.setTimeFrequency(newValue!);
+                      },
+                      items: buildItemList(
+                          TimeUnit.values,
+                          (TimeUnit value) => value.name
+                      )
+                  )
+              ),
+            ],
           ),
-          CustomTextField(
-            "lapso",
-            (text){
-              print('$text');
-              _stateCreationFields.lapso = text;
-            },
-            typeOfKeyBoard: TextInputType.text,
-            initValue: _stateCreationFields.lapso
+          Row(
+            children: [
+              buildExpanded(
+                  CustomTextField(
+                      "Durante",
+                          (text){
+                        print('$text');
+                        _stateCreationFields.lapso = text;
+                      },
+                      typeOfKeyBoard: TextInputType.number,
+                      initValue: _stateCreationFields.lapso
+                  )
+              ),
+              buildExpanded(
+                  DropdownButtonWidget<TimeUnit>(
+                      value: _stateCreationFields.timeLapse,
+                      onChanged: (TimeUnit? newValue) {
+                        _stateCreationFields.setTimeLapse(newValue!);
+                      },
+                      items: buildItemList(
+                          TimeUnit.values,
+                          (TimeUnit value) => value.name
+                      )
+                  )
+              ),
+            ],
           ),
           CustomTextField(
             "descripcion",
@@ -117,18 +156,22 @@ class RecipeCreationView extends StatelessWidget {
                   vertical: 16
               ),
               child:ElevatedButton(
-                  onPressed: ()=>{
+                  onPressed: () => {
                     _state.createRecipe(
                         _stateCreationFields.nombre,
                         _stateCreationFields.dosis,
                         _stateCreationFields.unidad,
                         _stateCreationFields.frecuencia,
                         _stateCreationFields.lapso,
-                        _stateCreationFields.descripcion,
+                        "${_stateCreationFields.descripcion}, ${_stateCreationFields.frecuencia} al ${_stateCreationFields.timeFrequency.name} durante ${_stateCreationFields.lapso} ${_stateCreationFields.timeLapse.name}",
                         _stateCreationFields.tipo,
-                        "idCreator",//todo: reemplazar con el id real del usuario. usar el datasource
+                        _dataSourceRepository.getDocumentId(),
                         Provider.of<ContracResolverImpl>(context,listen: false)
-                    )
+                    ).then((value) {
+                      if(value){
+                        _stateCreationFields.cleanFields();
+                      }
+                    })
                   },
                   child: Text("Crear")
               )

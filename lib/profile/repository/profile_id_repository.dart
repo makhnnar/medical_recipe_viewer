@@ -8,7 +8,7 @@ class ProfileIdRepository{
   CollectionReference documentos = FirebaseFirestore.instance.collection('documentos');
 
   ProfileIdRepository(){
-    FirebaseFirestore.instance.settings = Settings(persistenceEnabled: false);
+    FirebaseFirestore.instance.settings = Settings(persistenceEnabled: true);
   }
 
   Future<Profile> checkIfIdProfileExists(String id) async{

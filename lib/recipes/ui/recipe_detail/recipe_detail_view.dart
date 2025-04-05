@@ -108,6 +108,22 @@ class RecipeDetailView extends StatelessWidget implements SendActionListener{
                           ),
                         )
                     ),
+                    Container(
+                        height: 50.0,
+                        margin: EdgeInsets.only(
+                            top: 15.0,
+                            left: 2.0,
+                            right: 2.0
+                        ),
+                        child:Text(
+                          "Descripcion: ${recipeItem.descripcion}",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: tableColors['tColorContent']
+                          ),
+                        )
+                    ),
                     Text(
                       "Address to be sended: ${_provider.getCode()}",
                       textAlign: TextAlign.center,

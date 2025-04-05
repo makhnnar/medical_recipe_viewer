@@ -19,12 +19,23 @@ enum UnitOption{
   oz,
 }
 
+enum TimeUnit{
+  DIA,
+  SEMANA,
+  MES
+}
+
 class RecipesCreationFieldState extends ChangeNotifier{
 
   RecipeType _type = RecipeType.VERDE;
 
   UnitType unitType = UnitType.MASA;
+
   UnitOption unitOption = UnitOption.gr;
+
+  TimeUnit timeFrequency = TimeUnit.DIA;
+
+  TimeUnit timeLapse = TimeUnit.DIA;
 
   String _nombre = "";
   set nombre(String value){
@@ -113,6 +124,30 @@ class RecipesCreationFieldState extends ChangeNotifier{
   void setUnitOption(UnitOption newValue) {
     unitOption = newValue;
     notifyListeners();
+  }
+
+  void setTimeFrequency(TimeUnit newValue) {
+    timeFrequency = newValue;
+    timeLapse = newValue;
+    notifyListeners();
+  }
+
+  void setTimeLapse(TimeUnit newValue) {
+    if(newValue.index<timeFrequency.index) return;
+    timeLapse = newValue;
+    notifyListeners();
+  }
+
+  void cleanFields(){
+    _nombre = "";
+    _dosis = "";
+    _unidad = "";
+    _frecuencia = "";
+    _lapso = "";
+    _descripcion = "";
+    tipo = 0;
+    unitType = UnitType.MASA;
+    unitOption = unidades[UnitType.MASA]![0];
   }
 
 }

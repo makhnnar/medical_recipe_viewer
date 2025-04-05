@@ -37,7 +37,7 @@ class RecipesState extends ProviderHelper {
     notifyListeners();
   }
 
-  Future<void> createRecipe(
+  Future<bool> createRecipe(
       String nombre,
       String dosis,
       String unidad,
@@ -47,7 +47,7 @@ class RecipesState extends ProviderHelper {
       int tipo,
       String idCreator,
       ContracResolverImpl profileContract
-  )async {
+  ) async {
     var contract = await profileContract.getDeployedContract();
     var response = await repository.createRecipe(
         nombre,
@@ -64,9 +64,10 @@ class RecipesState extends ProviderHelper {
     if(response==ContractResponse.SUCCESS){
       showToast("Su recipe ha sido creado");
       getData();
-      return;
+      return true;
     }
     showToast("Ocurrio un problema creando su recipe. Intente mas tarde");
+    return false;
   }
 
   Future<void> sendRecipeToAddress(
