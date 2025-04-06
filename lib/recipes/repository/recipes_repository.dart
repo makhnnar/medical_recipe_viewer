@@ -175,14 +175,7 @@ class RecipesRepository{
   }
 
   Future<String> createRecipe(
-      String nombre,
-      String dosis,
-      String unidad,
-      String frecuencia,
-      String lapso,
-      String descripcion,
-      int tipo,
-      String idCreator,
+      Recipe recipe,
       EthereumAddress profileContractAddr
   ) async {
     var contract = await contracResolver.getDeployedContract();
@@ -194,14 +187,14 @@ class RecipesRepository{
             contract: contract,
             function: _mint,
             parameters: [
-              nombre,
-              dosis,
-              unidad,
-              frecuencia,
-              lapso,
-              descripcion,
-              BigInt.from(tipo),
-              idCreator,
+              recipe.nombre,
+              recipe.dosis,
+              recipe.unidad,
+              recipe.frecuencia,
+              recipe.lapso,
+              recipe.descripcion,
+              BigInt.from(int.parse(recipe.tipo??"0")),
+              recipe.idCreador,
               profileContractAddr
             ],
             gasPrice: EtherAmount.inWei(BigInt.from(574560130)),

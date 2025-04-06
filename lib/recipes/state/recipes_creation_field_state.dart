@@ -39,9 +39,7 @@ class RecipesCreationFieldState extends ChangeNotifier{
 
   String _nombre = "";
   set nombre(String value){
-    if(validateValueWithRexExpression(value, RegularExpressions.texto)){
       _nombre = value;
-    }
   }
   String get nombre => _nombre;
 
@@ -83,9 +81,7 @@ class RecipesCreationFieldState extends ChangeNotifier{
 
   String _descripcion = "";
   set descripcion(String value){
-    if(validateValueWithRexExpression(value, RegularExpressions.texto)){
       _descripcion = value;
-    }
   }
   String get descripcion => _descripcion;
 
@@ -148,6 +144,21 @@ class RecipesCreationFieldState extends ChangeNotifier{
     tipo = 0;
     unitType = UnitType.MASA;
     unitOption = unidades[UnitType.MASA]![0];
+  }
+
+  //createa a recipe with the current values and receive the id of the creator
+  Recipe createRecipe(String idCreator){
+    return Recipe(
+      id: BigInt.from(0),
+      nombre: nombre,
+      dosis: dosis,
+      unidad: unidad,
+      frecuencia: frecuencia,
+      lapso: lapso,
+      descripcion: "${descripcion}, tratamiento: ${frecuencia} al ${timeFrequency.name} durante ${lapso} ${timeLapse.name}",
+      tipo: tipo.toString(),
+      idCreador: idCreator
+    );
   }
 
 }

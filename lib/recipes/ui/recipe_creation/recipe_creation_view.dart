@@ -158,14 +158,9 @@ class RecipeCreationView extends StatelessWidget {
               child:ElevatedButton(
                   onPressed: () => {
                     _state.createRecipe(
-                        _stateCreationFields.nombre,
-                        _stateCreationFields.dosis,
-                        _stateCreationFields.unidad,
-                        _stateCreationFields.frecuencia,
-                        _stateCreationFields.lapso,
-                        "${_stateCreationFields.descripcion}, ${_stateCreationFields.frecuencia} al ${_stateCreationFields.timeFrequency.name} durante ${_stateCreationFields.lapso} ${_stateCreationFields.timeLapse.name}",
-                        _stateCreationFields.tipo,
-                        _dataSourceRepository.getDocumentId(),
+                        _stateCreationFields.createRecipe(
+                            _dataSourceRepository.getDocumentId()??"",
+                        ),
                         Provider.of<ContracResolverImpl>(context,listen: false)
                     ).then((value) {
                       if(value){

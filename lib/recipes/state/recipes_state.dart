@@ -38,26 +38,12 @@ class RecipesState extends ProviderHelper {
   }
 
   Future<bool> createRecipe(
-      String nombre,
-      String dosis,
-      String unidad,
-      String frecuencia,
-      String lapso,
-      String descripcion,
-      int tipo,
-      String idCreator,
+      Recipe recipe,
       ContracResolverImpl profileContract
   ) async {
     var contract = await profileContract.getDeployedContract();
     var response = await repository.createRecipe(
-        nombre,
-        dosis,
-        unidad,
-        frecuencia,
-        lapso,
-        descripcion,
-        tipo,
-        idCreator,
+        recipe,
         contract.address
     );
     print("createRecipe result: $response");

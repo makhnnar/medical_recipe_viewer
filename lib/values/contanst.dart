@@ -11,7 +11,7 @@ class RegularExpressions{
 
   RegularExpressions._();
 
-  static const String texto = "([a-zA-Z|0-9|\s])+";
+  static const String texto = "\w*";
   static const String numero = "([0-9])+";
   static const String unidad = "(gr|mg|ug|ng|ml|oz)";
   static const String privAddr = "([0x]|[a-f]|[A-F]|[0-9]){40,70}";

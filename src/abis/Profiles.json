@@ -3800,8 +3800,7 @@
     }
   },
   "schemaVersion": "3.4.16",
-  "updatedAt": "2025-03-25T12:35:57.009Z",
-  "networkType": "ethereum",
+  "updatedAt": "2025-04-06T23:17:13.686Z",
   "devdoc": {
     "methods": {
       "approve(address,uint256)": {
