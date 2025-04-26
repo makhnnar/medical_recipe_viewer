@@ -8,6 +8,7 @@
 .buildlog/
 .history
 .svn/
+.env
 
 # IntelliJ related
 *.iml
@@ -45,3 +46,7 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 /android/app/.cxx
+
+node_modules
+**/node_modules
+./node_modules
