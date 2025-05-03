@@ -4,7 +4,7 @@ import 'package:http/http.dart';
 import 'package:medical_recipe_viewer/blockchain/web3_cliente_provider.dart';
 import 'package:web3dart/web3dart.dart';
 import 'package:web_socket_channel/io.dart';
-
+//the old values are for ganache on eth network
 class ContracResolverImpl implements IContracResolver{
 
   late String jsonPath;
@@ -30,8 +30,9 @@ class ContracResolverImpl implements IContracResolver{
   }
 
   EthereumAddress _getContractAddress(dynamic jsonAbi){
+    //the old value was ["networks"]["5777"]["address"]
     return EthereumAddress.fromHex(
-        jsonAbi["networks"]["5777"]["address"]
+        jsonAbi["networks"]["97"]["address"]
     );
   }
 

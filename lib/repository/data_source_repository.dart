@@ -56,4 +56,25 @@ class DataSourceRepository{
     prefs!.setString(PrefKeys.DOCUMENT_ID.name, documentId);
   }
 
+  //create set and get methods for the IP_ADDRESS and WS_ADDRESS values
+  String getIpAddress(){
+    init();
+    return prefs?.getString(PrefKeys.IP_ADDRESS.name) ?? "";
+  }
+
+  void setIpAddress(String ipAddress) {
+    init();
+    prefs!.setString(PrefKeys.IP_ADDRESS.name, ipAddress);
+  }
+
+  String getWsAddress(){
+    init();
+    return prefs?.getString(PrefKeys.WS_ADDRESS.name) ?? "";
+  }
+
+  void setWsAddress(String wsAddress) {
+    init();
+    prefs!.setString(PrefKeys.WS_ADDRESS.name, wsAddress);
+  }
+
 }

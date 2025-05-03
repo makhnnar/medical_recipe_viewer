@@ -4,7 +4,7 @@ import 'package:medical_recipe_viewer/blockchain/web3_cliente_provider.dart';
 import 'package:medical_recipe_viewer/profile/repository/profile_repository.dart';
 import 'package:medical_recipe_viewer/recipes/repository/recipes_repository.dart';
 import 'package:medical_recipe_viewer/repository/data_source_repository.dart';
-
+//the old values are for ganache on eth network
 class WalletReposProvider{
 
   ProfileRepository? _profileRepository;
@@ -15,13 +15,15 @@ class WalletReposProvider{
 
   Web3ClientProviderImpl client = Web3ClientProviderImpl();
 
+  //the old value was src/abis/Profiles.json
   ContracResolverImpl contractProfileResolver = ContracResolverImpl(
-      "src/abis/Profiles.json",
+      "src/bsc-contracts/Profiles.json",
       "Profiles"
   );
 
+  //the old value was src/abis/Recipes.json
   ContracResolverImpl contractRecipesResolver = ContracResolverImpl(
-      "src/abis/Recipes.json",
+      "src/bsc-contracts/Recipes.json",
       "Recipes"
   );
 
