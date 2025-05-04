@@ -37,6 +37,12 @@ class WalletConectorImpl implements IWalletConector{
       _ownAddress = await _credentials!.extractAddress();
       print("Eth Address: $_ownAddress");
     }
+    try {
+      final EtherAmount? balance = await clientProvider.getClient()?.getBalance(_ownAddress!);
+      print('Account Balance: ${balance?.getInEther} BNB');
+    } catch (e) {
+      print('Error: $e');
+    }
     return _ownAddress;
   }
 

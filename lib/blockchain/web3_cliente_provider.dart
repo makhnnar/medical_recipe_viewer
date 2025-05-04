@@ -18,6 +18,7 @@ class Web3ClientProviderImpl implements IWeb3ClientProvider{
 
   Future<bool> resolveServerDirs() async {
     DocumentSnapshot snapshot = await documentos.doc("values").get();
+    print("resolveServerDirs document: ${snapshot}");
     if (snapshot.exists) {
       dataSourceRepository.setIpAddress(snapshot['ipAddress']??_rpcUrl);
       dataSourceRepository.setWsAddress(snapshot['wsAddress']??_wsUrl);

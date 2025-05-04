@@ -80,7 +80,7 @@ class ProfileCreationState extends ChangeNotifier {
             .getDeployedProfileRepository()!
             .getOwnedProfile(null);
         print("createProfile getOwnedProfile result: $hasProfileResponse");
-        if(hasProfileResponse.isEmpty()){
+        if(hasProfileResponse.status==ProfileCreationStatus.NEW){
           await createProfile(successCallback);
         }else{
           dataSourceRepository.setProfileType(hasProfileResponse.tipo);

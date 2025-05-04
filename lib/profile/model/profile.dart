@@ -1,6 +1,12 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+enum ProfileCreationStatus {
+  NEW,
+  CREATED,
+  ERROR
+}
+
 class Profile {
 
   String id;
@@ -9,6 +15,7 @@ class Profile {
   String photo;
   String dir;
   String privateKey;
+  ProfileCreationStatus status = ProfileCreationStatus.NEW;
 
   Profile({
     required this.id,

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:medical_recipe_viewer/blockchain/contract_resolver.dart';
@@ -73,7 +75,7 @@ class ProfileRepository{
     _addedUser = contract.event("addedUser");
   }
 
-  Future<Profile> getProfileOnBlockchain(Profile profile) async{
+  Future<Profile> getProfileOnBlockchain() async{
     var client = clientProvider.getClient();
     print("getOwnedProfile cliente on profile repo is null? ${client==null}");
     var contract = await contracResolver.getDeployedContract();
@@ -86,25 +88,38 @@ class ProfileRepository{
         ownAddress!
     );
     print("_profile from blockchain: ${profileFromBlockChain.toString()}");
-    if(profileFromBlockChain.isEmpty()){
-      return profile;
-    }
-    profileFromBlockChain.photo = profile.photo;
     return profileFromBlockChain;
   }
 
-  Future<Profile> getOwnedProfile(String? documentId) async{
+  Future<Profile> getFirestoreProfile(String? documentId) async {
     if(documentId!=null && documentId.isNotEmpty){
       var firestoreProfile = await _profileIdRepository.checkIfIdProfileExists(documentId);
-      var blockchainProfile = await getProfileOnBlockchain(firestoreProfile);
       if(firestoreProfile.dir.isEmpty) {
-        await _profileIdRepository.updateDir(documentId, blockchainProfile.dir);
+        var ownAddress = await walletConector.getOwnEthAddress();
+        firestoreProfile.dir = ownAddress!.hex;
+        await _profileIdRepository.updateDir(documentId, ownAddress!.hex);
       }
-      return blockchainProfile;
+      return firestoreProfile;
     }
-    return getProfileOnBlockchain(_profile);
+    return Profile(
+        id: "",
+        name: "",
+        tipo: -1,
+        photo: "",
+        dir: ""
+    );
   }
 
+  Future<Profile> getOwnedProfile(String? documentId) async{
+    var profileFromFirestore = await getFirestoreProfile(documentId);
+    var profileFromBlockChain = await getProfileOnBlockchain();
+    if(profileFromBlockChain.isEmpty()){
+      return profileFromFirestore;
+    }
+    profileFromBlockChain.photo = profileFromFirestore.photo;
+    profileFromBlockChain.status = ProfileCreationStatus.CREATED;
+    return profileFromBlockChain;
+  }
 
   Future<Profile> getProfileWithAdress(
       Web3Client? client,
@@ -190,7 +205,7 @@ class ProfileRepository{
     var client = clientProvider.getClient();
     var contract = await contracResolver.getDeployedContract();
     var credentials = await walletConector.getCredentials();
-    print("createProfile credenciales: $credentials contract: $contract client: $client");
+    print("createProfile credenciales: ${credentials?.address} contract: $contract client: ${client.toString()}");
     try{
       var result = await client!.sendTransaction(
           credentials!,
@@ -198,10 +213,10 @@ class ProfileRepository{
               contract: contract,
               function: _mint,
               parameters: [id,nombre,BigInt.from(tipo)],
-              gasPrice: EtherAmount.inWei(BigInt.from(574560130)),
-              maxGas:600000,
+              gasPrice: EtherAmount.inWei(BigInt.from(100)),
+              maxGas:10000,
           ),
-          chainId: 1337,
+          chainId: CHAIN_ID,
           fetchChainIdFromNetworkId: false
       );
       //todo: validar que pasa con el proceso de creacion de perfiles

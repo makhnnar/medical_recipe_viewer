@@ -200,7 +200,7 @@ class RecipesRepository{
             gasPrice: EtherAmount.inWei(BigInt.from(574560130)),
             maxGas:600000
         ),
-        chainId: 1337,
+        chainId: CHAIN_ID,
         fetchChainIdFromNetworkId: false
     );
     return (validateValueWithRexExpression(result,RegularExpressions.privAddr))?ContractResponse.SUCCESS:ContractResponse.FAILED;
@@ -228,7 +228,7 @@ class RecipesRepository{
             gasPrice: EtherAmount.inWei(BigInt.from(574560130)),
             maxGas:600000
         ),
-        chainId: 1337,
+        chainId: CHAIN_ID,
         fetchChainIdFromNetworkId: false
     );
     return (validateValueWithRexExpression(result,RegularExpressions.privAddr))?ContractResponse.SUCCESS:ContractResponse.FAILED;

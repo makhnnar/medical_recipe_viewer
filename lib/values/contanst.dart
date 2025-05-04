@@ -9,6 +9,9 @@ enum PrefKeys {
 }
 
 
+//it is 1337 for ganache on Ethereum network and 97 for BSC testnet
+final int CHAIN_ID = 97;
+
 class RegularExpressions{
 
   RegularExpressions._();

@@ -62,4 +62,5 @@ flutter:
     - assets/img/avatar.png
     - assets/icons/wallet.png
     - src/abis/
+    - src/bsc-contracts/
 

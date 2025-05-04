@@ -64,6 +64,7 @@ class DataSourceRepository{
 
   void setIpAddress(String ipAddress) {
     init();
+    print("saving ipAddress: $ipAddress");
     prefs!.setString(PrefKeys.IP_ADDRESS.name, ipAddress);
   }
 
@@ -74,6 +75,7 @@ class DataSourceRepository{
 
   void setWsAddress(String wsAddress) {
     init();
+    print("saving setWsAddress: $wsAddress");
     prefs!.setString(PrefKeys.WS_ADDRESS.name, wsAddress);
   }
 
