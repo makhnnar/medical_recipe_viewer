@@ -213,8 +213,8 @@ class ProfileRepository{
               contract: contract,
               function: _mint,
               parameters: [id,nombre,BigInt.from(tipo)],
-              gasPrice: EtherAmount.inWei(BigInt.from(100)),
-              maxGas:10000,
+              //value: EtherAmount.inWei(BigInt.from(5)),
+              maxGas:600000,
           ),
           chainId: CHAIN_ID,
           fetchChainIdFromNetworkId: false

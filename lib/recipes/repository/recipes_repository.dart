@@ -197,8 +197,8 @@ class RecipesRepository{
               recipe.idCreador,
               profileContractAddr
             ],
-            gasPrice: EtherAmount.inWei(BigInt.from(574560130)),
-            maxGas:600000
+            //gasPrice: EtherAmount.inWei(BigInt.from(574560130)),
+            maxGas:300000
         ),
         chainId: CHAIN_ID,
         fetchChainIdFromNetworkId: false
