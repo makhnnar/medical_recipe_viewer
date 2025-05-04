@@ -181,6 +181,8 @@ class RecipesRepository{
     var contract = await contracResolver.getDeployedContract();
     var credentials = await walletConector.getCredentials();
     var client = clientProvider.getClient();
+    var gasPrice = await client!.getGasPrice();
+    print("gasPrice: ${gasPrice.getInWei}");
     var result = await client!.sendTransaction(
         credentials!,
         Transaction.callContract(
@@ -197,8 +199,6 @@ class RecipesRepository{
               recipe.idCreador,
               profileContractAddr
             ],
-            //gasPrice: EtherAmount.inWei(BigInt.from(574560130)),
-            maxGas:300000
         ),
         chainId: CHAIN_ID,
         fetchChainIdFromNetworkId: false

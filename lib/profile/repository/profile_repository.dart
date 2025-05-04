@@ -203,9 +203,11 @@ class ProfileRepository{
       int tipo
   ) async {
     var client = clientProvider.getClient();
+    var gasPrice = await client!.getGasPrice();
     var contract = await contracResolver.getDeployedContract();
     var credentials = await walletConector.getCredentials();
     print("createProfile credenciales: ${credentials?.address} contract: $contract client: ${client.toString()}");
+    print("Gas price: ${gasPrice.getInWei}");
     try{
       var result = await client!.sendTransaction(
           credentials!,
@@ -214,7 +216,7 @@ class ProfileRepository{
               function: _mint,
               parameters: [id,nombre,BigInt.from(tipo)],
               //value: EtherAmount.inWei(BigInt.from(5)),
-              maxGas:600000,
+              //maxGas:600000,
           ),
           chainId: CHAIN_ID,
           fetchChainIdFromNetworkId: false
