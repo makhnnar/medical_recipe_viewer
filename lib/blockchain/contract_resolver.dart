@@ -13,9 +13,12 @@ class ContracResolverImpl implements IContracResolver{
 
   String nameContract;
 
+  String contractAddress;
+
   ContracResolverImpl(
       this.jsonPath,
-      this.nameContract
+      this.nameContract,
+      this.contractAddress
   );
 
   Future<dynamic> _getJsonAsDecodeAbi() async {
@@ -29,10 +32,10 @@ class ContracResolverImpl implements IContracResolver{
     return jsonEncode(jsonAbi["abi"]);
   }
 
-  EthereumAddress _getContractAddress(dynamic jsonAbi){
+  EthereumAddress _getContractAddress(){
     //the old value was ["networks"]["5777"]["address"]
     return EthereumAddress.fromHex(
-        jsonAbi["networks"]["97"]["address"]
+        contractAddress
     );
   }
 
@@ -43,7 +46,7 @@ class ContracResolverImpl implements IContracResolver{
             _getAbiString(decodeAbi),
             nameContract
         ),
-        _getContractAddress(decodeAbi)
+        _getContractAddress()
     );
     return _contract;
   }

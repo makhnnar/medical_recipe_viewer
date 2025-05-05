@@ -18,13 +18,15 @@ class WalletReposProvider{
   //the old value was src/abis/Profiles.json
   ContracResolverImpl contractProfileResolver = ContracResolverImpl(
       "src/bsc-contracts/Profiles.json",
-      "Profiles"
+      "Profiles",
+      "0x45852177f4cA53AB82D56F9BF0496708a9A39306"
   );
 
   //the old value was src/abis/Recipes.json
   ContracResolverImpl contractRecipesResolver = ContracResolverImpl(
       "src/bsc-contracts/Recipes.json",
-      "Recipes"
+      "Recipes",
+      "0x6850497a35036Da2735b7Ad8aEcD6fa099Fa4B9a"
   );
 
   DataSourceRepository dataSourceRepository;

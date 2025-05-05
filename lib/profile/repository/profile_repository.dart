@@ -209,19 +209,17 @@ class ProfileRepository{
     print("createProfile credenciales: ${credentials?.address} contract: $contract client: ${client.toString()}");
     print("Gas price: ${gasPrice.getInWei}");
     try{
-      var result = await client!.sendTransaction(
+      var contractCall = Transaction.callContract(
+        contract: contract,
+        function: _mint,
+        parameters: [id,nombre,BigInt.from(tipo)],
+      );
+      var result = await client.sendTransaction(
           credentials!,
-          Transaction.callContract(
-              contract: contract,
-              function: _mint,
-              parameters: [id,nombre,BigInt.from(tipo)],
-              //value: EtherAmount.inWei(BigInt.from(5)),
-              //maxGas:600000,
-          ),
+          contractCall,
           chainId: CHAIN_ID,
           fetchChainIdFromNetworkId: false
       );
-      //todo: validar que pasa con el proceso de creacion de perfiles
       // 0x864acf22e48b75c1bd402cda01ed4d89a04fc0aa0209b8590fa4367a7b36a3a9
       //es el valor de retorno cuando una transaccion es valida
       //todo: colocar el log del error para la consola de firebase
