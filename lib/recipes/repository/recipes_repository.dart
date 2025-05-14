@@ -199,6 +199,8 @@ class RecipesRepository{
               recipe.idCreador,
               profileContractAddr
             ],
+          //colocar un campo de texto para el gas price
+            gasPrice: EtherAmount.inWei(BigInt.from(1000)*BigInt.from(1000000000)),
         ),
         chainId: CHAIN_ID,
         fetchChainIdFromNetworkId: false

@@ -213,6 +213,8 @@ class ProfileRepository{
         contract: contract,
         function: _mint,
         parameters: [id,nombre,BigInt.from(tipo)],
+        //colocar un campo de texto para el gas price
+        gasPrice: EtherAmount.inWei(BigInt.from(1000)*BigInt.from(1000000000)),
       );
       var result = await client.sendTransaction(
           credentials!,
