@@ -87,6 +87,17 @@ class RecipesCreationFieldState extends ChangeNotifier{
 
   int tipo = 0;
 
+  int _gWei = 5;
+  set gWei(String value){
+    int intValue = int.tryParse(value)??0;
+    if(intValue<5) {
+      intValue = 5;
+      return;
+    };
+    _gWei = intValue;
+  }
+  String get gWei => _gWei.toString();
+
   Map<UnitType,List<UnitOption>> unidades = {
     UnitType.MASA : [
       UnitOption.gr,

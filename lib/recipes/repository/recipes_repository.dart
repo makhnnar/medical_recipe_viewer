@@ -176,36 +176,74 @@ class RecipesRepository{
 
   Future<String> createRecipe(
       Recipe recipe,
+      int gasLimit,
       EthereumAddress profileContractAddr
   ) async {
     var contract = await contracResolver.getDeployedContract();
     var credentials = await walletConector.getCredentials();
     var client = clientProvider.getClient();
     var gasPrice = await client!.getGasPrice();
-    print("gasPrice: ${gasPrice.getInWei}");
-    var result = await client!.sendTransaction(
-        credentials!,
-        Transaction.callContract(
-            contract: contract,
-            function: _mint,
-            parameters: [
-              recipe.nombre,
-              recipe.dosis,
-              recipe.unidad,
-              recipe.frecuencia,
-              recipe.lapso,
-              recipe.descripcion,
-              BigInt.from(int.parse(recipe.tipo??"0")),
-              recipe.idCreador,
-              profileContractAddr
-            ],
-          //colocar un campo de texto para el gas price
-            gasPrice: EtherAmount.inWei(BigInt.from(1000)*BigInt.from(1000000000)),
-        ),
-        chainId: CHAIN_ID,
-        fetchChainIdFromNetworkId: false
-    );
-    return (validateValueWithRexExpression(result,RegularExpressions.privAddr))?ContractResponse.SUCCESS:ContractResponse.FAILED;
+    try{
+      var result = await client!.sendTransaction(
+          credentials!,
+          Transaction.callContract(
+              contract: contract,
+              function: _mint,
+              parameters: [
+                recipe.nombre,
+                recipe.dosis,
+                recipe.unidad,
+                recipe.frecuencia,
+                recipe.lapso,
+                recipe.descripcion,
+                BigInt.from(int.parse(recipe.tipo??"0")),
+                recipe.idCreador,
+                profileContractAddr
+              ],
+              // 1000000000 is 1Gwei
+              gasPrice: EtherAmount.inWei(
+                  selectGasPrice(
+                      BigInt.from(gasLimit)*BigInt.from(1000000000),//selected by user
+                      gasPrice.getInWei //get from the network
+                  )
+              ),
+              //maxGas: gasPrice.getInWei.toInt()//get from the network
+          ),
+          chainId: CHAIN_ID,
+          fetchChainIdFromNetworkId: false
+      );
+      print("transactionHash: ${result}");
+      await Future.delayed(
+          const Duration(seconds: 30),
+              () => print("Waiting for transaction ${result} to be mined...")
+      );
+      final transactionResult = await checkTransactionStatus(result);
+      print("transactionResult: ${transactionResult.toString()}");
+      if(transactionResult==null){
+        return ContractResponse.FAILED;
+      }
+      if(transactionResult.status!= null && transactionResult.status == true){
+        return ContractResponse.SUCCESS;
+      }
+      return ContractResponse.FAILED;
+    }catch(e){
+      print("Error: $e");
+      return ContractResponse.FAILED;
+    }
+  }
+
+  //with this function we can select the gas price to use always selecting the biggest one
+  BigInt selectGasPrice(BigInt gasLimit, BigInt gasPrice) {
+    print("gasPrice: $gasPrice gasLimit: $gasLimit");
+    return gasPrice>gasLimit
+        ? gasPrice
+        : gasLimit;
+  }
+
+  Future<TransactionReceipt?> checkTransactionStatus(String transactionHash) async {
+    var client = clientProvider.getClient();
+    final TransactionReceipt? receipt = await client?.getTransactionReceipt(transactionHash);
+    return receipt;
   }
 
   Future<String> sendRecipeToAddress(

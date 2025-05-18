@@ -150,6 +150,14 @@ class RecipeCreationView extends StatelessWidget {
                 )
               )
           ),
+          CustomTextField(
+              "GWei(Costo Transaccion)",
+                  (text){
+                print('$text');
+                _stateCreationFields.gWei = text;
+              },
+              initValue: _stateCreationFields.gWei,
+          ),
           Padding(
               padding: EdgeInsets.symmetric(
                   horizontal: 8,
@@ -161,6 +169,7 @@ class RecipeCreationView extends StatelessWidget {
                         _stateCreationFields.createRecipe(
                             _dataSourceRepository.getDocumentId()??"",
                         ),
+                        int.tryParse(_stateCreationFields.gWei)??0,
                         Provider.of<ContracResolverImpl>(context,listen: false)
                     ).then((value) {
                       if(value){
