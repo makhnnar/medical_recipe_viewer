@@ -22,166 +22,181 @@ class RecipeCreationView extends StatelessWidget {
     _stateCreationFields = Provider.of<RecipesCreationFieldState>(context);
     _dataSourceRepository =  Provider.of<DataSourceRepository>(context,listen: false);
     return Scaffold(
-        body: ListView(
-        children: [
-          CustomTextField(
-            "medicamento",
-            (text){
-              print('$text');
-              _stateCreationFields.nombre = text;
-            },
-            initValue: _stateCreationFields.nombre
-          ),
-          CustomTextField(
-            "dosis",
-            (text){
-              print('$text');
-              _stateCreationFields.dosis = text;
-            },
-            typeOfKeyBoard: TextInputType.number,
-            initValue: _stateCreationFields.dosis
-          ),
-          Row(
+        body:Stack(
             children: [
-              buildExpanded(
-                DropdownButtonWidget<UnitType>(
-                    value: _stateCreationFields.unitType,
-                    onChanged: (UnitType? newValue) {
-                      _stateCreationFields.setOptionsToChoose(newValue!);
-                    },
-                    items: buildItemList<UnitType>(
-                      UnitType.values,
-                      (UnitType value) => value.name
-                    )
-                )
-              ),
-              buildExpanded(
-                DropdownButtonWidget<UnitOption>(
-                    value: _stateCreationFields.unitOption,
-                    onChanged: (UnitOption? newValue) {
-                      print("newValue: $newValue");
-                      _stateCreationFields.unidad = newValue!.name;
-                      _stateCreationFields.setUnitOption(newValue!);
-                    },
-                    items: buildItemList(
-                      _stateCreationFields.unidades[_stateCreationFields.unitType]??[],
-                      (UnitOption value) => value.name
-                    )
-                )
-              ),
-            ],
-          ),
-          Row(
-            children: [
-              buildExpanded(
-                  CustomTextField(
-                      "Cantidad de veces",
-                          (text){
-                        print('$text');
-                        _stateCreationFields.frecuencia = text;
-                      },
-                      typeOfKeyBoard: TextInputType.number,
-                      initValue: _stateCreationFields.frecuencia
-                  )
-              ),
-              buildExpanded(
-                  DropdownButtonWidget<TimeUnit>(
-                      value: _stateCreationFields.timeFrequency,
-                      onChanged: (TimeUnit? newValue) {
-                        _stateCreationFields.setTimeFrequency(newValue!);
-                      },
-                      items: buildItemList(
-                          TimeUnit.values,
-                          (TimeUnit value) => value.name
-                      )
-                  )
-              ),
-            ],
-          ),
-          Row(
-            children: [
-              buildExpanded(
-                  CustomTextField(
-                      "Durante",
-                          (text){
-                        print('$text');
-                        _stateCreationFields.lapso = text;
-                      },
-                      typeOfKeyBoard: TextInputType.number,
-                      initValue: _stateCreationFields.lapso
-                  )
-              ),
-              buildExpanded(
-                  DropdownButtonWidget<TimeUnit>(
-                      value: _stateCreationFields.timeLapse,
-                      onChanged: (TimeUnit? newValue) {
-                        _stateCreationFields.setTimeLapse(newValue!);
-                      },
-                      items: buildItemList(
-                          TimeUnit.values,
-                          (TimeUnit value) => value.name
-                      )
-                  )
-              ),
-            ],
-          ),
-          CustomTextField(
-            "descripcion",
-            (text){
-              print('$text');
-              _stateCreationFields.descripcion = text;
-            },
-            initValue: _stateCreationFields.descripcion
-          ),
-          Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: 8,
-                  vertical: 16
-              ),
-              child:DropdownButtonWidget<RecipeType>(
-                value: _stateCreationFields.getRecipeType(),
-                onChanged: (RecipeType? newValue) {
-                  _stateCreationFields.tipo = newValue!.index;
-                  _stateCreationFields.setRecipeType(newValue);
-                },
-                items: buildItemList(
-                  RecipeType.values,
-                  (RecipeType value) => value.name
-                )
-              )
-          ),
-          CustomTextField(
-              "GWei(Costo Transaccion)",
-                  (text){
-                print('$text');
-                _stateCreationFields.gWei = text;
-              },
-              initValue: _stateCreationFields.gWei,
-          ),
-          Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: 8,
-                  vertical: 16
-              ),
-              child:ElevatedButton(
-                  onPressed: () => {
-                    _state.createRecipe(
-                        _stateCreationFields.createRecipe(
-                            _dataSourceRepository.getDocumentId()??"",
+              ListView(
+                  children: [
+                    CustomTextField(
+                        "medicamento",
+                            (text){
+                          print('$text');
+                          _stateCreationFields.nombre = text;
+                        },
+                        initValue: _stateCreationFields.nombre
+                    ),
+                    CustomTextField(
+                        "dosis",
+                            (text){
+                          print('$text');
+                          _stateCreationFields.dosis = text;
+                        },
+                        typeOfKeyBoard: TextInputType.number,
+                        initValue: _stateCreationFields.dosis
+                    ),
+                    Row(
+                      children: [
+                        buildExpanded(
+                            DropdownButtonWidget<UnitType>(
+                                value: _stateCreationFields.unitType,
+                                onChanged: (UnitType? newValue) {
+                                  _stateCreationFields.setOptionsToChoose(newValue!);
+                                },
+                                items: buildItemList<UnitType>(
+                                    UnitType.values,
+                                        (UnitType value) => value.name
+                                )
+                            )
                         ),
-                        int.tryParse(_stateCreationFields.gWei)??0,
-                        Provider.of<ContracResolverImpl>(context,listen: false)
-                    ).then((value) {
-                      if(value){
-                        _stateCreationFields.cleanFields();
-                      }
-                    })
-                  },
-                  child: Text("Crear")
-              )
-          )
-        ]
-      )
+                        buildExpanded(
+                            DropdownButtonWidget<UnitOption>(
+                                value: _stateCreationFields.unitOption,
+                                onChanged: (UnitOption? newValue) {
+                                  print("newValue: $newValue");
+                                  _stateCreationFields.unidad = newValue!.name;
+                                  _stateCreationFields.setUnitOption(newValue!);
+                                },
+                                items: buildItemList(
+                                    _stateCreationFields.unidades[_stateCreationFields.unitType]??[],
+                                        (UnitOption value) => value.name
+                                )
+                            )
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        buildExpanded(
+                            CustomTextField(
+                                "Cantidad de veces",
+                                    (text){
+                                  print('$text');
+                                  _stateCreationFields.frecuencia = text;
+                                },
+                                typeOfKeyBoard: TextInputType.number,
+                                initValue: _stateCreationFields.frecuencia
+                            )
+                        ),
+                        buildExpanded(
+                            DropdownButtonWidget<TimeUnit>(
+                                value: _stateCreationFields.timeFrequency,
+                                onChanged: (TimeUnit? newValue) {
+                                  _stateCreationFields.setTimeFrequency(newValue!);
+                                },
+                                items: buildItemList(
+                                    TimeUnit.values,
+                                        (TimeUnit value) => value.name
+                                )
+                            )
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        buildExpanded(
+                            CustomTextField(
+                                "Durante",
+                                    (text){
+                                  print('$text');
+                                  _stateCreationFields.lapso = text;
+                                },
+                                typeOfKeyBoard: TextInputType.number,
+                                initValue: _stateCreationFields.lapso
+                            )
+                        ),
+                        buildExpanded(
+                            DropdownButtonWidget<TimeUnit>(
+                                value: _stateCreationFields.timeLapse,
+                                onChanged: (TimeUnit? newValue) {
+                                  _stateCreationFields.setTimeLapse(newValue!);
+                                },
+                                items: buildItemList(
+                                    TimeUnit.values,
+                                        (TimeUnit value) => value.name
+                                )
+                            )
+                        ),
+                      ],
+                    ),
+                    CustomTextField(
+                        "descripcion",
+                            (text){
+                          print('$text');
+                          _stateCreationFields.descripcion = text;
+                        },
+                        initValue: _stateCreationFields.descripcion
+                    ),
+                    Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 16
+                        ),
+                        child:DropdownButtonWidget<RecipeType>(
+                            value: _stateCreationFields.getRecipeType(),
+                            onChanged: (RecipeType? newValue) {
+                              _stateCreationFields.tipo = newValue!.index;
+                              _stateCreationFields.setRecipeType(newValue);
+                            },
+                            items: buildItemList(
+                                RecipeType.values,
+                                    (RecipeType value) => value.name
+                            )
+                        )
+                    ),
+                    CustomTextField(
+                      "GWei(Costo Transaccion)",
+                          (text){
+                        print('$text');
+                        _stateCreationFields.gWei = text;
+                      },
+                      initValue: _stateCreationFields.gWei,
+                    ),
+                    Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 16
+                        ),
+                        child:ElevatedButton(
+                            onPressed: () => {
+                              _stateCreationFields.setLoading(true),
+                              _state.createRecipe(
+                                  _stateCreationFields.createRecipe(
+                                    _dataSourceRepository.getDocumentId()??"",
+                                  ),
+                                  int.tryParse(_stateCreationFields.gWei)??0,
+                                  Provider.of<ContracResolverImpl>(context,listen: false)
+                              ).then((value) {
+                                if(value){
+                                  _stateCreationFields.cleanFields();
+                                }
+                                _stateCreationFields.setLoading(false);
+                              })
+                            },
+                            child: Text("Crear")
+                        )
+                    )
+                  ]
+              ),
+              if (_stateCreationFields.isLoading)
+                Container(
+                  color: Colors.black.withValues(alpha: 0.5), // Semi-transparent black background
+                  child: const Center(
+                    child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                    ),
+                  ),
+                ),
+            ]
+        )
     );
   }
 

@@ -72,7 +72,7 @@ class ProfileCreationState extends ChangeNotifier {
     }
   }
 
-  Future<void> getOrCreateProfile(dynamic successCallback) async{
+  Future<void> getOrCreateProfile(int gasLimit,dynamic successCallback, dynamic failedCallback) async{
     if(!_profile!.isEmpty()) {
       _connectWalletWithTheNewAddress();
       try{
@@ -81,7 +81,7 @@ class ProfileCreationState extends ChangeNotifier {
             .getOwnedProfile(null);
         print("createProfile getOwnedProfile result: $hasProfileResponse");
         if(hasProfileResponse.status==ProfileCreationStatus.NEW){
-          await createProfile(successCallback);
+          await createProfile(gasLimit,successCallback,failedCallback);
         }else{
           dataSourceRepository.setProfileType(hasProfileResponse.tipo);
           successCallback();
@@ -95,14 +95,15 @@ class ProfileCreationState extends ChangeNotifier {
     showToast("No puedes crear un perfil. Tus datos personales no existen");
   }
 
-  Future<void> createProfile(successCallback) async {
+  Future<void> createProfile(int gasLimit,dynamic successCallback,dynamic failedCallback) async {
     try{
       var wasProfileCreted = await walletReposProvider
           .getDeployedProfileRepository()!
           .createProfile(
               _profile!.id,
               _profile!.name,
-              _profile!.tipo
+              _profile!.tipo,
+              gasLimit
           );
       print("createProfile createProfile result: $wasProfileCreted");
       if(wasProfileCreted==ContractResponse.SUCCESS){
@@ -110,9 +111,11 @@ class ProfileCreationState extends ChangeNotifier {
         successCallback();
       }else{
         showToast("Error creando su perfil. $wasProfileCreted");
+        failedCallback();
       }
     }catch(errorCreatingProfile){
       print("createProfile createProfile error: $errorCreatingProfile");
+      failedCallback();
     }
   }
 

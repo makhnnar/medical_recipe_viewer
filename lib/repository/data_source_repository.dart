@@ -79,4 +79,64 @@ class DataSourceRepository{
     prefs!.setString(PrefKeys.WS_ADDRESS.name, wsAddress);
   }
 
+  //create set and get methods for the chainId
+  String getChainId(){
+    init();
+    return prefs?.getString(PrefKeys.CHAIN_ID.name) ?? "";
+  }
+
+  void setChainId(String chainId) {
+    init();
+    print("saving setWsAddress: $chainId");
+    prefs!.setString(PrefKeys.CHAIN_ID.name, chainId);
+  }
+
+  //create the set and get for profile contract
+  String getProfileContract(){
+    init();
+    return prefs?.getString(PrefKeys.PROFILE_CONTRACT.name) ?? "";
+  }
+
+  void setProfileContract(String profileContract) {
+    init();
+    print("saving setWsAddress: $profileContract");
+    prefs!.setString(PrefKeys.PROFILE_CONTRACT.name, profileContract);
+  }
+
+  //create the set and get for recipe contract
+  String getRecipeContract(){
+    init();
+    return prefs?.getString(PrefKeys.RECIPE_CONTRACT.name) ?? "";
+  }
+
+  void setRecipeContract(String recipeContract) {
+    init();
+    print("saving setWsAddress: $recipeContract");
+    prefs!.setString(PrefKeys.RECIPE_CONTRACT.name, recipeContract);
+  }
+
+  //create the set and get for profile abi
+  String getProfileAbi(){
+    init();
+    return prefs?.getString(PrefKeys.PROFILE_ABI.name) ?? "";
+  }
+
+  void setProfileAbi(String profileAbi) {
+    init();
+    print("saving setWsAddress: $profileAbi");
+    prefs!.setString(PrefKeys.PROFILE_ABI.name, profileAbi);
+  }
+
+  //create the set and get for recipe abi
+  String getRecipeAbi(){
+    init();
+    return prefs?.getString(PrefKeys.RECIPE_ABI.name) ?? "";
+  }
+
+  void setRecipeAbi(String recipeAbi) {
+    init();
+    print("saving setWsAddress: $recipeAbi");
+    prefs!.setString(PrefKeys.RECIPE_ABI.name, recipeAbi);
+  }
+
 }

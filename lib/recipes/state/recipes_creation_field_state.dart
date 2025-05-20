@@ -111,7 +111,14 @@ class RecipesCreationFieldState extends ChangeNotifier{
     ],
   };
 
+  bool isLoading = false;
+
   RecipesCreationFieldState();
+
+  void setLoading(bool value){
+    isLoading = value;
+    notifyListeners();
+  }
 
   void setRecipeType(RecipeType recipeType){
     this._type = recipeType;

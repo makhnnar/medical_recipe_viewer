@@ -5,6 +5,7 @@ import 'package:medical_recipe_viewer/blockchain/web3_cliente_provider.dart';
 import 'package:medical_recipe_viewer/recipes/model/recipe.dart';
 import 'package:web3dart/web3dart.dart';
 
+import '../../repository/data_source_repository.dart';
 import '../../utils/data_validations.dart';
 import '../../values/contanst.dart';
 
@@ -32,6 +33,8 @@ class RecipesRepository{
   IWeb3ClientProvider clientProvider;
   IWalletConector walletConector;
   IContracResolver contracResolver;
+
+  DataSourceRepository dataSourceRepository = DataSourceRepository();
 
   RecipesRepository(
       this.clientProvider,
@@ -209,12 +212,12 @@ class RecipesRepository{
               ),
               //maxGas: gasPrice.getInWei.toInt()//get from the network
           ),
-          chainId: CHAIN_ID,
+          chainId: int.parse(dataSourceRepository.getChainId()),
           fetchChainIdFromNetworkId: false
       );
       print("transactionHash: ${result}");
       await Future.delayed(
-          const Duration(seconds: 30),
+          Duration(seconds: OP_DELAY),
               () => print("Waiting for transaction ${result} to be mined...")
       );
       final transactionResult = await checkTransactionStatus(result);
@@ -268,7 +271,7 @@ class RecipesRepository{
             gasPrice: EtherAmount.inWei(BigInt.from(574560130)),
             maxGas:600000
         ),
-        chainId: CHAIN_ID,
+        chainId: int.parse(dataSourceRepository.getChainId()),
         fetchChainIdFromNetworkId: false
     );
     return (validateValueWithRexExpression(result,RegularExpressions.privAddr))?ContractResponse.SUCCESS:ContractResponse.FAILED;

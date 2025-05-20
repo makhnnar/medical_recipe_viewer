@@ -73,7 +73,7 @@ class _RootView extends State<RootView> {
                       ChangeNotifierProvider(
                           create: (_) => RecipesCreationFieldState()
                       ),
-                      Provider<ContracResolverImpl>(create: (_) => Provider.of<WalletReposProvider>(context, listen: false).contractProfileResolver)
+                      Provider<ContracResolverImpl>(create: (_) => Provider.of<WalletReposProvider>(context, listen: false).getProfileContractResolver())
                     ],
                     child: RecipeCreationView(),
                   ),

@@ -6,11 +6,24 @@ enum PrefKeys {
   DOCUMENT_ID,
   IP_ADDRESS,
   WS_ADDRESS,
+  CHAIN_ID,
+  PROFILE_CONTRACT,
+  RECIPE_CONTRACT,
+  PROFILE_ABI,
+  RECIPE_ABI,
 }
 
 
 //it is 1337 for ganache on Ethereum network and 97 for BSC testnet
 final int CHAIN_ID = 97;
+
+final String PROFILES_CONTRACT = "0x90426b8Ed46b5Fff329f68a392E58316dBE3a5f2";
+final String RECIPES_CONTRACT = "0x0093De75d19A19032473c4749C32e179B2102efe";
+
+final String PROFILES_ABI = "src/abis/Profiles.json";
+final String RECIPES_ABI = "src/abis/Recipes.json";
+
+int OP_DELAY = 10;
 
 class RegularExpressions{
 

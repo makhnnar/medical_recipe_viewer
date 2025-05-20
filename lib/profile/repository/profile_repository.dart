@@ -9,6 +9,7 @@ import 'package:medical_recipe_viewer/profile/model/profile.dart';
 import 'package:medical_recipe_viewer/profile/repository/profile_id_repository.dart';
 import 'package:web3dart/web3dart.dart';
 
+import '../../repository/data_source_repository.dart';
 import '../../utils/data_validations.dart';
 import '../../values/contanst.dart';
 
@@ -36,6 +37,8 @@ class ProfileRepository{
   IWeb3ClientProvider clientProvider;
   IWalletConector walletConector;
   IContracResolver contracResolver;
+
+  DataSourceRepository dataSourceRepository = DataSourceRepository();
 
   ProfileIdRepository _profileIdRepository = ProfileIdRepository();
 
@@ -200,7 +203,8 @@ class ProfileRepository{
   Future<String> createProfile(
       String id,
       String nombre,
-      int tipo
+      int tipo,
+      int gasLimit,
   ) async {
     var client = clientProvider.getClient();
     var gasPrice = await client!.getGasPrice();
@@ -213,23 +217,52 @@ class ProfileRepository{
         contract: contract,
         function: _mint,
         parameters: [id,nombre,BigInt.from(tipo)],
-        //colocar un campo de texto para el gas price
-        gasPrice: EtherAmount.inWei(BigInt.from(1000)*BigInt.from(1000000000)),
+        // 1000000000 is 1Gwei
+        gasPrice: EtherAmount.inWei(
+            selectGasPrice(
+                BigInt.from(gasLimit)*BigInt.from(1000000000),//selected by user
+                gasPrice.getInWei //get from the network
+            )
+        )
       );
       var result = await client.sendTransaction(
           credentials!,
           contractCall,
-          chainId: CHAIN_ID,
+          chainId: int.parse(dataSourceRepository.getChainId()),
           fetchChainIdFromNetworkId: false
       );
-      // 0x864acf22e48b75c1bd402cda01ed4d89a04fc0aa0209b8590fa4367a7b36a3a9
-      //es el valor de retorno cuando una transaccion es valida
       //todo: colocar el log del error para la consola de firebase
-      return (validateValueWithRexExpression(result,RegularExpressions.privAddr))?ContractResponse.SUCCESS:ContractResponse.FAILED;
+      print("transactionHash: ${result}");
+      await Future.delayed(
+          Duration(seconds: OP_DELAY),
+              () => print("Waiting for transaction ${result} to be mined...")
+      );
+      final transactionResult = await checkTransactionStatus(result);
+      print("transactionResult: ${transactionResult.toString()}");
+      if(transactionResult==null){
+        return ContractResponse.FAILED;
+      }
+      if(transactionResult.status!= null && transactionResult.status == true){
+        return ContractResponse.SUCCESS;
+      }
+      return ContractResponse.FAILED;
     }catch(exception){
       print("createProfile error: $exception");
       return "Problema de conexion";
     }
+  }
+
+  BigInt selectGasPrice(BigInt gasLimit, BigInt gasPrice) {
+    print("gasPrice: $gasPrice gasLimit: $gasLimit");
+    return gasPrice>gasLimit
+        ? gasPrice
+        : gasLimit;
+  }
+
+  Future<TransactionReceipt?> checkTransactionStatus(String transactionHash) async {
+    var client = clientProvider.getClient();
+    final TransactionReceipt? receipt = await client?.getTransactionReceipt(transactionHash);
+    return receipt;
   }
 
 }

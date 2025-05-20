@@ -23,4 +23,11 @@ class ProfileCreationFieldState extends ChangeNotifier{
   }
   String get numeroIdentidad => _numeroIdentidad;
 
+  bool isLoading = false;
+
+  void setLoading(bool value){
+    isLoading = value;
+    notifyListeners();
+  }
+
 }
