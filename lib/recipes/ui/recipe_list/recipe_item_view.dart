@@ -5,6 +5,7 @@ import 'package:medical_recipe_viewer/recipes/model/recipe.dart';
 import 'package:medical_recipe_viewer/recipes/state/recipes_state.dart';
 import 'package:medical_recipe_viewer/recipes/ui/recipe_detail/send_dialog.dart';
 import 'package:medical_recipe_viewer/recipes/state/code_state.dart';
+import 'package:medical_recipe_viewer/repository/data_source_repository.dart';
 import 'package:medical_recipe_viewer/utils/calculations.dart';
 import 'package:medical_recipe_viewer/utils/navigation_actions.dart';
 import 'package:medical_recipe_viewer/values/app_colors.dart';
@@ -110,10 +111,7 @@ class RecipeItemView extends StatelessWidget implements SendActionListener{
                         Icons.qr_code,
                         (){ showQRDialog(context,recipeItem.toJson()); }
                     ),
-                    getIconButton(
-                        Icons.send,
-                        (){ showSendDialog(context, _provider, this); }
-                    ),
+                    renderSendOrBurnButton(context),
                     getIconButton(
                         Icons.remove_red_eye,
                         (){ navigateToRowDetail(context); }
@@ -123,6 +121,40 @@ class RecipeItemView extends StatelessWidget implements SendActionListener{
           ),
         ],
     );
+  }
+
+  Widget renderSendOrBurnButton(BuildContext context){
+    return FutureBuilder<int>(
+        future: _recipeState?.getProfileType(),
+        builder: (BuildContext context, AsyncSnapshot<int> type) {
+        if (type.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        } else if (type.hasError) {
+          return Container();
+        } else if (type.hasData) {
+          print("Profile type: ${type.data}");
+          if(type.data==2){
+            return getIconButton(
+                Icons.local_fire_department,
+                    (){
+                  showBurnDialog(
+                      context,
+                          ()=>{
+                        _recipeState?.burnRecipe(
+                            recipeItem.id!
+                        )
+                      }
+                  );
+                }
+            );
+          }
+          return getIconButton(
+              Icons.send, (){ showSendDialog(context, _provider, this); }
+          );
+        } else {
+          return Center(child: Text('No profile data available.'));
+        }
+    });
   }
 
   Widget getIconButton(IconData icon, Function() onPressed){

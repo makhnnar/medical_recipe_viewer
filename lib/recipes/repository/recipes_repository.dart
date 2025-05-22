@@ -28,6 +28,7 @@ class RecipesRepository{
   late ContractFunction _mint;
   late ContractFunction _transferFrom;
   late ContractFunction _getRecipe;
+  late ContractFunction _burn;
   late ContractEvent _taskCreatedEvent;
 
   IWeb3ClientProvider clientProvider;
@@ -72,7 +73,7 @@ class RecipesRepository{
     _tokenOfOwnerByIndex = contract.function("tokenOfOwnerByIndex");
     _getRecipe = contract.function("getRecipe");
     _transferFrom = contract.function("transferFrom");
-
+    _burn = contract.function("_burn");
   }
 
   Future<List<Recipe>> getOwnedTokens() async{
@@ -266,6 +267,33 @@ class RecipesRepository{
             parameters: [
               ownAddress,
               getAddress(addressReceiver),
+              id+BigInt.from(1)
+            ],
+            gasPrice: EtherAmount.inWei(BigInt.from(574560130)),
+            maxGas:600000
+        ),
+        chainId: int.parse(dataSourceRepository.getChainId()),
+        fetchChainIdFromNetworkId: false
+    );
+    return (validateValueWithRexExpression(result,RegularExpressions.privAddr))?ContractResponse.SUCCESS:ContractResponse.FAILED;
+  }
+
+  Future<String> burnRecipe(
+      BigInt id
+  ) async {
+    var contract = await contracResolver.getDeployedContract();
+    var credentials = await walletConector.getCredentials();
+    var client = clientProvider.getClient();
+    var ownAddress = await walletConector.getOwnEthAddress();
+    print("id: $id");
+    var result = await client!.sendTransaction(
+        credentials!,
+        Transaction.callContract(
+            contract: contract,
+            function: _transferFrom,
+            parameters: [
+              ownAddress,
+              getAddress("0x000000000000000000000000000000000000dEaD"),
               id+BigInt.from(1)
             ],
             gasPrice: EtherAmount.inWei(BigInt.from(574560130)),

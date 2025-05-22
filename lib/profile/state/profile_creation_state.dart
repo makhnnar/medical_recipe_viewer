@@ -56,15 +56,18 @@ class ProfileCreationState extends ChangeNotifier {
     dataSourceRepository.setWalletAdr(privateKey);
   }
 
-  void saveDocumentId(String id){
+  void saveDocumentId(String id, int tipo){
+    print("documentId: $id");
+    print("tipo: $tipo");
     dataSourceRepository.setDocumentId(id);
+    dataSourceRepository.setProfileType(tipo);
   }
 
   Future<void> checkIfIdProfileExists(String id,dynamic successCallback) async {
     _profile = await profileIdRepository.checkIfIdProfileExists(id);
     print("profile from firebase: ${_profile.toString()}");
     if(!_profile!.isEmpty()){
-      saveDocumentId(_profile!.id);
+      saveDocumentId(_profile!.id, _profile!.tipo);
       successCallback();
       return;
     }else{

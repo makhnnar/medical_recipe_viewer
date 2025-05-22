@@ -6,6 +6,7 @@ import 'package:medical_recipe_viewer/recipes/model/recipe.dart';
 import 'package:medical_recipe_viewer/recipes/state/recipes_state.dart';
 import 'package:medical_recipe_viewer/recipes/ui/recipe_detail/send_dialog.dart';
 import 'package:medical_recipe_viewer/recipes/state/code_state.dart';
+import 'package:medical_recipe_viewer/repository/data_source_repository.dart';
 import 'package:medical_recipe_viewer/utils/navigation_actions.dart';
 import 'package:medical_recipe_viewer/values/app_colors.dart';
 import 'package:pretty_qr_code/pretty_qr_code.dart';
@@ -24,6 +25,8 @@ class RecipeDetailView extends StatelessWidget implements SendActionListener{
   late CodeState _provider;
   late RecipesState? _recipeState;
   late ProfileIdRepository _profileIdRepository;
+
+  DataSourceRepository dataSourceRepository = DataSourceRepository();
 
   RecipeDetailView({
     required this.recipeItem,
@@ -81,7 +84,7 @@ class RecipeDetailView extends StatelessWidget implements SendActionListener{
   }
 
   Widget? getFloatingButton(BuildContext context, bool allowShareAndSend){
-    if(allowShareAndSend){
+    if(allowShareAndSend && dataSourceRepository.getProfileType()!=2){
       return Padding(
           padding: const EdgeInsets.all(8.0),
           child: FloatingActionButton(
@@ -120,6 +123,7 @@ class RecipeDetailView extends StatelessWidget implements SendActionListener{
               color: tableColors['tColorContent']
           ),
         ) ,
+        backgroundColor: tableColors['bgValue'],
         initiallyExpanded: true,
         children: childList
     );
@@ -128,6 +132,7 @@ class RecipeDetailView extends StatelessWidget implements SendActionListener{
   Widget printRecipeDetail(BuildContext context, Recipe recipe){
     return Card(
       margin: EdgeInsets.all(16.0),
+      color: tableColors['bgValue'],
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -175,6 +180,7 @@ class AsyncProfileCardLoader extends StatelessWidget {
   Widget printDoctorProfile(BuildContext context, Profile profile){
     return Card(
       margin: EdgeInsets.all(16.0),
+      color: tableColors['bgValue'],
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(

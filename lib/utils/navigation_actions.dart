@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:medical_recipe_viewer/recipes/ui/recipe_detail/send_dialog.dart';
 import 'package:medical_recipe_viewer/recipes/state/code_state.dart';
+import 'package:medical_recipe_viewer/recipes/ui/recipe_list/burn_dialog.dart';
 import 'package:medical_recipe_viewer/recipes/ui/recipe_list/qr_viewer_dialog.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
@@ -50,6 +51,19 @@ void showQRDialog(
     barrierDismissible: true, // user must tap button!
     builder: (_) => QRViewerDialog(
         jsonEncode(content)
+    ),
+  );
+}
+
+void showBurnDialog(
+    BuildContext context,
+    dynamic acceptCallback
+) {
+  showDialog<void>(
+    context: context,
+    barrierDismissible: true, // user must tap button!
+    builder: (_) => BurnDialog(
+        acceptCallback
     ),
   );
 }

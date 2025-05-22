@@ -40,9 +40,9 @@ class DataSourceRepository{
     return prefs?.getString(PrefKeys.PROFILE_ID.name) ?? "";
   }
 
-  void setProfileId(String profileType) {
+  void setProfileId(String profileId) {
     init();
-    prefs!.setString(PrefKeys.PROFILE_ID.name, profileType);
+    prefs!.setString(PrefKeys.PROFILE_ID.name, profileId);
   }
 
   //create set and get methods for the profile id
